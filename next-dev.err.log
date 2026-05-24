@@ -1,0 +1,2312 @@
+⚠ Fast Refresh had to perform a full reload when ./messages/tr.json.[json].cjs changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ Fast Refresh had to perform a full reload when ./messages/en.json.[json].cjs changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+  [90m 5 |[0m [36mimport[0m { useI18n } [36mfrom[0m [32m"@/lib/i18n-context"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mSectionLabel[0m } [36mfrom[0m [32m"@/components/section-label"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { skillCategories } [36mfrom[0m [32m"@/data/skills"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { stagger, scaleIn, fadeUp } [36mfrom[0m [32m"@/lib/motion"[0m;
+  [90m 9 |[0m
+  [90m10 |[0m [36mconst[0m [33mCATEGORY_ORDER[0m = [[32m"frontend"[0m, [32m"backend"[0m, [32m"ai"[0m, [32m"tools"[0m] [36mas[0m [36mconst[0m;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[browser] Uncaught Error: ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+   5 | import { useI18n } from "@/lib/i18n-context";
+   6 | import { SectionLabel } from "@/components/section-label";
+>  7 | import { skillCategories } from "@/data/skills";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { stagger, scaleIn, fadeUp } from "@/lib/motion";
+   9 |
+  10 | const CATEGORY_ORDER = ["frontend", "backend", "ai", "tools"] as const;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./components/skills.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./components/skills.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+[browser] ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+   5 | import { useI18n } from "@/lib/i18n-context";
+   6 | import { SectionLabel } from "@/components/section-label";
+>  7 | import { skillCategories } from "@/data/skills";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { stagger, scaleIn, fadeUp } from "@/lib/motion";
+   9 |
+  10 | const CATEGORY_ORDER = ["frontend", "backend", "ai", "tools"] as const;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+   5 | import { useI18n } from "@/lib/i18n-context";
+   6 | import { SectionLabel } from "@/components/section-label";
+>  7 | import { skillCategories } from "@/data/skills";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { stagger, scaleIn, fadeUp } from "@/lib/motion";
+   9 |
+  10 | const CATEGORY_ORDER = ["frontend", "backend", "ai", "tools"] as const;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./components/skills.tsx:7:1
+Module not found: Can't resolve '@/data/skills'
+   5 | import { useI18n } from "@/lib/i18n-context";
+   6 | import { SectionLabel } from "@/components/section-label";
+>  7 | import { skillCategories } from "@/data/skills";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { stagger, scaleIn, fadeUp } from "@/lib/motion";
+   9 |
+  10 | const CATEGORY_ORDER = ["frontend", "backend", "ai", "tools"] as const;
+
+Import map: aliased to relative './data/skills' inside of [project]/
+
+Import trace:
+  Server Component:
+    ./components/skills.tsx
+    ./app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+Each child in a list should have a unique "key" prop.
+
+Check the render method of `ForwardRef(motion.div)`. It was passed a child from Skills. See https://react.dev/link/warning-keys for more information.
+Each child in a list should have a unique "key" prop.
+
+Check the render method of `ForwardRef(motion.div)`. It was passed a child from Skills. See https://react.dev/link/warning-keys for more information.
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  [90m3 |[0m [36mimport[0m { [33mHero[0m } [36mfrom[0m [32m"@/components/hero"[0m;
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[browser] Uncaught Error: ./app/page.tsx:5:1
+Module not found: Can't resolve '@/components/skills'
+  3 | import { Hero } from "@/components/hero";
+  4 | import { About } from "@/components/about";
+> 5 | import { Skills } from "@/components/skills";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { Experience } from "@/components/experience";
+  7 | import { Education } from "@/components/education";
+  8 | import { Projects } from "@/components/projects";
+
+Import map: aliased to relative './components/skills' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./app/page.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./app/page.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  [90m4 |[0m [36mimport[0m { [33mAbout[0m } [36mfrom[0m [32m"@/components/about"[0m;
+  [90m5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[browser] Uncaught Error: ./app/page.tsx:6:1
+Module not found: Can't resolve '@/components/experience'
+  4 | import { About } from "@/components/about";
+  5 | import { Skills } from "@/components/skills";
+> 6 | import { Experience } from "@/components/experience";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Education } from "@/components/education";
+  8 | import { Projects } from "@/components/projects";
+  9 | import { Contact } from "@/components/contact";
+
+Import map: aliased to relative './components/experience' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./app/page.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./app/page.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+  [90m 5 |[0m [36mimport[0m { [33mSkills[0m } [36mfrom[0m [32m"@/components/skills"[0m;
+  [90m 6 |[0m [36mimport[0m { [33mExperience[0m } [36mfrom[0m [32m"@/components/experience"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[browser] Uncaught Error: ./app/page.tsx:7:1
+Module not found: Can't resolve '@/components/education'
+   5 | import { Skills } from "@/components/skills";
+   6 | import { Experience } from "@/components/experience";
+>  7 | import { Education } from "@/components/education";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { Projects } from "@/components/projects";
+   9 | import { Contact } from "@/components/contact";
+  10 | import { Footer } from "@/components/footer";
+
+Import map: aliased to relative './components/education' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./app/page.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./app/page.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+  [90m 7 |[0m [36mimport[0m { [33mEducation[0m } [36mfrom[0m [32m"@/components/education"[0m;
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[browser] Uncaught Error: ./app/page.tsx:9:1
+Module not found: Can't resolve '@/components/contact'
+   7 | import { Education } from "@/components/education";
+   8 | import { Projects } from "@/components/projects";
+>  9 | import { Contact } from "@/components/contact";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 | import { Footer } from "@/components/footer";
+  11 | import { SiteBackground } from "@/components/site-background";
+  12 |
+
+Import map: aliased to relative './components/contact' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./app/page.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./app/page.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+  [90m 8 |[0m [36mimport[0m { [33mProjects[0m } [36mfrom[0m [32m"@/components/projects"[0m;
+  [90m 9 |[0m [36mimport[0m { [33mContact[0m } [36mfrom[0m [32m"@/components/contact"[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m { [33mFooter[0m } [36mfrom[0m [32m"@/components/footer"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m { [33mSiteBackground[0m } [36mfrom[0m [32m"@/components/site-background"[0m;
+  [90m12 |[0m
+  [90m13 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mHome[0m() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[browser] Uncaught Error: ./app/page.tsx:10:1
+Module not found: Can't resolve '@/components/footer'
+   8 | import { Projects } from "@/components/projects";
+   9 | import { Contact } from "@/components/contact";
+> 10 | import { Footer } from "@/components/footer";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 | import { SiteBackground } from "@/components/site-background";
+  12 |
+  13 | export default function Home() {
+
+Import map: aliased to relative './components/footer' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./app/page.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./app/page.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+⚠ Fast Refresh had to perform a full reload when ./messages/tr.json.[json].cjs changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ Fast Refresh had to perform a full reload when ./messages/en.json.[json].cjs changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload

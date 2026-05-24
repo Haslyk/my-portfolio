@@ -1,0 +1,96 @@
+{
+  "nav": {
+    "about": "About",
+    "skills": "Skills",
+    "experience": "Experience",
+    "education": "Education",
+    "projects": "Projects",
+    "contact": "Contact",
+    "language": "TR"
+  },
+  "hero": {
+    "greeting": "Hello, I'm",
+    "name": "Halim Aslıyüksek",
+    "roles": [
+      "Software Engineer",
+      "Full-Stack Developer",
+      "Frontend Developer",
+      "Mobile App Developer",
+      "AI-Focused Developer"
+    ],
+    "description": "Since 2020, I have been building web, mobile, and AI-focused projects for more than 6 years, working across frontend, backend, data processing, API integrations, and intelligent systems.",
+    "cta_projects": "View Projects",
+    "cta_contact": "Contact Me",
+    "terminal_line1": "$ whoami",
+    "terminal_line2": "halim_asliyuksek",
+    "terminal_line3": "$ cat expertise.txt",
+    "terminal_line4": "React · Node.js · Python · YOLO · Docker",
+    "terminal_line5": "$ echo $STATUS",
+    "terminal_line6": "6 years of experience"
+  },
+  "about": {
+    "section_label": "Summary",
+    "title": "Building web, mobile,",
+    "title_accent": "and AI-focused systems.",
+    "bio_1": "I am a software engineer with more than 6 years of experience since 2020, building end-to-end products with React, Node.js, Python, PHP, and Java.",
+    "bio_2": "I have worked on enterprise dashboards, CMS platforms, RESTful API integrations, data processing algorithms, and cross-platform mobile applications with a production-focused mindset.",
+    "bio_3": "On the AI side, I build computer vision solutions with YOLO, OpenCV, TensorFlow, and PyTorch, while using Docker, AWS, and CI/CD practices for sustainable deployment workflows.",
+    "stat_1_value": "6+",
+    "stat_1_label": "Years of Experience",
+    "stat_2_value": "100+",
+    "stat_2_label": "Projects",
+    "stat_3_value": "15+",
+    "stat_3_label": "Technologies and Tools"
+  },
+  "skills": {
+    "section_label": "Technical Skills",
+    "title": "Technology",
+    "title_accent": "Focus.",
+    "subtitle": "Technologies I use across modern web, mobile, backend, data, and AI projects.",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "ai": "AI",
+      "tools": "Tools"
+    },
+    "all": "All Technologies"
+  },
+  "experience": {
+    "section_label": "Experience",
+    "title": "Professional",
+    "title_accent": "Background.",
+    "subtitle": "Software development roles across enterprise, municipal, startup, and freelance projects.",
+    "present": "Present"
+  },
+  "education": {
+    "section_label": "Education",
+    "title": "Academic",
+    "title_accent": "Background.",
+    "subtitle": "My software engineering education and technical foundation.",
+    "references_label": "",
+    "references_title": ""
+  },
+  "projects": {
+    "section_label": "Projects",
+    "title": "Featured",
+    "title_accent": "Work.",
+    "subtitle": "Selected work from enterprise dashboards, CMS platforms, mobile apps, task management systems, and AI-focused projects.",
+    "view_demo": "Live Demo",
+    "view_code": "Source Code",
+    "placeholder_notice": ""
+  },
+  "contact": {
+    "section_label": "Contact",
+    "title": "Let's",
+    "title_accent": "Work Together.",
+    "subtitle": "Reach out for new projects, freelance work, and professional collaborations.",
+    "linkedin_label": "LinkedIn",
+    "linkedin_desc": "Professional profile, experience, and business network.",
+    "bionluk_label": "Bionluk",
+    "bionluk_desc": "Freelance projects, services, and client work."
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "built_with": "Built with Next.js, TypeScript & Framer Motion"
+  }
+}

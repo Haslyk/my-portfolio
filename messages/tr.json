@@ -1,0 +1,96 @@
+{
+  "nav": {
+    "about": "Hakkımda",
+    "skills": "Yetenekler",
+    "experience": "Deneyim",
+    "education": "Eğitim",
+    "projects": "Projeler",
+    "contact": "İletişim",
+    "language": "EN"
+  },
+  "hero": {
+    "greeting": "Merhaba, ben",
+    "name": "Halim Aslıyüksek",
+    "roles": [
+      "Yazılım Mühendisi",
+      "Full-Stack Geliştirici",
+      "Frontend Geliştirici",
+      "Mobil Uygulama Geliştirici",
+      "Yapay Zeka Odaklı Geliştirici"
+    ],
+    "description": "2020 yılından bu yana, 6 yılı aşkın süredir web, mobil ve yapay zeka odaklı projeler geliştiriyorum. Frontend ve backend süreçlerinin yanı sıra veri işleme, API entegrasyonları ve yapay zeka tabanlı sistemler üzerinde aktif çalışıyorum.",
+    "cta_projects": "Projeleri Gör",
+    "cta_contact": "İletişime Geç",
+    "terminal_line1": "$ whoami",
+    "terminal_line2": "halim_asliyuksek",
+    "terminal_line3": "$ cat uzmanliklar.txt",
+    "terminal_line4": "React · Node.js · Python · YOLO · Docker",
+    "terminal_line5": "$ echo $DURUM",
+    "terminal_line6": "6 yıllık deneyim"
+  },
+  "about": {
+    "section_label": "Özet",
+    "title": "Web, mobil ve yapay zeka",
+    "title_accent": "odaklı çözümler geliştiriyorum.",
+    "bio_1": "Yazılım sektöründe 2020 yılından bu yana, 6 yılı aşkın süredir React, Node.js, Python, PHP ve Java gibi teknolojilerle uçtan uca ürünler geliştiriyorum.",
+    "bio_2": "Kurumsal dashboard mimarileri, CMS sistemleri, RESTful API entegrasyonları, veri işleme algoritmaları ve cross-platform mobil uygulamalar üzerinde üretim odaklı çalıştım.",
+    "bio_3": "Yapay zeka tarafında YOLO, OpenCV, TensorFlow ve PyTorch ekosistemleriyle görüntü işleme projeleri geliştirdim; Docker, AWS ve CI/CD süreçleriyle sürdürülebilir altyapılar kurdum.",
+    "stat_1_value": "6+",
+    "stat_1_label": "Yıllık Deneyim",
+    "stat_2_value": "100+",
+    "stat_2_label": "Proje",
+    "stat_3_value": "15+",
+    "stat_3_label": "Teknoloji ve Araç"
+  },
+  "skills": {
+    "section_label": "Teknik Yetenekler",
+    "title": "Teknoloji",
+    "title_accent": "Alanlarım.",
+    "subtitle": "Modern web, mobil, backend, veri ve yapay zeka projelerinde kullandığım teknolojiler.",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "ai": "Yapay Zeka",
+      "tools": "Araçlar"
+    },
+    "all": "Tüm Teknolojiler"
+  },
+  "experience": {
+    "section_label": "Deneyimler",
+    "title": "Profesyonel",
+    "title_accent": "Geçmişim.",
+    "subtitle": "Kurumsal, belediye, startup ve freelance projelerde üstlendiğim yazılım geliştirme rolleri.",
+    "present": "Devam Ediyor"
+  },
+  "education": {
+    "section_label": "Eğitim",
+    "title": "Akademik",
+    "title_accent": "Geçmişim.",
+    "subtitle": "Yazılım mühendisliği eğitimim ve teknik temelim.",
+    "references_label": "",
+    "references_title": ""
+  },
+  "projects": {
+    "section_label": "Projeler",
+    "title": "Öne Çıkan",
+    "title_accent": "Çalışmalar.",
+    "subtitle": "Deneyimlerimde yer alan kurumsal panel, CMS, mobil uygulama, görev yönetimi ve yapay zeka odaklı işlerden seçkiler.",
+    "view_demo": "Canlı Demo",
+    "view_code": "Kaynak Kod",
+    "placeholder_notice": ""
+  },
+  "contact": {
+    "section_label": "İletişim",
+    "title": "Birlikte",
+    "title_accent": "Çalışalım.",
+    "subtitle": "Yeni projeler, freelance işler ve profesyonel iş birlikleri için bana ulaşabilirsiniz.",
+    "linkedin_label": "LinkedIn",
+    "linkedin_desc": "Profesyonel profilim, deneyimlerim ve iş bağlantılarım.",
+    "bionluk_label": "Bionluk",
+    "bionluk_desc": "Freelance projeler, hizmetler ve müşteri çalışmaları."
+  },
+  "footer": {
+    "rights": "Tüm hakları saklıdır.",
+    "built_with": "Next.js, TypeScript ve Framer Motion ile geliştirildi"
+  }
+}
