@@ -84,3 +84,5 @@ Creating turbopack project { dir: 'D:\\calisma_dosyalari\\portfolio-sitem', test
  GET / 200 in 139ms (next.js: 5ms, application-code: 133ms)
 ✓ Compiled in 42ms
  GET / 200 in 56ms (next.js: 33ms, application-code: 23ms)
+✓ Compiled in 42ms
+ GET / 200 in 68ms (next.js: 40ms, application-code: 29ms)
