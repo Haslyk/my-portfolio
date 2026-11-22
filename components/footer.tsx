@@ -6,7 +6,7 @@ export function Footer() {
           <span className="font-mono font-semibold text-primary glow-cyan-text">
             halimaslyk.dev
           </span>{" "}
-          © 2026 Halim Aslıyüksek. Tüm hakları saklıdır.
+          © 2027 Halim Aslıyüksek. Tüm hakları saklıdır.
         </p>
       </div>
     </footer>
