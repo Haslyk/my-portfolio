@@ -180,7 +180,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
           questions: [
             {
               id: 'W1-Q1',
-              code: 'D-W1-Q1',
+              code: 'W1-Q1',
               prompt: 'Hangisi donanımdır?',
               options: [
                 { key: 'A', label: 'Klavye' },
@@ -190,7 +190,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W1-Q2',
-              code: 'D-W1-Q2',
+              code: 'W1-Q2',
               prompt: 'Anakartın temel görevi nedir?',
               options: [
                 { key: 'A', label: 'Görüntüyü göstermek' },
@@ -200,7 +200,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W1-Q3',
-              code: 'D-W1-Q3',
+              code: 'W1-Q3',
               prompt: 'Verilen komutları işleyen temel parça hangisidir?',
               options: [
                 { key: 'A', label: 'Kasa' },
@@ -391,7 +391,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
           questions: [
             {
               id: 'W2-Q1',
-              code: 'D-W2-Q1',
+              code: 'W2-Q1',
               prompt: 'RAM’in temel görevi nedir?',
               options: [
                 { key: 'A', label: 'Kalıcı fotoğraf arşivi' },
@@ -401,7 +401,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W2-Q2',
-              code: 'D-W2-Q2',
+              code: 'W2-Q2',
               prompt: 'Kaydedilmiş belge bilgisayar kapalıyken nerede korunur?',
               options: [
                 { key: 'A', label: 'Fanda' },
@@ -411,7 +411,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W2-Q3',
-              code: 'D-W2-Q3',
+              code: 'W2-Q3',
               prompt: 'RAM ters yönde görünüyorsa ne yapılmalı?',
               options: [
                 { key: 'A', label: 'Yön ve uyum kontrol edilmeli' },
@@ -587,7 +587,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
           questions: [
             {
               id: 'W3-Q1',
-              code: 'D-W3-Q1',
+              code: 'W3-Q1',
               prompt: 'Parçalara uygun elektrik sağlayan hangisidir?',
               options: [
                 { key: 'A', label: 'Monitör' },
@@ -597,7 +597,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W3-Q2',
-              code: 'D-W3-Q2',
+              code: 'W3-Q2',
               prompt: 'Grafik birimi ile monitörün ilişkisi nedir?',
               options: [
                 { key: 'A', label: 'İkisi de dosya saklar' },
@@ -607,7 +607,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W3-Q3',
-              code: 'D-W3-Q3',
+              code: 'W3-Q3',
               prompt: 'Çözünürlük neyle ilgilidir?',
               options: [
                 { key: 'A', label: 'Görüntüdeki piksel sayısı' },
@@ -799,7 +799,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
           questions: [
             {
               id: 'W4-Q1',
-              code: 'D-W4-Q1',
+              code: 'W4-Q1',
               prompt: 'Mikrofon hangi tür birimdir?',
               options: [
                 { key: 'A', label: 'Giriş' },
@@ -809,7 +809,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W4-Q2',
-              code: 'D-W4-Q2',
+              code: 'W4-Q2',
               prompt: 'Dokunmatik ekran hangi gruptadır?',
               options: [
                 { key: 'A', label: 'Yalnız depolama' },
@@ -819,7 +819,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W4-Q3',
-              code: 'D-W4-Q3',
+              code: 'W4-Q3',
               prompt: 'Kağıttaki belgeyi bilgisayara aktaran hangisidir?',
               options: [
                 { key: 'A', label: 'Hoparlör' },
@@ -1026,7 +1026,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
           questions: [
             {
               id: 'W5-Q1',
-              code: 'D-W5-Q1',
+              code: 'W5-Q1',
               prompt: 'Bilgisayarın ağa bağlantısını sağlayan donanım hangisidir?',
               options: [
                 { key: 'A', label: 'Fan' },
@@ -1036,7 +1036,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W5-Q2',
-              code: 'D-W5-Q2',
+              code: 'W5-Q2',
               prompt: 'Wi-Fi’ye bağlı olmak internetin çalıştığını kesin gösterir mi?',
               options: [
                 { key: 'A', label: 'Evet, her zaman' },
@@ -1046,7 +1046,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
             },
             {
               id: 'W5-Q3',
-              code: 'D-W5-Q3',
+              code: 'W5-Q3',
               prompt: 'Aynı yerel ağda iki cihaza aynı IP verilirse ne olabilir?',
               options: [
                 { key: 'A', label: 'Adres çakışması' },

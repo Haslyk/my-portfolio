@@ -485,7 +485,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
             <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-[#1E1B38] text-[#F5A000]">
               {activity.code.replace(/^D-/, '')}
             </span>
-            {attempt.mode === 'practice' && (
+            {String(attempt.mode).toLowerCase() === 'practice' && (
               <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-purple-100 text-[#6D28D9]">
                 Tekrar Çalışma Modu (İlk Başarı Korunur)
               </span>

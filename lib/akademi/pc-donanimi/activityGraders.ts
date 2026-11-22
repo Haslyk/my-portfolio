@@ -203,7 +203,9 @@ function gradeQuiz(code: string, state: Record<string, any>): GraderOutput {
   let correctCount = 0;
 
   for (const [qCode, spec] of Object.entries(keyMap)) {
-    const studentChoice = lockedCorrect[qCode] ? spec.answer : answers[qCode];
+    const studentChoice = lockedCorrect[qCode]
+      ? spec.answer
+      : answers[qCode] || answers[`D-${qCode}`];
     if (studentChoice === spec.answer) {
       correctCount++;
       preservedAnswers[qCode] = spec.answer;
