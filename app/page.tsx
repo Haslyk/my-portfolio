@@ -107,7 +107,7 @@ export default function MinimalHome() {
       {/* Alt Bilgi */}
       <footer className="relative z-10 w-full max-w-4xl mx-auto px-6 pb-8 pt-4 flex flex-col sm:flex-row items-center justify-center text-xs text-slate-500 gap-3 border-t border-white/[0.04]">
         <div>
-          <span>© {new Date().getFullYear()} {minimalConfig.name}</span>
+          <span>© {new Date().getFullYear()} Halimaslyk</span>
         </div>
         
       </footer>
