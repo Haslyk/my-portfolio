@@ -61,6 +61,12 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-glow-cyan: var(--glow-cyan);
   --color-glow-blue: var(--glow-blue);
+  --color-brand-navy: #1E1B38;
+  --color-brand-navyLight: #2B274D;
+  --color-brand-orange: #F5A000;
+  --color-brand-orangeDark: #D98C00;
+  --color-brand-purple: #6D28D9;
+  --color-brand-purpleLight: #8B5CF6;
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 4px);

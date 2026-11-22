@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+model Student {
+  id              String            @id @default(uuid())
+  firstName       String
+  lastName        String
+  normalizedName  String
+  studentNumber   String            @unique
+  allowedCourses  Json?
+  createdAt       DateTime          @default(now())
+  lastSeenAt      DateTime          @default(now())
+
+  sessions        Session[]
+  attempts        ActivityAttempt[]
+  weekProgresses  WeekProgress[]
+  lease           ActivityLease?
+  auditLogs       AdminAuditLog[]
+
+  @@index([lastSeenAt])
+  @@index([normalizedName])
+}
+
+model CourseSetting {
+  code            String   @id
+  title           String
+  defaultVisible  Boolean  @default(true)
+  isReady         Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
+}
+
+model Admin {
+  id           String          @id @default(uuid())
+  username     String          @unique
+  passwordHash String
+  createdAt    DateTime        @default(now())
+  lastLoginAt  DateTime?
+
+  sessions     Session[]
+  auditLogs    AdminAuditLog[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  tokenHash String   @unique
+  role      String   // "STUDENT" | "ADMIN"
+  studentId String?
+  adminId   String?
+  csrfToken String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  student   Student? @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  admin     Admin?   @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([adminId])
+  @@index([expiresAt])
+}
+
+model Week {
+  id             String         @id @default(uuid())
+  order          Int            @unique
+  title          String
+
+  activities     Activity[]
+  weekProgresses WeekProgress[]
+}
+
+model Activity {
+  id               String            @id @default(uuid())
+  code             String            @unique
+  weekId           String
+  orderInWeek      Int
+  title            String
+  type             String            // "REQUIRED_ACTIVITY" | "QUIZ" | "HOMEWORK"
+  widgetType       String
+  required         Boolean           @default(true)
+  expectedSeconds  Int               @default(300)
+  allocatedSeconds Int               @default(600)
+  contentVersion   Int               @default(1)
+
+  week             Week              @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  attempts         ActivityAttempt[]
+
+  @@index([weekId, orderInWeek])
+}
+
+model ActivityAttempt {
+  id              String    @id @default(uuid())
+  studentId       String
+  activityId      String
+  mode            String    // "NORMAL" | "PRACTICE"
+  isFirstSuccess  Boolean   @default(false)
+  contentVersion  Int       @default(1)
+  state           Json      @default("{}")
+  revision        Int       @default(1)
+  status          String    @default("IN_PROGRESS") // "IN_PROGRESS" | "COMPLETED"
+  startedAt       DateTime  @default(now())
+  completedAt     DateTime?
+  activeSeconds   Int       @default(0)
+  checkCount      Int       @default(0)
+  lastHeartbeatAt DateTime  @default(now())
+
+  student         Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  activity        Activity  @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  leases          ActivityLease[]
+
+  @@index([studentId, activityId, mode])
+  @@index([activityId, status, completedAt])
+  @@index([studentId, lastHeartbeatAt])
+}
+
+model WeekProgress {
+  id          String    @id @default(uuid())
+  studentId   String
+  weekId      String
+  status      String    @default("LOCKED") // "LOCKED" | "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED"
+  completedAt DateTime?
+  updatedAt   DateTime  @updatedAt
+
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  week        Week      @relation(fields: [weekId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, weekId])
+  @@index([weekId, status])
+}
+
+model ActivityLease {
+  id        String          @id @default(uuid())
+  studentId String          @unique
+  attemptId String
+  tokenHash String
+  expiresAt DateTime
+  updatedAt DateTime        @updatedAt
+
+  student   Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  attempt   ActivityAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+
+  @@index([attemptId])
+}
+
+model AdminAuditLog {
+  id        String   @id @default(uuid())
+  adminId   String
+  studentId String?
+  action    String
+  oldValue  Json?
+  newValue  Json?
+  createdAt DateTime @default(now())
+
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  student   Student? @relation(fields: [studentId], references: [id], onDelete: SetNull)
+
+  @@index([adminId, createdAt])
+  @@index([studentId])
+}
