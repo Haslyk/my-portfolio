@@ -7,6 +7,10 @@ import {
 } from '@/lib/akademi/services/progressService';
 import { computeBoundedActiveDeltaSeconds } from '@/lib/akademi/services/leaseService';
 import { validateActivitySubmission } from '@/lib/akademi/validators/activityValidators';
+import {
+  gradeActivitySubmission,
+  validateAndApplyRamState
+} from '@/lib/akademi/pc-donanimi/activityGraders';
 
 export async function POST(
   req: NextRequest,
@@ -62,15 +66,70 @@ export async function POST(
       );
     }
 
-    const candidateState =
+    let candidateState =
       body && typeof body.state === 'object' && body.state !== null
         ? body.state
-        : attempt.state;
+        : (attempt.state as Record<string, any>);
 
-    const validation = validateActivitySubmission(
-      attempt.activity.code,
-      candidateState
-    );
+    const isDonanim =
+      attempt.activity.courseCode === 'pc-donanimi' ||
+      attempt.activity.code.startsWith('D-');
+
+    let passed = false;
+    let summaryMessage = '';
+    let feedbackItems: any[] = [];
+    let donanimItems: any[] = [];
+    let preservedState: Record<string, any> = candidateState;
+
+    if (isDonanim) {
+      if (attempt.activity.code === 'D-W2-A2') {
+        const prevState =
+          typeof attempt.state === 'object' && attempt.state !== null
+            ? (attempt.state as Record<string, any>)
+            : {};
+        const ramCheck = validateAndApplyRamState(prevState, candidateState);
+        if (!ramCheck.valid) {
+          return NextResponse.json(
+            {
+              error: ramCheck.errorMessage,
+              code: 'INVALID_RAM_TRANSITION',
+              message: ramCheck.errorMessage
+            },
+            { status: 400 }
+          );
+        }
+        candidateState = ramCheck.sanitizedState;
+      }
+
+      const graded = gradeActivitySubmission(
+        attempt.activity.code,
+        '2026.1',
+        candidateState
+      );
+      passed = graded.passed;
+      summaryMessage = graded.summaryMessage;
+      donanimItems = graded.items;
+      feedbackItems = graded.items.map((it) => ({
+        fieldId: it.itemId,
+        isCorrect: it.correct,
+        message: it.message
+      }));
+      preservedState = graded.preservedState as Record<string, any>;
+    } else {
+      const validation = validateActivitySubmission(
+        attempt.activity.code,
+        candidateState
+      );
+      passed = validation.passed;
+      summaryMessage = validation.summaryMessage;
+      feedbackItems = validation.feedbackItems;
+      donanimItems = validation.feedbackItems.map((it) => ({
+        itemId: it.fieldId,
+        correct: it.isCorrect,
+        message: it.message
+      }));
+      preservedState = candidateState;
+    }
 
     const now = new Date();
 
@@ -109,15 +168,14 @@ export async function POST(
         currentAttempt.activeSeconds + deltaSec
       );
 
-      const newStatus = validation.passed ? 'COMPLETED' : 'IN_PROGRESS';
-      const completedAt = validation.passed ? now : null;
-      const isFirstSuccess =
-        validation.passed && currentAttempt.mode === 'NORMAL';
+      const newStatus = passed ? 'COMPLETED' : 'IN_PROGRESS';
+      const completedAt = passed ? now : null;
+      const isFirstSuccess = passed && currentAttempt.mode === 'NORMAL';
 
       const updatedAttempt = await tx.activityAttempt.update({
         where: { id: currentAttempt.id },
         data: {
-          state: candidateState,
+          state: preservedState,
           revision: { increment: 1 },
           status: newStatus,
           completedAt,
@@ -153,11 +211,18 @@ export async function POST(
           )
         : null;
 
+    const earlyFinisher =
+      passed &&
+      txResult.updatedAttempt.activeSeconds < attempt.activity.allocatedSeconds;
+
     return NextResponse.json({
-      passed: validation.passed,
-      summaryMessage: validation.summaryMessage,
-      feedbackItems: validation.feedbackItems,
+      passed,
+      status: txResult.updatedAttempt.status,
       attemptStatus: txResult.updatedAttempt.status,
+      summaryMessage,
+      feedbackItems,
+      items: donanimItems,
+      preservedState: txResult.updatedAttempt.state,
       completedAt: txResult.updatedAttempt.completedAt
         ? txResult.updatedAttempt.completedAt.toISOString()
         : null,
@@ -166,7 +231,9 @@ export async function POST(
       checkCount: txResult.updatedAttempt.checkCount,
       revision: txResult.updatedAttempt.revision,
       weekStatus: txResult.weekStatus,
-      nextWeekUnlocked: txResult.nextWeekUnlocked
+      weekCompleted: txResult.weekStatus === 'COMPLETED',
+      nextWeekUnlocked: txResult.nextWeekUnlocked,
+      earlyFinisher
     });
   } catch (err) {
     console.error('Check attempt error:', err);

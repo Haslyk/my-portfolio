@@ -8,13 +8,14 @@ export async function GET(req: NextRequest) {
     if (!auth.ok) return auth.response;
 
     const url = new URL(req.url);
+    const courseCode = url.searchParams.get('course') || 'ag-temelleri';
     const weekOrder =
       parseInt(url.searchParams.get('weekOrder') || '1', 10) || 1;
     const rawAct = url.searchParams.get('activityCode');
     const activityCode = rawAct && rawAct.trim() ? rawAct.trim() : undefined;
 
     const { weeks, targetWeek, targetActivity, rows, courseSettings } =
-      await computeAdminDataset(weekOrder, activityCode);
+      await computeAdminDataset(weekOrder, activityCode, courseCode);
 
     const totalStudents = rows.length;
     const recentlySeenCount = rows.filter((r) => r.isRecentlySeen).length;

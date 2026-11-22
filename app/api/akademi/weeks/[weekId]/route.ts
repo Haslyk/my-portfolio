@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CURRICULUM_WEEKS } from '@/lib/akademi/shared';
+import { PUBLIC_CURRICULUM_WEEKS } from '@/lib/akademi/pc-donanimi';
 import { getPrismaAsync } from '@/lib/akademi/services/db';
 import { getAuthenticatedStudent } from '@/lib/akademi/services/sessionService';
 import {
@@ -15,6 +16,8 @@ export async function GET(
     const auth = await getAuthenticatedStudent(req);
     if (!auth.ok) return auth.response;
 
+    const url = new URL(req.url);
+    const courseCode = url.searchParams.get('course') || 'ag-temelleri';
     const { weekId: param } = await context.params;
     const prisma = await getPrismaAsync();
     const studentId = auth.student.id;
@@ -22,7 +25,12 @@ export async function GET(
     const isOrderNum = /^[1-5]$/.test(param);
     const dbWeek = isOrderNum
       ? await prisma.week.findUnique({
-          where: { order: parseInt(param, 10) },
+          where: {
+            courseCode_order: {
+              courseCode,
+              order: parseInt(param, 10)
+            }
+          },
           include: {
             activities: { orderBy: { orderInWeek: 'asc' } }
           }
@@ -61,7 +69,15 @@ export async function GET(
       dbWeek.id
     );
 
-    const currWeek = CURRICULUM_WEEKS.find((cw) => cw.order === dbWeek.order);
+    const currWeek =
+      dbWeek.courseCode === 'pc-donanimi'
+        ? undefined
+        : CURRICULUM_WEEKS.find((cw) => cw.order === dbWeek.order);
+    const donanimWeek =
+      dbWeek.courseCode === 'pc-donanimi'
+        ? PUBLIC_CURRICULUM_WEEKS.find((pw) => pw.order === dbWeek.order)
+        : undefined;
+
     const attempts = await prisma.activityAttempt.findMany({
       where: {
         studentId,
@@ -72,6 +88,9 @@ export async function GET(
 
     const activities = dbWeek.activities.map((dbAct) => {
       const currAct = currWeek?.activities.find((ca) => ca.code === dbAct.code);
+      const donanimAct = donanimWeek?.activities.find(
+        (da) => da.code === dbAct.code
+      );
       const actAttempts = attempts.filter((a) => a.activityId === dbAct.id);
       const firstSuccess = actAttempts.find(
         (a) =>
@@ -97,7 +116,7 @@ export async function GET(
         code: dbAct.code,
         orderInWeek: dbAct.orderInWeek,
         title: dbAct.title,
-        shortPurpose: currAct?.shortPurpose || '',
+        shortPurpose: currAct?.shortPurpose || donanimAct?.purpose || '',
         category: dbAct.type,
         widgetType: dbAct.widgetType,
         required: dbAct.required,
@@ -138,7 +157,8 @@ export async function GET(
               checkCount: currentAttempt.checkCount
             }
           : null,
-        config: currAct?.config
+        config: currAct?.config,
+        publicDefinition: donanimAct
       };
     });
 
@@ -148,9 +168,12 @@ export async function GET(
         order: dbWeek.order,
         title: dbWeek.title,
         shortDescription: currWeek?.shortDescription || '',
-        learningObjectives: currWeek?.learningObjectives || ['', ''],
+        learningObjectives:
+          currWeek?.learningObjectives ||
+          donanimWeek?.learningObjectives ||
+          ['', ''],
         status: weekStatus,
-        animation: currWeek?.animation || null,
+        animation: currWeek?.animation || donanimWeek?.animation || null,
         activities
       }
     });

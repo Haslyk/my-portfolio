@@ -3,15 +3,15 @@ import { WeekStatus } from '@/lib/akademi/shared';
 
 type DbClient = PrismaClient | Prisma.TransactionClient;
 
-/**
- * Bir öğrencinin tüm haftalarının (1..5) WeekProgress kayıtlarını kontrol eder,
- * eksikse oluşturur (1. hafta NOT_STARTED, diğerleri LOCKED).
- */
 export async function ensureStudentWeekProgresses(
   tx: DbClient,
-  studentId: string
+  studentId: string,
+  courseCode?: string
 ) {
-  const weeks = await tx.week.findMany({ orderBy: { order: 'asc' } });
+  const weeks = await tx.week.findMany({
+    where: courseCode ? { courseCode } : undefined,
+    orderBy: { order: 'asc' }
+  });
   const existing = await tx.weekProgress.findMany({
     where: { studentId }
   });
@@ -31,21 +31,17 @@ export async function ensureStudentWeekProgresses(
   }
 }
 
-/**
- * Bir öğrencinin ilgili haftaya erişim izni olup olmadığını kontrol eder.
- * Hafta 1 her zaman açıktır. Hafta N (N>1) yalnızca Hafta N-1 COMPLETED ise açıktır.
- */
 export async function checkWeekUnlocked(
   tx: DbClient,
   studentId: string,
   weekId: string
 ): Promise<{ unlocked: boolean; status: WeekStatus; weekOrder: number }> {
-  await ensureStudentWeekProgresses(tx, studentId);
-
   const week = await tx.week.findUnique({ where: { id: weekId } });
   if (!week) {
     throw new Error('WEEK_NOT_FOUND');
   }
+
+  await ensureStudentWeekProgresses(tx, studentId, week.courseCode);
 
   const wp = await tx.weekProgress.findUnique({
     where: {
@@ -64,7 +60,6 @@ export async function checkWeekUnlocked(
     };
   }
 
-  // Extra safety: if week.order === 1 and status is somehow LOCKED, unlock it
   if (week.order === 1 && wp.status === 'LOCKED') {
     await tx.weekProgress.update({
       where: { id: wp.id },
@@ -80,20 +75,16 @@ export async function checkWeekUnlocked(
   };
 }
 
-/**
- * Bir haftadaki zorunlu etkinliklerin (2 zorunlu etkinlik + 1 değerlendirme = required:true)
- * ilk başarı (isFirstSuccess=true veya mode='NORMAL' & status='COMPLETED') durumuna bakarak
- * haftanın durumunu günceller ve tamamlandıysa bir sonraki haftanın kilidini açar.
- * Ödev (required: false) hafta tamamlama koşuluna dahil değildir.
- * Tamamlanmış bir hafta asla geriye (IN_PROGRESS/LOCKED) düşmez.
- */
 export async function recalculateAndSyncWeekProgress(
   tx: DbClient,
   studentId: string,
   weekId: string
-): Promise<{ weekStatus: WeekStatus; nextWeekUnlocked: boolean }> {
-  await ensureStudentWeekProgresses(tx, studentId);
-
+): Promise<{
+  weekStatus: WeekStatus;
+  nextWeekUnlocked: boolean;
+  completedMandatoryCount: number;
+  totalMandatoryCount: number;
+}> {
   const week = await tx.week.findUnique({
     where: { id: weekId },
     include: {
@@ -104,6 +95,8 @@ export async function recalculateAndSyncWeekProgress(
   if (!week) {
     throw new Error('WEEK_NOT_FOUND');
   }
+
+  await ensureStudentWeekProgresses(tx, studentId, week.courseCode);
 
   const currentWp = await tx.weekProgress.findUnique({
     where: {
@@ -124,16 +117,24 @@ export async function recalculateAndSyncWeekProgress(
 
   const completedRequiredIds = new Set<string>();
   for (const att of attempts) {
-    if (att.status === 'COMPLETED' && (att.isFirstSuccess || att.mode === 'NORMAL')) {
-      completedRequiredIds.add(att.activityId);
+    if (
+      att.status === 'COMPLETED' &&
+      (att.isFirstSuccess || att.mode === 'NORMAL' || att.mode === 'normal')
+    ) {
+      if (requiredActivities.some((ra) => ra.id === att.activityId)) {
+        completedRequiredIds.add(att.activityId);
+      }
     }
   }
 
+  const completedMandatoryCount = completedRequiredIds.size;
+  const totalMandatoryCount = requiredActivities.length || 3;
   const allRequiredDone =
     requiredActivities.length > 0 &&
     requiredActivities.every((reqAct) => completedRequiredIds.has(reqAct.id));
 
-  let newStatus: WeekStatus = (currentWp?.status as WeekStatus) || 'NOT_STARTED';
+  let newStatus: WeekStatus =
+    (currentWp?.status as WeekStatus) || 'NOT_STARTED';
   let completedAt = currentWp?.completedAt || null;
 
   if (currentWp?.status === 'COMPLETED' || allRequiredDone) {
@@ -163,7 +164,12 @@ export async function recalculateAndSyncWeekProgress(
   let nextWeekUnlocked = false;
   if (newStatus === 'COMPLETED') {
     const nextWeek = await tx.week.findUnique({
-      where: { order: week.order + 1 }
+      where: {
+        courseCode_order: {
+          courseCode: week.courseCode,
+          order: week.order + 1
+        }
+      }
     });
     if (nextWeek) {
       const nextWp = await tx.weekProgress.findUnique({
@@ -186,5 +192,10 @@ export async function recalculateAndSyncWeekProgress(
     }
   }
 
-  return { weekStatus: newStatus, nextWeekUnlocked };
+  return {
+    weekStatus: newStatus,
+    nextWeekUnlocked,
+    completedMandatoryCount,
+    totalMandatoryCount
+  };
 }

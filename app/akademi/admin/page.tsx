@@ -15,26 +15,34 @@ import {
   Eye,
   Edit3,
   X,
-  Info,
   Sparkles,
   Network,
+  Cpu,
+  Code2,
   AlertCircle,
-  HelpCircle,
   ShieldCheck,
   Loader2,
   ArrowLeft,
-  BookOpen,
   ToggleLeft,
-  ToggleRight
+  ToggleRight,
 } from 'lucide-react';
 import {
   ApiError,
   apiRequest,
   formatDurationTr,
-  formatIstanbulDateTime
+  formatIstanbulDateTime,
 } from '@/lib/akademi/apiClient';
 import { CustomSelect } from '@/components/akademi/CustomSelect';
 import { AKADEMI_COURSES_CATALOG } from '@/lib/akademi/shared';
+
+const COURSE_TABS = [
+  { code: 'ag-temelleri', label: 'Ağ Temelleri', Icon: Network },
+  { code: 'pc-donanimi', label: 'Bilgisayar Donanımı', Icon: Cpu },
+  { code: 'gorsel-programlama', label: 'Görsel Programlama', Icon: Code2 },
+];
+
+const cleanCode = (code: string | null | undefined) =>
+  code ? code.replace(/^D-/, '') : '';
 
 export default function AkademiAdminPage() {
   const queryClient = useQueryClient();
@@ -44,13 +52,14 @@ export default function AkademiAdminPage() {
   );
   const [checkingAuth, setCheckingAuth] = useState(true);
 
-  // Login Form State
+  // Login Form
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Dashboard Filters & States
+  // Selected Course & Filters
+  const [selectedCourse, setSelectedCourse] = useState<string>('ag-temelleri');
   const [selectedWeekOrder, setSelectedWeekOrder] = useState<number>(1);
   const [selectedActivityCode, setSelectedActivityCode] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
@@ -60,7 +69,10 @@ export default function AkademiAdminPage() {
       ? document.visibilityState === 'visible'
       : true
   );
+
+  // Student Detail Modal
   const [detailStudentId, setDetailStudentId] = useState<string | null>(null);
+  const [detailCourseTab, setDetailCourseTab] = useState<string>('ag-temelleri');
   const [editForm, setEditForm] = useState<{
     firstName: string;
     lastName: string;
@@ -71,7 +83,6 @@ export default function AkademiAdminPage() {
     isError: boolean;
     text: string;
   } | null>(null);
-  const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
   const [updatingCourseStudentId, setUpdatingCourseStudentId] = useState<
     string | null
   >(null);
@@ -116,14 +127,12 @@ export default function AkademiAdminPage() {
         admin: { id: string; username: string };
       }>('/api/akademi/admin/login', {
         method: 'POST',
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
       });
       setAdmin(res.admin);
     } catch (err) {
       setLoginError(
-        err instanceof ApiError
-          ? err.message
-          : 'Giriş yapılamadı. Lütfen bağlantınızı kontrol edin.'
+        err instanceof ApiError ? err.message : 'Giriş yapılamadı.'
       );
     } finally {
       setIsLoggingIn(false);
@@ -131,10 +140,16 @@ export default function AkademiAdminPage() {
   };
 
   const summaryQuery = useQuery({
-    queryKey: ['admin-summary', selectedWeekOrder, selectedActivityCode],
+    queryKey: [
+      'admin-summary',
+      selectedCourse,
+      selectedWeekOrder,
+      selectedActivityCode,
+    ],
     queryFn: () => {
       const params = new URLSearchParams({
-        weekOrder: String(selectedWeekOrder)
+        course: selectedCourse,
+        weekOrder: String(selectedWeekOrder),
       });
       if (selectedActivityCode) {
         params.set('activityCode', selectedActivityCode);
@@ -143,22 +158,24 @@ export default function AkademiAdminPage() {
     },
     enabled: Boolean(admin),
     refetchInterval: isTabVisible ? 15000 : false,
-    refetchIntervalInBackground: false
+    refetchIntervalInBackground: false,
   });
 
   const studentsQuery = useQuery({
     queryKey: [
       'admin-students',
+      selectedCourse,
       selectedWeekOrder,
       selectedActivityCode,
       statusFilter,
-      searchQuery
+      searchQuery,
     ],
     queryFn: () => {
       const params = new URLSearchParams({
+        course: selectedCourse,
         weekOrder: String(selectedWeekOrder),
         status: statusFilter,
-        search: searchQuery
+        search: searchQuery,
       });
       if (selectedActivityCode) {
         params.set('activityCode', selectedActivityCode);
@@ -172,14 +189,14 @@ export default function AkademiAdminPage() {
     },
     enabled: Boolean(admin),
     refetchInterval: isTabVisible ? 15000 : false,
-    refetchIntervalInBackground: false
+    refetchIntervalInBackground: false,
   });
 
   const studentDetailQuery = useQuery({
     queryKey: ['admin-student-detail', detailStudentId],
     queryFn: () =>
       apiRequest<any>(`/api/akademi/admin/students/${detailStudentId}`),
-    enabled: Boolean(admin && detailStudentId)
+    enabled: Boolean(admin && detailStudentId),
   });
 
   useEffect(() => {
@@ -191,7 +208,7 @@ export default function AkademiAdminPage() {
         studentNumber: s.studentNumber,
         effectiveCourses: Array.isArray(s.effectiveCourses)
           ? s.effectiveCourses
-          : ['ag-temelleri']
+          : ['ag-temelleri'],
       });
       setEditMessage(null);
     }
@@ -227,8 +244,8 @@ export default function AkademiAdminPage() {
         body: JSON.stringify({
           code: courseCode,
           defaultVisible: !currentVisible,
-          applyToAllStudents: true
-        })
+          applyToAllStudents: true,
+        }),
       });
       await summaryQuery.refetch();
       await studentsQuery.refetch();
@@ -256,8 +273,8 @@ export default function AkademiAdminPage() {
       await apiRequest(`/api/akademi/admin/students/${studentRow.id}`, {
         method: 'PATCH',
         body: JSON.stringify({
-          allowedCourses: nextCourses
-        })
+          allowedCourses: nextCourses,
+        }),
       });
       await studentsQuery.refetch();
       if (detailStudentId === studentRow.id) {
@@ -283,8 +300,8 @@ export default function AkademiAdminPage() {
             firstName: editForm.firstName,
             lastName: editForm.lastName,
             studentNumber: editForm.studentNumber,
-            allowedCourses: editForm.effectiveCourses
-          })
+            allowedCourses: editForm.effectiveCourses,
+          }),
         }
       );
       setEditMessage({ isError: false, text: res.message });
@@ -294,10 +311,7 @@ export default function AkademiAdminPage() {
     } catch (err) {
       setEditMessage({
         isError: true,
-        text:
-          err instanceof ApiError
-            ? err.message
-            : 'Öğrenci bilgisi güncellenemedi.'
+        text: err instanceof ApiError ? err.message : 'Güncellenemedi.',
       });
     }
   };
@@ -305,10 +319,8 @@ export default function AkademiAdminPage() {
   if (checkingAuth) {
     return (
       <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center p-4">
-        <Loader2 className="w-10 h-10 animate-spin text-brand-purple mb-3" />
-        <p className="text-base font-extrabold text-brand-navy">
-          Öğretmen Paneli kontrol ediliyor...
-        </p>
+        <Loader2 className="w-8 h-8 animate-spin text-brand-purple mb-2" />
+        <p className="text-sm font-bold text-brand-navy">Yükleniyor...</p>
       </div>
     );
   }
@@ -317,60 +329,47 @@ export default function AkademiAdminPage() {
   if (!admin) {
     return (
       <div className="min-h-screen bg-slate-100 text-slate-900 flex flex-col justify-between">
-        <header className="bg-brand-navy text-white border-b-4 border-brand-orange py-4 px-4">
+        <header className="bg-brand-navy text-white border-b-4 border-brand-orange py-3.5 px-4">
           <div className="max-w-5xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-brand-orange text-brand-navy flex items-center justify-center font-extrabold">
-                <Network className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-xl bg-brand-orange text-brand-navy flex items-center justify-center font-extrabold">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <div>
-                <h1 className="text-lg font-extrabold">
-                  Halim Akademi · Öğretmen Paneli
-                </h1>
-                <p className="text-xs text-slate-300">
-                  Ders Görünürlüğü ve Öğrenci İlerleme Yönetimi
-                </p>
-              </div>
+              <h1 className="text-base sm:text-lg font-extrabold">
+                Halim Akademi · Öğretmen Paneli
+              </h1>
             </div>
-
             <Link
               href="/akademi"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-200 hover:text-brand-orange"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-200 hover:text-brand-orange"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Öğrenci Girişine Dön</span>
+              <span>Akademi</span>
             </Link>
           </div>
         </header>
 
         <main className="flex-1 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white rounded-3xl border-2 border-slate-200 p-6 sm:p-8 shadow-md">
-            <div className="w-12 h-12 rounded-2xl bg-brand-navy text-brand-orange flex items-center justify-center mb-4">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-brand-navy mb-1">
+          <div className="max-w-sm w-full bg-white rounded-2xl border border-slate-200 p-6 shadow-md">
+            <h2 className="text-xl font-extrabold text-brand-navy mb-4">
               Öğretmen Girişi
             </h2>
-            <p className="text-sm text-slate-600 mb-6 font-medium">
-              Hangi dersin hangi öğrenciye gösterileceğini ayarlamak ve öğrenci
-              ilerlemelerini izlemek için giriş yapın.
-            </p>
 
             {loginError && (
               <div
                 role="alert"
-                className="mb-4 p-3.5 rounded-xl bg-red-50 border border-red-300 text-red-950 text-sm font-semibold flex items-start gap-2.5"
+                className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-900 text-xs font-semibold flex items-center gap-2"
               >
-                <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
                 <span>{loginError}</span>
               </div>
             )}
 
-            <form onSubmit={handleLoginSubmit} className="space-y-4">
+            <form onSubmit={handleLoginSubmit} className="space-y-3.5">
               <div>
                 <label
                   htmlFor="admin_username"
-                  className="block text-sm font-extrabold text-brand-navy mb-1"
+                  className="block text-xs font-bold text-slate-700 mb-1"
                 >
                   Kullanıcı Adı
                 </label>
@@ -381,14 +380,14 @@ export default function AkademiAdminPage() {
                   autoComplete="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full rounded-xl border-2 border-slate-300 bg-slate-50 px-4 py-2.5 text-base font-semibold text-slate-900 focus:border-brand-purple focus:bg-white focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm font-semibold text-slate-900 focus:border-brand-purple focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="admin_password"
-                  className="block text-sm font-extrabold text-brand-navy mb-1"
+                  className="block text-xs font-bold text-slate-700 mb-1"
                 >
                   Parola
                 </label>
@@ -399,31 +398,28 @@ export default function AkademiAdminPage() {
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl border-2 border-slate-300 bg-slate-50 px-4 py-2.5 text-base font-semibold text-slate-900 focus:border-brand-purple focus:bg-white focus:outline-none"
+                  className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm font-semibold text-slate-900 focus:border-brand-purple focus:bg-white focus:outline-none"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isLoggingIn}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-white font-extrabold text-base shadow-sm disabled:opacity-60"
+                className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-white font-extrabold text-sm shadow-sm disabled:opacity-60"
               >
                 {isLoggingIn ? (
                   <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                     <span>Giriş Yapılıyor...</span>
                   </>
                 ) : (
-                  <span>Panele Giriş Yap</span>
+                  <span>Giriş Yap</span>
                 )}
               </button>
             </form>
           </div>
         </main>
-
-        <footer className="py-4 text-center text-xs text-slate-500 border-t border-slate-200 bg-white">
-          Halim Akademi Öğretmen Paneli · Yetkisiz erişim engellenmiştir
-        </footer>
+        <div />
       </div>
     );
   }
@@ -440,27 +436,27 @@ export default function AkademiAdminPage() {
     switch (status) {
       case 'COMPLETED':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-900 border border-emerald-300">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-bold bg-emerald-100 text-emerald-900">
+            <CheckCircle2 className="w-3 h-3 text-emerald-700" />
             <span>Tamamlandı</span>
           </span>
         );
       case 'IN_PROGRESS':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-100 text-amber-900 border border-amber-300">
-            <span>Devam Ediyor</span>
+          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-amber-100 text-amber-900">
+            Devam Ediyor
           </span>
         );
       case 'LOCKED':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-slate-200 text-slate-700">
-            <span>Kilitli</span>
+          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-slate-200 text-slate-600">
+            Kilitli
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-300">
-            <span>Başlamadı</span>
+          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-slate-100 text-slate-600">
+            Başlamadı
           </span>
         );
     }
@@ -468,216 +464,211 @@ export default function AkademiAdminPage() {
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 flex flex-col">
-      {/* Top Navbar */}
-      <header className="bg-brand-navy text-white border-b-4 border-brand-orange shadow-md">
+      {/* Compact Header */}
+      <header className="bg-brand-navy text-white border-b-4 border-brand-orange shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <Link
               href="/akademi"
-              className="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-brand-navyLight hover:bg-slate-700 text-xs font-bold border border-slate-600"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold"
             >
               <ArrowLeft className="w-4 h-4 text-brand-orange" />
-              <span>Akademi Portalı</span>
+              <span>Akademi</span>
             </Link>
-            <div className="w-10 h-10 rounded-xl bg-brand-orange text-brand-navy flex items-center justify-center font-extrabold">
-              <Network className="w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="text-lg sm:text-xl font-extrabold">
-                Halim Akademi · Öğretmen Kontrol Paneli
-              </h1>
-              <p className="text-xs text-slate-300">
-                Ders Görünürlüğü Atama ve Öğrenci İlerleme Takibi
-              </p>
-            </div>
+            <h1 className="text-base sm:text-lg font-extrabold tracking-tight">
+              Öğretmen Paneli
+            </h1>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="text-xs text-slate-300 font-medium hidden sm:inline">
-              Son Yenileme:{' '}
-              <strong className="text-white">
-                {formatIstanbulDateTime(summaryQuery.data?.refreshedAt)}
-              </strong>
-            </span>
-
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={handleManualRefresh}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-brand-navyLight hover:bg-slate-700 text-white text-xs sm:text-sm font-bold border border-slate-600"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold"
+              title="Verileri Yenile"
             >
               <RefreshCw
-                className={`w-4 h-4 ${
+                className={`w-3.5 h-3.5 ${
                   summaryQuery.isFetching ? 'animate-spin' : ''
                 }`}
               />
-              <span>Elle Yenile</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setShowHelpModal(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-brand-purple hover:bg-purple-800 text-white text-xs sm:text-sm font-bold"
-            >
-              <HelpCircle className="w-4 h-4" />
-              <span>Ölçüm & Kimlik Notu</span>
+              <span>Yenile</span>
             </button>
 
             <button
               type="button"
               onClick={handleAdminLogout}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-red-700 text-white text-xs sm:text-sm font-bold border border-slate-600"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-red-600 text-white text-xs font-bold transition"
             >
-              <LogOut className="w-4 h-4" />
-              <span>Çıkış ({admin.username})</span>
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Çıkış</span>
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl w-full mx-auto px-4 py-6 space-y-6 flex-1">
-        {/* Global Course Visibility Management Card */}
-        <section className="bg-white rounded-2xl border-2 border-brand-navy/15 p-5 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <div className="flex items-center gap-2.5">
-              <BookOpen className="w-5 h-5 text-brand-purple" />
-              <div>
-                <h2 className="text-base font-extrabold text-brand-navy">
-                  Ders Görünürlüğü Yönetimi (Varsayılan & Tüm Öğrenciler)
-                </h2>
-                <p className="text-xs text-slate-600">
-                  Yeni giriş yapan öğrencilere hangi derslerin varsayılan olarak
-                  gösterileceğini buradan açıp kapatabilirsiniz. Ayrıca aşağıdaki
-                  tablodan <strong>öğrenci bazlı</strong> tek tek de ders açıp
-                  kapatabilirsiniz.
-                </p>
-              </div>
-            </div>
+      <main className="max-w-7xl w-full mx-auto px-4 py-5 space-y-4 flex-1">
+        {/* Top Bar: Course Switcher + Compact Global Visibility Toggles */}
+        <section className="bg-white rounded-2xl border border-slate-200 p-3.5 shadow-sm flex flex-wrap items-center justify-between gap-4">
+          {/* Course Switcher Tabs */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-500 mr-1">
+              İncelenen Ders:
+            </span>
+            {COURSE_TABS.map((tab) => {
+              const IconComp = tab.Icon;
+              const isSelected = selectedCourse === tab.code;
+              const courseInfo = courseSettings.find(
+                (c: any) => c.code === tab.code
+              );
+              const isReady = courseInfo ? courseInfo.isReady : tab.code !== 'gorsel-programlama';
+
+              return (
+                <button
+                  key={tab.code}
+                  type="button"
+                  disabled={!isReady}
+                  onClick={() => {
+                    setSelectedCourse(tab.code);
+                    setSelectedWeekOrder(1);
+                    setSelectedActivityCode('');
+                  }}
+                  className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition ${
+                    isSelected
+                      ? 'bg-brand-navy text-white shadow-sm'
+                      : isReady
+                      ? 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                      : 'bg-slate-50 text-slate-400 cursor-not-allowed'
+                  }`}
+                >
+                  <IconComp
+                    className={`w-4 h-4 ${
+                      isSelected ? 'text-brand-orange' : ''
+                    }`}
+                  />
+                  <span>{tab.label}</span>
+                  {!isReady && (
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-200 text-slate-600">
+                      Yakında
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Global Default Course Visibility Controls */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-bold text-slate-500">
+              Genel Görünürlük:
+            </span>
             {courseSettings.map((course: any) => {
               const isVisible = Boolean(course.defaultVisible);
               const isBusy = updatingGlobalCourseCode === course.code;
 
               return (
-                <div
+                <button
                   key={course.code}
-                  className={`rounded-xl border-2 p-4 flex items-center justify-between gap-3 transition-all ${
+                  type="button"
+                  disabled={isBusy}
+                  onClick={() =>
+                    handleToggleGlobalCourse(course.code, isVisible)
+                  }
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
                     isVisible
-                      ? 'bg-emerald-50/40 border-emerald-400'
-                      : 'bg-slate-50 border-slate-200'
+                      ? 'bg-emerald-50 border-emerald-400 text-emerald-900 hover:bg-emerald-100'
+                      : 'bg-slate-100 border-slate-300 text-slate-600 hover:bg-slate-200'
                   }`}
+                  title="Tüm öğrenciler için varsayılan görünürlüğü aç/kapat"
                 >
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-sm text-brand-navy">
-                        {course.shortTitle || course.title}
-                      </span>
-                      <span
-                        className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${
-                          course.isReady
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : 'bg-amber-100 text-amber-800'
-                        }`}
-                      >
-                        {course.isReady ? 'Panel Aktif' : 'Yakında'}
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-600 mt-1">
-                      {isVisible
-                        ? 'Öğrencilere ders seçim ekranında gösteriliyor'
-                        : 'Öğrencilerin ders seçim ekranında gizli'}
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    disabled={isBusy}
-                    onClick={() =>
-                      handleToggleGlobalCourse(course.code, isVisible)
-                    }
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all shrink-0 ${
+                  {isBusy ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : isVisible ? (
+                    <ToggleRight className="w-4 h-4 text-emerald-700" />
+                  ) : (
+                    <ToggleLeft className="w-4 h-4 text-slate-500" />
+                  )}
+                  <span>{course.shortTitle || course.title}</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded font-extrabold ${
                       isVisible
-                        ? 'bg-emerald-700 hover:bg-emerald-800 text-white'
-                        : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                        ? 'bg-emerald-200/80 text-emerald-950'
+                        : 'bg-slate-200 text-slate-700'
                     }`}
                   >
-                    {isBusy ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : isVisible ? (
-                      <ToggleRight className="w-4 h-4" />
-                    ) : (
-                      <ToggleLeft className="w-4 h-4" />
-                    )}
-                    <span>{isVisible ? 'Açık' : 'Gizli'}</span>
-                  </button>
-                </div>
+                    {isVisible ? 'Açık' : 'Gizli'}
+                  </span>
+                </button>
               );
             })}
           </div>
         </section>
 
-        {/* Summary Cards */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-            <div className="flex items-center justify-between text-xs font-extrabold uppercase tracking-wider text-slate-500">
-              <span>Toplam Kayıtlı Öğrenci</span>
-              <Users className="w-5 h-5 text-brand-navy" />
+        {/* 4 Compact Stat Cards */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex items-center justify-between">
+            <div>
+              <div className="text-xs font-bold text-slate-500">
+                Kayıtlı Öğrenci
+              </div>
+              <div className="text-2xl font-extrabold text-brand-navy mt-0.5">
+                {summaryQuery.data?.metrics?.totalStudents ?? 0}
+              </div>
             </div>
-            <div className="text-3xl font-extrabold text-brand-navy mt-2">
-              {summaryQuery.data?.metrics?.totalStudents ?? 0}
+            <div className="w-10 h-10 rounded-xl bg-slate-100 text-brand-navy flex items-center justify-center">
+              <Users className="w-5 h-5" />
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              Veritabanına katılan benzersiz öğrenci sayısı
-            </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-            <div className="flex items-center justify-between text-xs font-extrabold uppercase tracking-wider text-emerald-700">
-              <span>Yakın Zamanda Görülenler</span>
-              <Activity className="w-5 h-5 text-emerald-600" />
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex items-center justify-between">
+            <div>
+              <div className="text-xs font-bold text-emerald-700">
+                Şu An Aktif
+              </div>
+              <div className="text-2xl font-extrabold text-emerald-800 mt-0.5">
+                {summaryQuery.data?.metrics?.recentlySeenCount ?? 0}
+              </div>
             </div>
-            <div className="text-3xl font-extrabold text-emerald-800 mt-2">
-              {summaryQuery.data?.metrics?.recentlySeenCount ?? 0}
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <Activity className="w-5 h-5" />
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              Son 60 saniyede etkinlik/sayfa etkileşimi olanlar
-            </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-            <div className="flex items-center justify-between text-xs font-extrabold uppercase tracking-wider text-brand-purple">
-              <span>{selectedWeekOrder}. Haftayı Tamamlayanlar</span>
-              <CheckCircle2 className="w-5 h-5 text-brand-purple" />
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex items-center justify-between">
+            <div>
+              <div className="text-xs font-bold text-brand-purple">
+                {selectedWeekOrder}. Haftayı Bitiren
+              </div>
+              <div className="text-2xl font-extrabold text-brand-navy mt-0.5">
+                {summaryQuery.data?.metrics?.selectedWeekCompletedCount ?? 0}
+              </div>
             </div>
-            <div className="text-3xl font-extrabold text-brand-navy mt-2">
-              {summaryQuery.data?.metrics?.selectedWeekCompletedCount ?? 0}
+            <div className="w-10 h-10 rounded-xl bg-purple-50 text-brand-purple flex items-center justify-center">
+              <CheckCircle2 className="w-5 h-5" />
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              2 zorunlu etkinlik + değerlendirmeyi bitirenler
-            </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-            <div className="flex items-center justify-between text-xs font-extrabold uppercase tracking-wider text-amber-700">
-              <span>{selectedWeekOrder}. Haftada Devam Edenler</span>
-              <Clock className="w-5 h-5 text-amber-600" />
+          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex items-center justify-between">
+            <div>
+              <div className="text-xs font-bold text-amber-700">
+                {selectedWeekOrder}. Haftada Çalışan
+              </div>
+              <div className="text-2xl font-extrabold text-amber-800 mt-0.5">
+                {summaryQuery.data?.metrics?.selectedWeekInProgressCount ?? 0}
+              </div>
             </div>
-            <div className="text-3xl font-extrabold text-amber-800 mt-2">
-              {summaryQuery.data?.metrics?.selectedWeekInProgressCount ?? 0}
+            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <Clock className="w-5 h-5" />
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              Haftaya başlamış, henüz tamamlamamış öğrenciler
-            </p>
           </div>
         </section>
 
-        {/* Filters & CSV Export Bar */}
-        <section className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-600 mb-1.5">
-                Hafta Filtresi
+        {/* Single-Row Filters & CSV Export Bar */}
+        <section className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
+            <div className="lg:col-span-3">
+              <label className="block text-xs font-bold text-slate-600 mb-1">
+                Hafta
               </label>
               <CustomSelect
                 id="filter_week"
@@ -686,8 +677,8 @@ export default function AkademiAdminPage() {
                   const w = weeksCatalog.find((x: any) => x.order === order);
                   return {
                     value: String(order),
-                    badge: `${order}. Hafta`,
-                    label: w ? w.title : `${order}. Hafta`
+                    badge: `Hafta ${order}`,
+                    label: w ? w.title : `${order}. Hafta`,
                   };
                 })}
                 onChange={(val) => {
@@ -697,39 +688,36 @@ export default function AkademiAdminPage() {
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-600 mb-1.5">
-                Etkinlik Filtresi (Erken Bitiren Takibi)
+            <div className="lg:col-span-3">
+              <label className="block text-xs font-bold text-slate-600 mb-1">
+                Etkinlik
               </label>
               <CustomSelect
                 id="filter_activity"
                 value={selectedActivityCode}
-                placeholder="— Tüm Hafta Genel Görünümü —"
+                placeholder="Tüm Hafta"
                 allowClear={true}
                 options={[
-                  {
-                    value: '',
-                    label: 'Tüm Hafta Genel Görünümü'
-                  },
+                  { value: '', label: 'Tüm Hafta' },
                   ...activitiesInSelectedWeek.map((act: any) => ({
                     value: act.code,
-                    badge: act.code,
-                    label: act.title
-                  }))
+                    badge: cleanCode(act.code),
+                    label: act.title,
+                  })),
                 ]}
                 onChange={(val) => setSelectedActivityCode(val)}
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-600 mb-1.5">
-                Durum Filtresi
+            <div className="lg:col-span-2">
+              <label className="block text-xs font-bold text-slate-600 mb-1">
+                Durum
               </label>
               <CustomSelect
                 id="filter_status"
                 value={statusFilter}
                 options={[
-                  { value: 'ALL', label: 'Tüm Durumlar' },
+                  { value: 'ALL', label: 'Tümü' },
                   { value: 'COMPLETED', label: 'Tamamlandı' },
                   { value: 'IN_PROGRESS', label: 'Devam Ediyor' },
                   { value: 'NOT_STARTED', label: 'Başlamadı' },
@@ -741,125 +729,102 @@ export default function AkademiAdminPage() {
                         {
                           value: 'EARLY_FINISHER',
                           badge: '< 10 dk',
-                          label: 'Ayrılan Süreden Önce Tamamladı'
-                        }
+                          label: 'Erken Bitiren',
+                        },
                       ]
-                    : [])
+                    : []),
                 ]}
                 onChange={(val) => setStatusFilter(val)}
               />
             </div>
 
-            <div>
+            <div className="lg:col-span-2">
               <label
                 htmlFor="filter_search"
-                className="block text-xs font-extrabold uppercase tracking-wider text-slate-600 mb-1"
+                className="block text-xs font-bold text-slate-600 mb-1"
               >
-                Ad / Soyad / Öğrenci No Ara
+                Öğrenci Ara
               </label>
               <div className="relative">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
                 <input
                   id="filter_search"
                   type="text"
-                  placeholder="İsim veya numara..."
+                  placeholder="Ad veya numara..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-xl border-2 border-slate-300 bg-slate-50 pl-9 pr-3 py-2 text-sm font-semibold text-slate-900"
+                  className="w-full rounded-xl border border-slate-300 bg-slate-50 pl-9 pr-3 py-2 text-sm font-semibold text-slate-900 focus:border-brand-purple focus:bg-white focus:outline-none"
                 />
               </div>
             </div>
-          </div>
 
-          <div className="pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-start gap-2 text-xs text-slate-600 max-w-3xl">
-              <Info className="w-4 h-4 text-brand-purple shrink-0 mt-0.5" />
-              <span>
-                <strong>CSV ve Baştaki Sıfırlar Notu:</strong> Dışa aktarılan CSV
-                dosyası Türkçe karakterler için UTF-8 BOM içerir ve öğrenci
-                numaralarındaki baştaki sıfırların (örn. <code>02401...</code>)
-                Excel’de kaybolmaması için metin önekiyle güvenli üretilir.
-              </span>
+            <div className="lg:col-span-2 flex justify-end">
+              <a
+                href={`/api/akademi/admin/export?course=${encodeURIComponent(
+                  selectedCourse
+                )}&weekOrder=${selectedWeekOrder}${
+                  selectedActivityCode
+                    ? `&activityCode=${encodeURIComponent(
+                        selectedActivityCode
+                      )}`
+                    : ''
+                }`}
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-white text-xs sm:text-sm font-extrabold"
+              >
+                <Download className="w-4 h-4" />
+                <span>CSV İndir</span>
+              </a>
             </div>
-
-            <a
-              href={`/api/akademi/admin/export?weekOrder=${selectedWeekOrder}${
-                selectedActivityCode
-                  ? `&activityCode=${encodeURIComponent(selectedActivityCode)}`
-                  : ''
-              }`}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-white text-xs sm:text-sm font-extrabold shrink-0"
-            >
-              <Download className="w-4 h-4" />
-              <span>CSV Olarak Dışa Aktar</span>
-            </a>
           </div>
         </section>
 
-        {/* Selected Activity Completion Order & Early Finishers Panel */}
+        {/* Activity Completion Ranking (Only when an activity is selected) */}
         {selectedActivityCode && summaryQuery.data?.activityCompletions && (
-          <section className="bg-white rounded-2xl border-2 border-brand-purple/40 p-5 shadow-sm">
-            <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
-              <div>
-                <h2 className="text-base sm:text-lg font-extrabold text-brand-navy flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-brand-purple" />
-                  <span>
-                    {selectedActivityCode} Etkinliğini Tamamlayanlar (İlk Başarı
-                    Zamanı <code>completedAt</code> Sırasıyla)
-                  </span>
-                </h2>
-                <p className="text-xs text-slate-600 mt-0.5">
-                  {summaryQuery.data.earlyFinisherDefinition}
-                </p>
-              </div>
-            </div>
+          <section className="bg-white rounded-2xl border border-purple-200 p-4 shadow-sm">
+            <h2 className="text-sm font-extrabold text-brand-navy flex items-center gap-2 mb-3">
+              <Sparkles className="w-4 h-4 text-brand-purple" />
+              <span>
+                {cleanCode(selectedActivityCode)} Tamamlama Sıralaması (
+                {summaryQuery.data.activityCompletions.length} Öğrenci)
+              </span>
+            </h2>
 
             {summaryQuery.data.activityCompletions.length === 0 ? (
-              <p className="text-sm text-slate-500 font-medium">
-                Bu etkinliği henüz tamamlayan öğrenci bulunmuyor.
+              <p className="text-xs text-slate-500">
+                Henüz tamamlayan öğrenci yok.
               </p>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
                 {summaryQuery.data.activityCompletions.map((item: any) => (
                   <div
                     key={item.studentId}
-                    className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start justify-between gap-2"
+                    className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-2"
                   >
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-full bg-brand-navy text-brand-orange font-extrabold text-xs flex items-center justify-center">
-                          #{item.completionOrder}
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-5 h-5 rounded-full bg-brand-navy text-brand-orange font-extrabold text-[11px] flex items-center justify-center shrink-0">
+                          {item.completionOrder}
                         </span>
-                        <span className="font-extrabold text-sm text-brand-navy">
+                        <span className="font-bold text-xs text-brand-navy truncate">
                           {item.fullName}
                         </span>
                       </div>
-                      <div className="text-xs font-mono text-slate-600 mt-1">
-                        No: {item.studentNumber} · Bitirme:{' '}
-                        {formatIstanbulDateTime(item.completedAt)}
-                      </div>
-                      <div className="text-xs text-slate-700 mt-1">
-                        Etkin Süre:{' '}
-                        <strong>{formatDurationTr(item.activeSeconds)}</strong>{' '}
-                        (Takvim: {formatDurationTr(item.elapsedSeconds)})
-                      </div>
-                      {item.isEarlyFinisher && (
-                        <div
-                          className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-purple-100 text-brand-purple text-xs font-extrabold border border-purple-200"
-                          title={item.earlyFinisherRuleExplanation}
-                        >
-                          <Sparkles className="w-3 h-3" />
-                          <span>
-                            Ayrılan süreden önce tamamladı (Etkin süre &lt; 10
-                            dk)
+                      <div className="text-[11px] text-slate-600 mt-1">
+                        Süre: <strong>{formatDurationTr(item.activeSeconds)}</strong>
+                        {item.isEarlyFinisher && (
+                          <span className="ml-1.5 text-brand-purple font-bold">
+                            ★ Erken
                           </span>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                     <button
                       type="button"
-                      onClick={() => setDetailStudentId(item.studentId)}
-                      className="text-xs font-extrabold text-brand-purple hover:underline shrink-0"
+                      onClick={() => {
+                        setDetailCourseTab(selectedCourse);
+                        setDetailStudentId(item.studentId);
+                      }}
+                      className="text-xs font-bold text-brand-purple hover:underline shrink-0"
                     >
                       Detay
                     </button>
@@ -870,52 +835,42 @@ export default function AkademiAdminPage() {
           </section>
         )}
 
-        {/* Main Student Table */}
+        {/* Clean Student Progress Table */}
         <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
-            <h2 className="font-extrabold text-brand-navy text-base">
-              Öğrenci İlerleme ve Ders Yetki Tablosu (
-              {studentsQuery.data?.filteredCount ?? 0} /{' '}
-              {studentsQuery.data?.totalCount ?? 0})
+          <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+            <h2 className="font-extrabold text-brand-navy text-sm">
+              Öğrenci Listesi ({studentsQuery.data?.filteredCount ?? 0})
             </h2>
-            <span className="text-xs text-slate-500 font-semibold">
-              İpucu: "Gösterilen Dersler" sütunundaki ders rozetlerine tıklayarak
-              o öğrenci için dersi anında açıp kapatabilirsiniz.
+            <span className="text-xs text-slate-500">
+              Ders rozetlerine tıklayarak öğrenci yetkisini değiştirebilirsiniz
             </span>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs sm:text-sm">
               <thead>
-                <tr className="bg-slate-100 text-slate-700 border-b border-slate-200 font-extrabold">
-                  <th className="py-3 px-4">Ad Soyad</th>
-                  <th className="py-3 px-3">Öğrenci Numarası</th>
-                  <th className="py-3 px-3">
-                    Gösterilen Dersler (Tıkla Aç/Kapat)
+                <tr className="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold text-xs">
+                  <th className="py-2.5 px-4">Öğrenci</th>
+                  <th className="py-2.5 px-3">Numara</th>
+                  <th className="py-2.5 px-3">Açık Dersler</th>
+                  <th className="py-2.5 px-3">
+                    {selectedWeekOrder}. Hafta ({COURSE_TABS.find((c) => c.code === selectedCourse)?.label})
                   </th>
-                  <th className="py-3 px-3">Son Tamamlanan Hafta</th>
-                  <th className="py-3 px-3">Son Çalışılan Etkinlik</th>
-                  <th className="py-3 px-3">
-                    {selectedWeekOrder}. Hafta İlerlemesi
-                  </th>
-                  <th className="py-3 px-3">
-                    Yaklaşık Etkin Süre ({selectedWeekOrder}. Hafta)
-                  </th>
-                  <th className="py-3 px-3">
-                    {selectedWeekOrder}. Hafta Ödev
-                  </th>
-                  <th className="py-3 px-3">Son Görülme</th>
-                  <th className="py-3 px-4 text-right">İşlem</th>
+                  <th className="py-2.5 px-3">Ödev</th>
+                  <th className="py-2.5 px-3">Etkin Süre</th>
+                  <th className="py-2.5 px-3">Son Etkinlik</th>
+                  <th className="py-2.5 px-3">Son Görülme</th>
+                  <th className="py-2.5 px-4 text-right">Detay</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200">
+              <tbody className="divide-y divide-slate-100">
                 {(studentsQuery.data?.students || []).length === 0 ? (
                   <tr>
                     <td
-                      colSpan={10}
+                      colSpan={9}
                       className="py-8 text-center text-slate-500 font-medium"
                     >
-                      Filtre kriterlerine uygun öğrenci kaydı bulunamadı.
+                      Öğrenci kaydı bulunamadı.
                     </td>
                   </tr>
                 ) : (
@@ -932,26 +887,30 @@ export default function AkademiAdminPage() {
                         key={row.id}
                         className="hover:bg-slate-50/80 transition-colors"
                       >
-                        <td className="py-3 px-4 font-extrabold text-brand-navy">
+                        <td className="py-2.5 px-4 font-bold text-brand-navy">
                           <div className="flex items-center gap-2">
                             <span>{row.fullName}</span>
                             {row.isRecentlySeen && (
                               <span
-                                className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300"
-                                title="Son 60 saniyede etkinlik gönderdi"
-                              >
-                                Aktif
-                              </span>
+                                className="w-2 h-2 rounded-full bg-emerald-500 inline-block"
+                                title="Şu an aktif"
+                              />
                             )}
                           </div>
                         </td>
-                        <td className="py-3 px-3 font-mono font-bold text-slate-800">
+                        <td className="py-2.5 px-3 font-mono font-semibold text-slate-700">
                           {row.studentNumber}
                         </td>
-                        <td className="py-3 px-3">
-                          <div className="flex flex-wrap items-center gap-1.5">
+                        <td className="py-2.5 px-3">
+                          <div className="flex flex-wrap items-center gap-1">
                             {AKADEMI_COURSES_CATALOG.map((cat) => {
                               const active = effectiveList.includes(cat.code);
+                              const shortLabel =
+                                cat.code === 'ag-temelleri'
+                                  ? 'Ağ'
+                                  : cat.code === 'pc-donanimi'
+                                  ? 'Donanım'
+                                  : 'Görsel';
                               return (
                                 <button
                                   key={cat.code}
@@ -963,69 +922,58 @@ export default function AkademiAdminPage() {
                                       cat.code
                                     )
                                   }
-                                  className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold border transition-all ${
+                                  className={`px-2 py-0.5 rounded-md text-[11px] font-bold border transition ${
                                     active
-                                      ? 'bg-emerald-100 text-emerald-900 border-emerald-400 hover:bg-emerald-200'
-                                      : 'bg-slate-100 text-slate-500 border-slate-300 hover:bg-slate-200 line-through'
+                                      ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
+                                      : 'bg-slate-100 text-slate-400 border-slate-200 hover:bg-slate-200 line-through'
                                   }`}
-                                  title={`${row.fullName} için ${
-                                    cat.shortTitle
-                                  } dersini ${active ? 'gizle' : 'göster'}`}
                                 >
-                                  {cat.shortTitle}
+                                  {shortLabel}
                                 </button>
                               );
                             })}
                           </div>
                         </td>
-                        <td className="py-3 px-3 font-semibold text-slate-700">
-                          {row.lastCompletedWeekOrder
-                            ? `${row.lastCompletedWeekOrder}. Hafta`
-                            : 'Henüz Yok'}
-                        </td>
-                        <td className="py-3 px-3 font-semibold text-slate-700">
-                          {row.lastWorkedActivityCode ? (
-                            <span>
-                              <strong>{row.lastWorkedActivityCode}</strong> ·{' '}
-                              {row.lastWorkedActivityTitle}
-                            </span>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
-                        <td className="py-3 px-3">
+                        <td className="py-2.5 px-3">
                           <div className="flex items-center gap-2">
-                            <span className="font-extrabold text-brand-navy">
+                            <span className="font-extrabold text-brand-navy text-xs">
                               {row.selectedWeekProgressText}
                             </span>
                             {renderStatusPill(row.selectedWeekStatus)}
                           </div>
                         </td>
-                        <td className="py-3 px-3 font-semibold text-slate-800">
-                          <div>
-                            {formatDurationTr(row.selectedWeekActiveSeconds)}
-                          </div>
-                          <div className="text-[11px] text-slate-500">
-                            Ödev:{' '}
-                            {formatDurationTr(row.totalHomeworkActiveSeconds)} |
-                            Tekrar:{' '}
-                            {formatDurationTr(row.totalPracticeActiveSeconds)}
-                          </div>
-                        </td>
-                        <td className="py-3 px-3">
+                        <td className="py-2.5 px-3">
                           {renderStatusPill(row.selectedWeekHomeworkStatus)}
                         </td>
-                        <td className="py-3 px-3 text-xs text-slate-600">
+                        <td className="py-2.5 px-3 font-semibold text-slate-700 text-xs">
+                          {formatDurationTr(row.selectedWeekActiveSeconds)}
+                        </td>
+                        <td className="py-2.5 px-3 text-xs text-slate-600">
+                          {row.lastWorkedActivityCode ? (
+                            <span>
+                              <strong className="text-slate-800">
+                                {cleanCode(row.lastWorkedActivityCode)}
+                              </strong>{' '}
+                              · {row.lastWorkedActivityTitle}
+                            </span>
+                          ) : (
+                            '-'
+                          )}
+                        </td>
+                        <td className="py-2.5 px-3 text-xs text-slate-500">
                           {formatIstanbulDateTime(row.lastSeenAt)}
                         </td>
-                        <td className="py-3 px-4 text-right">
+                        <td className="py-2.5 px-4 text-right">
                           <button
                             type="button"
-                            onClick={() => setDetailStudentId(row.id)}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-brand-navy hover:bg-brand-navyLight text-white text-xs font-extrabold"
+                            onClick={() => {
+                              setDetailCourseTab(selectedCourse);
+                              setDetailStudentId(row.id);
+                            }}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-brand-navy hover:text-white text-slate-800 text-xs font-bold transition"
                           >
                             <Eye className="w-3.5 h-3.5" />
-                            <span>Detay / Düzenle</span>
+                            <span>İncele</span>
                           </button>
                         </td>
                       </tr>
@@ -1038,131 +986,109 @@ export default function AkademiAdminPage() {
         </section>
       </main>
 
-      {/* Student Detail & Identity/Course Edit Modal */}
+      {/* Student Detail Modal */}
       {detailStudentId && (
         <div
           role="dialog"
           aria-modal="true"
           className="fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4 overflow-y-auto"
         >
-          <div className="bg-white rounded-3xl border-2 border-slate-300 max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+          <div className="bg-white rounded-2xl border border-slate-300 max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 shadow-2xl space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <div>
-                <h3 className="text-xl font-extrabold text-brand-navy">
-                  Öğrenci Detayı, Ders Yetkileri ve Çalışma Geçmişi
+                <h3 className="text-lg font-extrabold text-brand-navy">
+                  {studentDetailQuery.data?.student
+                    ? `${studentDetailQuery.data.student.firstName} ${studentDetailQuery.data.student.lastName} (${studentDetailQuery.data.student.studentNumber})`
+                    : 'Öğrenci Detayı'}
                 </h3>
-                {studentDetailQuery.data?.student && (
-                  <p className="text-sm text-slate-600 font-semibold">
-                    {studentDetailQuery.data.student.firstName}{' '}
-                    {studentDetailQuery.data.student.lastName} (
-                    {studentDetailQuery.data.student.studentNumber})
-                  </p>
-                )}
               </div>
               <button
                 type="button"
                 onClick={() => setDetailStudentId(null)}
-                className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800"
+                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {studentDetailQuery.isLoading ? (
-              <div className="py-12 text-center text-slate-600 font-bold">
-                Öğrenci detayları yükleniyor...
+              <div className="py-10 text-center text-slate-600 font-bold text-sm">
+                Yükleniyor...
               </div>
             ) : (
               studentDetailQuery.data && (
-                <div className="space-y-6">
+                <div className="space-y-5">
+                  {/* Compact Identity & Course Access Form */}
                   {editForm && (
                     <form
                       onSubmit={handleSaveStudentIdentity}
-                      className="bg-slate-50 rounded-2xl border border-slate-200 p-4 space-y-4"
+                      className="bg-slate-50 rounded-xl border border-slate-200 p-4 space-y-3"
                     >
-                      <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-brand-navy">
-                        <Edit3 className="w-4 h-4 text-brand-purple" />
-                        <span>
-                          Öğrenci Bilgileri ve Gösterilecek Dersler (Yalnızca
-                          Öğretmen)
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-extrabold uppercase tracking-wider text-brand-navy flex items-center gap-1.5">
+                          <Edit3 className="w-3.5 h-3.5 text-brand-purple" />
+                          <span>Öğrenci Bilgileri ve Ders Yetkisi</span>
                         </span>
+                        {editMessage && (
+                          <span
+                            className={`text-xs font-bold ${
+                              editMessage.isError
+                                ? 'text-red-700'
+                                : 'text-emerald-700'
+                            }`}
+                          >
+                            {editMessage.text}
+                          </span>
+                        )}
                       </div>
 
-                      {editMessage && (
-                        <div
-                          className={`p-3 rounded-xl text-xs font-bold flex items-center gap-2 ${
-                            editMessage.isError
-                              ? 'bg-red-50 text-red-900 border border-red-300'
-                              : 'bg-emerald-50 text-emerald-900 border border-emerald-300'
-                          }`}
-                        >
-                          <AlertCircle className="w-4 h-4 shrink-0" />
-                          <span>{editMessage.text}</span>
-                        </div>
-                      )}
-
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                          <label className="block text-xs font-bold text-slate-700 mb-1">
-                            Ad
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={editForm.firstName}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                firstName: e.target.value
-                              })
-                            }
-                            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-bold text-slate-700 mb-1">
-                            Soyad
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={editForm.lastName}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                lastName: e.target.value
-                              })
-                            }
-                            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-bold text-slate-700 mb-1">
-                            Öğrenci Numarası
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={editForm.studentNumber}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                studentNumber: e.target.value.replace(
-                                  /[^0-9]/g,
-                                  ''
-                                )
-                              })
-                            }
-                            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-mono font-bold"
-                          />
-                        </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <input
+                          type="text"
+                          required
+                          placeholder="Ad"
+                          value={editForm.firstName}
+                          onChange={(e) =>
+                            setEditForm({
+                              ...editForm,
+                              firstName: e.target.value,
+                            })
+                          }
+                          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold"
+                        />
+                        <input
+                          type="text"
+                          required
+                          placeholder="Soyad"
+                          value={editForm.lastName}
+                          onChange={(e) =>
+                            setEditForm({
+                              ...editForm,
+                              lastName: e.target.value,
+                            })
+                          }
+                          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold"
+                        />
+                        <input
+                          type="text"
+                          required
+                          placeholder="Öğrenci No"
+                          value={editForm.studentNumber}
+                          onChange={(e) =>
+                            setEditForm({
+                              ...editForm,
+                              studentNumber: e.target.value.replace(
+                                /[^0-9]/g,
+                                ''
+                              ),
+                            })
+                          }
+                          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono font-bold"
+                        />
                       </div>
 
-                      <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-2">
-                          Bu Öğrenciye Gösterilecek Dersler:
-                        </label>
-                        <div className="flex flex-wrap gap-3">
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                        <div className="flex flex-wrap gap-2">
                           {AKADEMI_COURSES_CATALOG.map((cat) => {
                             const checked = editForm.effectiveCourses.includes(
                               cat.code
@@ -1170,7 +1096,7 @@ export default function AkademiAdminPage() {
                             return (
                               <label
                                 key={cat.code}
-                                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border-2 cursor-pointer text-xs sm:text-sm font-bold transition-all ${
+                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border cursor-pointer text-xs font-bold ${
                                   checked
                                     ? 'bg-emerald-50 border-emerald-500 text-emerald-950'
                                     : 'bg-white border-slate-300 text-slate-600'
@@ -1184,225 +1110,142 @@ export default function AkademiAdminPage() {
                                       ? editForm.effectiveCourses.filter(
                                           (c) => c !== cat.code
                                         )
-                                      : [...editForm.effectiveCourses, cat.code];
+                                      : [
+                                          ...editForm.effectiveCourses,
+                                          cat.code,
+                                        ];
                                     setEditForm({
                                       ...editForm,
-                                      effectiveCourses: next
+                                      effectiveCourses: next,
                                     });
                                   }}
-                                  className="rounded text-brand-purple focus:ring-brand-purple"
                                 />
                                 <span>{cat.shortTitle}</span>
                               </label>
                             );
                           })}
                         </div>
-                      </div>
 
-                      <div className="flex justify-end">
                         <button
                           type="submit"
-                          className="px-5 py-2.5 rounded-xl bg-brand-purple hover:bg-purple-800 text-white text-sm font-extrabold"
+                          className="px-4 py-1.5 rounded-lg bg-brand-navy hover:bg-brand-navyLight text-white text-xs font-extrabold"
                         >
-                          Bilgileri ve Ders Yetkilerini Kaydet
+                          Kaydet
                         </button>
                       </div>
                     </form>
                   )}
 
-                  {/* 5 Weeks Breakdown */}
-                  <div className="space-y-4">
-                    {studentDetailQuery.data.weeks.map((w: any) => (
-                      <div
-                        key={w.id}
-                        className="rounded-2xl border border-slate-200 p-4 space-y-3"
-                      >
-                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2">
-                          <div className="flex items-center gap-2">
-                            <span className="font-extrabold text-brand-navy text-base">
-                              {w.order}. Hafta: {w.title}
-                            </span>
-                            {renderStatusPill(w.status)}
-                          </div>
-                          <div className="text-xs font-bold text-slate-600 flex flex-wrap gap-3">
-                            <span>
-                              Hafta Zorunlu Etkin Süre:{' '}
-                              <strong className="text-brand-navy">
-                                {formatDurationTr(w.weekRequiredActiveSeconds)}
-                              </strong>
-                            </span>
-                            <span>
-                              Ödev Süresi:{' '}
-                              <strong>
-                                {formatDurationTr(w.weekHomeworkActiveSeconds)}
-                              </strong>
-                            </span>
-                            <span>
-                              Tekrar (Practice) Süresi:{' '}
-                              <strong>
-                                {formatDurationTr(w.weekPracticeActiveSeconds)}
-                              </strong>
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {w.activities.map((act: any) => (
-                            <div
-                              key={act.id}
-                              className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5"
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="font-extrabold text-brand-navy">
-                                  {act.code} · {act.title}
-                                </span>
-                                {renderStatusPill(act.status)}
-                              </div>
-
-                              {act.firstAttempt ? (
-                                <div className="space-y-1 text-slate-700">
-                                  <div>
-                                    İlk Başlangıç:{' '}
-                                    <strong>
-                                      {formatIstanbulDateTime(
-                                        act.firstAttempt.startedAt
-                                      )}
-                                    </strong>
-                                  </div>
-                                  <div>
-                                    İlk Bitiş:{' '}
-                                    <strong>
-                                      {formatIstanbulDateTime(
-                                        act.firstAttempt.completedAt
-                                      )}
-                                    </strong>
-                                  </div>
-                                  <div>
-                                    Yaklaşık Etkin Süre:{' '}
-                                    <strong>
-                                      {formatDurationTr(
-                                        act.firstAttempt.activeSeconds
-                                      )}
-                                    </strong>{' '}
-                                    | Takvim Süresi:{' '}
-                                    <strong>
-                                      {formatDurationTr(
-                                        act.firstAttempt.elapsedSeconds
-                                      )}
-                                    </strong>{' '}
-                                    | Kontrol Sayısı:{' '}
-                                    <strong>
-                                      {act.firstAttempt.checkCount}
-                                    </strong>
-                                  </div>
-                                  {act.firstAttempt.isEarlyFinisher && (
-                                    <div className="text-brand-purple font-extrabold">
-                                      ★ Ayrılan süreden (10 dk) önce tamamladı
-                                    </div>
-                                  )}
-                                  <details className="mt-1">
-                                    <summary className="cursor-pointer font-bold text-slate-600 hover:text-brand-navy">
-                                      Son Kaydedilen Çalışma Verisini Gör (Rev #
-                                      {act.firstAttempt.revision})
-                                    </summary>
-                                    <pre className="mt-1 p-2 rounded bg-slate-900 text-slate-100 overflow-x-auto text-[11px]">
-                                      {JSON.stringify(
-                                        act.firstAttempt.state,
-                                        null,
-                                        2
-                                      )}
-                                    </pre>
-                                  </details>
-                                </div>
-                              ) : (
-                                <div className="text-slate-400">
-                                  Henüz başlanmadı.
-                                </div>
-                              )}
-
-                              {act.practiceAttempts &&
-                                act.practiceAttempts.length > 0 && (
-                                  <div className="pt-1.5 border-t border-slate-200 text-brand-purple font-semibold">
-                                    Tekrar Çalışma (Practice) Sayısı:{' '}
-                                    {act.practiceAttempts.length} deneme
-                                  </div>
-                                )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+                  {/* Course Tab Selector inside Modal */}
+                  <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+                    {COURSE_TABS.filter(
+                      (t) => t.code !== 'gorsel-programlama'
+                    ).map((tab) => {
+                      const active = detailCourseTab === tab.code;
+                      return (
+                        <button
+                          key={tab.code}
+                          type="button"
+                          onClick={() => setDetailCourseTab(tab.code)}
+                          className={`px-3.5 py-1.5 rounded-lg text-xs font-extrabold transition ${
+                            active
+                              ? 'bg-brand-navy text-white'
+                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          }`}
+                        >
+                          {tab.label} İlerlemesi
+                        </button>
+                      );
+                    })}
                   </div>
 
-                  {/* Audit Logs */}
-                  {studentDetailQuery.data.auditLogs?.length > 0 && (
-                    <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-600 mb-2">
-                        Öğretmen İşlem Kayıtları (Audit Log)
-                      </h4>
-                      <ul className="space-y-1.5 text-xs text-slate-700">
-                        {studentDetailQuery.data.auditLogs.map((log: any) => (
-                          <li key={log.id}>
-                            <strong>
-                              {formatIstanbulDateTime(log.createdAt)}
-                            </strong>{' '}
-                            ({log.admin?.username}):{' '}
-                            <code>{JSON.stringify(log.oldValue)}</code> →{' '}
-                            <code>{JSON.stringify(log.newValue)}</code>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                  {/* Weeks Breakdown for Selected Course in Modal */}
+                  <div className="space-y-3">
+                    {studentDetailQuery.data.weeks
+                      .filter(
+                        (w: any) =>
+                          (w.courseCode || 'ag-temelleri') === detailCourseTab
+                      )
+                      .map((w: any) => (
+                        <div
+                          key={w.id}
+                          className="rounded-xl border border-slate-200 p-3.5 space-y-2.5"
+                        >
+                          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="font-extrabold text-brand-navy text-sm">
+                                {w.order}. Hafta: {w.title}
+                              </span>
+                              {renderStatusPill(w.status)}
+                            </div>
+                            <div className="text-xs font-semibold text-slate-600 flex gap-3">
+                              <span>
+                                Süre:{' '}
+                                <strong>
+                                  {formatDurationTr(
+                                    w.weekRequiredActiveSeconds
+                                  )}
+                                </strong>
+                              </span>
+                              <span>
+                                Ödev:{' '}
+                                <strong>
+                                  {formatDurationTr(
+                                    w.weekHomeworkActiveSeconds
+                                  )}
+                                </strong>
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                            {w.activities.map((act: any) => (
+                              <div
+                                key={act.id}
+                                className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs space-y-1"
+                              >
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="font-bold text-brand-navy truncate">
+                                    {cleanCode(act.code)} · {act.title}
+                                  </span>
+                                  {renderStatusPill(act.status)}
+                                </div>
+
+                                {act.firstAttempt ? (
+                                  <div className="text-slate-600 flex flex-wrap items-center justify-between gap-2 pt-0.5">
+                                    <span>
+                                      Etkin:{' '}
+                                      <strong>
+                                        {formatDurationTr(
+                                          act.firstAttempt.activeSeconds
+                                        )}
+                                      </strong>{' '}
+                                      · Kontrol:{' '}
+                                      <strong>
+                                        {act.firstAttempt.checkCount}
+                                      </strong>
+                                    </span>
+                                    <span>
+                                      {formatIstanbulDateTime(
+                                        act.firstAttempt.completedAt ||
+                                          act.firstAttempt.startedAt
+                                      )}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="text-slate-400">
+                                    Henüz başlanmadı
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
                 </div>
               )
             )}
-          </div>
-        </div>
-      )}
-
-      {/* Help Modal */}
-      {showHelpModal && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4"
-        >
-          <div className="bg-white rounded-3xl border-2 border-slate-300 max-w-2xl w-full p-6 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-              <h3 className="text-lg font-extrabold text-brand-navy">
-                Öğretmen Yardımı: Ders Görünürlüğü ve Süre Ölçümü
-              </h3>
-              <button
-                type="button"
-                onClick={() => setShowHelpModal(false)}
-                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="space-y-3 text-sm text-slate-700 leading-relaxed">
-              <p>
-                <strong>1. Ders Görünürlüğü Yönetimi:</strong> Üstteki panelden
-                hangi derslerin yeni katılan öğrencilere varsayılan olarak
-                gösterileceğini belirleyebilirsiniz. Ayrıca öğrenci tablosundaki{' '}
-                <em>"Gösterilen Dersler"</em> sütunundan veya öğrenci detay
-                penceresinden her öğrenci için ayrı ayrı ders açıp
-                kapatabilirsiniz.
-              </p>
-              <p>
-                <strong>2. Kimlik ve Katılım Modeli:</strong> Öğrenciler{' '}
-                <code>/akademi</code> adresinden Ad, Soyad ve Öğrenci Numarası
-                ile giriş yapar. Yanlış yazılan ad veya numaraları öğrenci detay
-                penceresinden düzeltebilirsiniz.
-              </p>
-              <p>
-                <strong>3. Yaklaşık Etkin Çalışma Süresi (activeSeconds):</strong>{' '}
-                Süre yalnızca öğrenci etkinlikte "Başla" düğmesine bastıktan
-                sonra açık ve görünür sekmede çalışırken 20 saniyelik
-                heartbeat’lerle sunucu saatine göre ölçülür.
-              </p>
-            </div>
           </div>
         </div>
       )}

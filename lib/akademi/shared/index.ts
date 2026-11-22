@@ -30,15 +30,15 @@ export const AKADEMI_COURSES_CATALOG: CourseCatalogItem[] = [
   },
   {
     code: 'pc-donanimi',
-    title: 'Bilgisayar Donanımı',
+    title: 'Bilgisayar Donanımı (Donanım Atölyem)',
     shortTitle: 'PC Donanımı',
-    subtitle: 'Donanım Bileşenleri ve Sistem Mimarisi Atölyesi',
+    subtitle: '5 Haftalık Etkileşimli Donanım Laboratuvarı',
     description:
-      'Anakart, işlemci, bellek, depolama birimleri, güç kaynağı seçimi, kasa içi montaj ve donanım arıza teşhisi etkileşimli uygulamaları.',
+      'Kasa içi bileşen keşfi, RAM sökme/takma simülasyonu, hava akışı, görüntü sorun giderme, kablo-port eşleştirme ve ağ donanımları.',
     defaultVisible: true,
-    isReady: false,
+    isReady: true,
     href: '/akademi/pc-donanimi',
-    badgeText: 'Hazırlanıyor'
+    badgeText: 'Aktif Panel · 5 Hafta'
   },
   {
     code: 'gorsel-programlama',

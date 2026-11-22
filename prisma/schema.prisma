@@ -67,15 +67,20 @@ model Session {
 
 model Week {
   id             String         @id @default(uuid())
-  order          Int            @unique
+  courseCode     String         @default("ag-temelleri")
+  order          Int
   title          String
 
   activities     Activity[]
   weekProgresses WeekProgress[]
+
+  @@unique([courseCode, order])
+  @@index([courseCode])
 }
 
 model Activity {
   id               String            @id @default(uuid())
+  courseCode       String            @default("ag-temelleri")
   code             String            @unique
   weekId           String
   orderInWeek      Int
@@ -91,6 +96,7 @@ model Activity {
   attempts         ActivityAttempt[]
 
   @@index([weekId, orderInWeek])
+  @@index([courseCode])
 }
 
 model ActivityAttempt {

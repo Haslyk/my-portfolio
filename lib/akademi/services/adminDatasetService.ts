@@ -1,5 +1,6 @@
 import { getPrismaAsync } from './db';
 import { AKADEMI_COURSES_CATALOG } from '@/lib/akademi/shared';
+import { seedCurriculum } from './seedService';
 
 export interface ComputedStudentRow {
   id: string;
@@ -36,12 +37,21 @@ export interface ComputedStudentRow {
   selectedActivityEarlyFinisher: boolean;
 }
 
+let curriculumEnsured = false;
+
 export async function computeAdminDataset(
   selectedWeekOrder: number,
-  selectedActivityCode?: string
+  selectedActivityCode?: string,
+  courseCode: string = 'ag-temelleri'
 ) {
   const prisma = await getPrismaAsync();
+  if (!curriculumEnsured) {
+    await seedCurriculum(prisma);
+    curriculumEnsured = true;
+  }
+
   const weeks = await prisma.week.findMany({
+    where: { courseCode },
     orderBy: { order: 'asc' },
     include: {
       activities: { orderBy: { orderInWeek: 'asc' } }
@@ -98,6 +108,12 @@ export async function computeAdminDataset(
     const effectiveCourses: string[] =
       allowedCourses !== null ? allowedCourses : defaultVisibleCodes;
 
+    const courseAttempts = student.attempts.filter(
+      (att) =>
+        (att.activity.courseCode || 'ag-temelleri') === courseCode ||
+        weeks.some((w) => w.id === att.activity.weekId)
+    );
+
     let lastCompletedWeekOrder: number | null = null;
     let lastCompletedWeekTitle: string | null = null;
     let firstIncompleteWeekOrder: number | null = null;
@@ -109,7 +125,7 @@ export async function computeAdminDataset(
       const allReqDone =
         reqActs.length > 0 &&
         reqActs.every((ra) =>
-          student.attempts.some(
+          courseAttempts.some(
             (att) =>
               att.activityId === ra.id &&
               att.status === 'COMPLETED' &&
@@ -128,8 +144,8 @@ export async function computeAdminDataset(
       }
     }
 
-    let latestAttempt = student.attempts[0] || null;
-    for (const att of student.attempts) {
+    let latestAttempt = courseAttempts[0] || null;
+    for (const att of courseAttempts) {
       if (
         !latestAttempt ||
         att.lastHeartbeatAt.getTime() > latestAttempt.lastHeartbeatAt.getTime()
@@ -142,7 +158,7 @@ export async function computeAdminDataset(
     let totalHomeworkActiveSeconds = 0;
     let totalPracticeActiveSeconds = 0;
 
-    for (const att of student.attempts) {
+    for (const att of courseAttempts) {
       if (att.mode === 'PRACTICE') {
         totalPracticeActiveSeconds += att.activeSeconds;
       } else if (att.activity.required) {

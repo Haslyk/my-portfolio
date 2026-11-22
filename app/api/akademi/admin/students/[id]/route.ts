@@ -48,8 +48,12 @@ export async function GET(
       );
     }
 
+    const url = new URL(req.url);
+    const courseFilter = url.searchParams.get('course') || undefined;
+
     const weeks = await prisma.week.findMany({
-      orderBy: { order: 'asc' },
+      ...(courseFilter ? { where: { courseCode: courseFilter } } : {}),
+      orderBy: [{ courseCode: 'asc' }, { order: 'asc' }],
       include: {
         activities: { orderBy: { orderInWeek: 'asc' } }
       }
@@ -135,6 +139,7 @@ export async function GET(
 
       return {
         id: w.id,
+        courseCode: w.courseCode || 'ag-temelleri',
         order: w.order,
         title: w.title,
         status: wp?.status || (w.order === 1 ? 'NOT_STARTED' : 'LOCKED'),

@@ -3,6 +3,7 @@ import { getPrismaAsync } from '@/lib/akademi/services/db';
 import { getAuthenticatedStudent } from '@/lib/akademi/services/sessionService';
 import { checkWeekUnlocked } from '@/lib/akademi/services/progressService';
 import { issueOrTakeoverLease } from '@/lib/akademi/services/leaseService';
+import { getPublicActivityByCode } from '@/lib/akademi/pc-donanimi';
 
 async function resolveActivity(param: string) {
   const prisma = await getPrismaAsync();
@@ -82,7 +83,7 @@ export async function POST(
         data: { lastSeenAt: new Date() }
       });
 
-      const forceNew = Boolean(body?.forceNew);
+      const forceNew = Boolean(body?.forceNew || body?.reset);
       let practiceAttempt = !forceNew
         ? await tx.activityAttempt.findFirst({
             where: {
@@ -126,20 +127,47 @@ export async function POST(
       return { practiceAttempt, leaseToken };
     });
 
+    const donanimPublicDef =
+      activity.courseCode === 'pc-donanimi'
+        ? getPublicActivityByCode(activity.code)
+        : undefined;
+
+    const firstElapsedSeconds =
+      firstSuccess.completedAt && firstSuccess.startedAt
+        ? Math.max(
+            1,
+            Math.floor(
+              (firstSuccess.completedAt.getTime() -
+                firstSuccess.startedAt.getTime()) /
+                1000
+            )
+          )
+        : null;
+
     return NextResponse.json({
       attempt: {
         id: result.practiceAttempt.id,
         activityId: result.practiceAttempt.activityId,
         activityCode: activity.code,
+        weekOrder: activity.week.order,
+        weekId: activity.weekId,
         mode: result.practiceAttempt.mode,
         status: result.practiceAttempt.status,
+        isFirstSuccess: false,
         state: result.practiceAttempt.state,
         revision: result.practiceAttempt.revision,
         startedAt: result.practiceAttempt.startedAt,
         completedAt: result.practiceAttempt.completedAt,
         activeSeconds: result.practiceAttempt.activeSeconds,
-        checkCount: result.practiceAttempt.checkCount
+        checkCount: result.practiceAttempt.checkCount,
+        firstSuccessSummary: {
+          completedAt: firstSuccess.completedAt,
+          elapsedSeconds: firstElapsedSeconds,
+          activeSeconds: firstSuccess.activeSeconds
+        },
+        hasOpenHelp: false
       },
+      activity: donanimPublicDef,
       leaseToken: result.leaseToken
     });
   } catch (err) {

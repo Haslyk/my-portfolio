@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { getPrismaAsync } from '@/lib/akademi/services/db';
 import { getAuthenticatedStudent } from '@/lib/akademi/services/sessionService';
 import { checkWeekUnlocked } from '@/lib/akademi/services/progressService';
+import { validateAndApplyRamState } from '@/lib/akademi/pc-donanimi';
 
 const patchStateSchema = z.object({
   state: z.record(z.any()),
@@ -86,6 +87,29 @@ export async function PATCH(
       );
     }
 
+    let nextState = parsed.data.state;
+    if (attempt.activity.code === 'D-W2-A2' || attempt.activity.code === 'W2-A2') {
+      if (attempt.activity.courseCode === 'pc-donanimi' || attempt.activity.code === 'D-W2-A2') {
+        const prevState =
+          typeof attempt.state === 'object' && attempt.state !== null
+            ? (attempt.state as Record<string, any>)
+            : {};
+        const ramValidation = validateAndApplyRamState(prevState, nextState);
+        if (!ramValidation.valid) {
+          return NextResponse.json(
+            {
+              error: ramValidation.errorMessage,
+              message: ramValidation.errorMessage,
+              code: 'INVALID_RAM_TRANSITION',
+              state: ramValidation.sanitizedState,
+            },
+            { status: 400 }
+          );
+        }
+        nextState = ramValidation.sanitizedState;
+      }
+    }
+
     const newRevision = parsed.data.revision + 1;
 
     const updated = await prisma.$transaction(async (tx) => {
@@ -97,7 +121,7 @@ export async function PATCH(
       return tx.activityAttempt.update({
         where: { id: attempt.id },
         data: {
-          state: parsed.data.state,
+          state: nextState,
           revision: newRevision
         }
       });

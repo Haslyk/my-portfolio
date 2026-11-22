@@ -44,12 +44,13 @@ export async function GET(req: NextRequest) {
     if (!auth.ok) return auth.response;
 
     const url = new URL(req.url);
+    const courseCode = url.searchParams.get('course') || 'ag-temelleri';
     const weekOrder =
       parseInt(url.searchParams.get('weekOrder') || '1', 10) || 1;
     const rawAct = url.searchParams.get('activityCode');
     const activityCode = rawAct && rawAct.trim() ? rawAct.trim() : undefined;
 
-    const { rows } = await computeAdminDataset(weekOrder, activityCode);
+    const { rows } = await computeAdminDataset(weekOrder, activityCode, courseCode);
 
     const headers = [
       'Öğrenci Numarası (Metin)',
@@ -116,7 +117,7 @@ export async function GET(req: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': `attachment; filename="halim-akademi-ogrenciler-hafta-${weekOrder}.csv"`
+        'Content-Disposition': `attachment; filename="halim-akademi-${courseCode}-hafta-${weekOrder}.csv"`
       }
     });
   } catch (err) {

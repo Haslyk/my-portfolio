@@ -7,6 +7,7 @@ import {
   recalculateAndSyncWeekProgress
 } from '@/lib/akademi/services/progressService';
 import { issueOrTakeoverLease } from '@/lib/akademi/services/leaseService';
+import { getPublicActivityByCode } from '@/lib/akademi/pc-donanimi';
 
 async function resolveActivity(param: string) {
   const prisma = await getPrismaAsync();
@@ -53,11 +54,46 @@ export async function POST(
       return NextResponse.json(
         {
           error: 'WEEK_LOCKED',
+          code: 'WEEK_LOCKED',
           message:
             'Bu haftanın kilidi henüz açılmadı. Önce önceki haftayı tamamlamalısın.'
         },
         { status: 403 }
       );
+    }
+
+    // For PC Donanımı Quiz: ensure both required applications are completed before starting quiz
+    if (
+      activity.courseCode === 'pc-donanimi' &&
+      activity.type === 'QUIZ'
+    ) {
+      const weekApps = await prisma.activity.findMany({
+        where: {
+          weekId: activity.weekId,
+          type: 'REQUIRED_ACTIVITY',
+          required: true
+        }
+      });
+      const completedApps = await prisma.activityAttempt.findMany({
+        where: {
+          studentId,
+          activityId: { in: weekApps.map((a) => a.id) },
+          status: 'COMPLETED'
+        }
+      });
+      const doneSet = new Set(completedApps.map((a) => a.activityId));
+      if (!weekApps.every((a) => doneSet.has(a.id))) {
+        return NextResponse.json(
+          {
+            error:
+              'Değerlendirmeye başlamadan önce bu haftanın iki zorunlu uygulamasını tamamlamalısın.',
+            code: 'QUIZ_PREREQUISITES_INCOMPLETE',
+            message:
+              'Değerlendirmeye başlamadan önce bu haftanın iki zorunlu uygulamasını tamamlamalısın.'
+          },
+          { status: 403 }
+        );
+      }
     }
 
     const result = await prisma.$transaction(async (tx) => {
@@ -125,20 +161,51 @@ export async function POST(
       return { attempt, leaseToken };
     });
 
+    const donanimPublicDef =
+      activity.courseCode === 'pc-donanimi'
+        ? getPublicActivityByCode(activity.code)
+        : undefined;
+
+    const elapsedSeconds =
+      result.attempt.completedAt && result.attempt.startedAt
+        ? Math.max(
+            1,
+            Math.floor(
+              (result.attempt.completedAt.getTime() -
+                result.attempt.startedAt.getTime()) /
+                1000
+            )
+          )
+        : null;
+
     return NextResponse.json({
       attempt: {
         id: result.attempt.id,
         activityId: result.attempt.activityId,
         activityCode: activity.code,
+        weekOrder: activity.week.order,
+        weekId: activity.weekId,
         mode: result.attempt.mode,
         status: result.attempt.status,
+        isFirstSuccess: result.attempt.isFirstSuccess,
         state: result.attempt.state,
         revision: result.attempt.revision,
         startedAt: result.attempt.startedAt,
         completedAt: result.attempt.completedAt,
+        elapsedSeconds,
         activeSeconds: result.attempt.activeSeconds,
-        checkCount: result.attempt.checkCount
+        checkCount: result.attempt.checkCount,
+        firstSuccessSummary:
+          result.attempt.status === 'COMPLETED'
+            ? {
+                completedAt: result.attempt.completedAt,
+                elapsedSeconds,
+                activeSeconds: result.attempt.activeSeconds
+              }
+            : null,
+        hasOpenHelp: false
       },
+      activity: donanimPublicDef,
       leaseToken: result.leaseToken
     });
   } catch (err) {

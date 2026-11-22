@@ -34,20 +34,22 @@ export async function createEmbeddedPostgresClient(options?: {
   if (!alreadyMigrated) {
     const migrationSql = fs.readFileSync(migrationPath, 'utf-8');
     await pg.exec(migrationSql);
-  } else {
-    // Ensure new columns/tables exist if upgrading existing .pgdata
-    await pg.exec(`
-      ALTER TABLE "Student" ADD COLUMN IF NOT EXISTS "allowedCourses" JSONB;
-      CREATE TABLE IF NOT EXISTS "CourseSetting" (
-        "code" TEXT NOT NULL,
-        "title" TEXT NOT NULL,
-        "defaultVisible" BOOLEAN NOT NULL DEFAULT true,
-        "isReady" BOOLEAN NOT NULL DEFAULT false,
-        "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        CONSTRAINT "CourseSetting_pkey" PRIMARY KEY ("code")
-      );
-    `);
   }
+  await pg.exec(`
+    ALTER TABLE "Student" ADD COLUMN IF NOT EXISTS "allowedCourses" JSONB;
+    CREATE TABLE IF NOT EXISTS "CourseSetting" (
+      "code" TEXT NOT NULL,
+      "title" TEXT NOT NULL,
+      "defaultVisible" BOOLEAN NOT NULL DEFAULT true,
+      "isReady" BOOLEAN NOT NULL DEFAULT false,
+      "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "CourseSetting_pkey" PRIMARY KEY ("code")
+    );
+    ALTER TABLE "Week" ADD COLUMN IF NOT EXISTS "courseCode" TEXT NOT NULL DEFAULT 'ag-temelleri';
+    ALTER TABLE "Activity" ADD COLUMN IF NOT EXISTS "courseCode" TEXT NOT NULL DEFAULT 'ag-temelleri';
+    DROP INDEX IF EXISTS "Week_order_key";
+    CREATE UNIQUE INDEX IF NOT EXISTS "Week_courseCode_order_key" ON "Week"("courseCode", "order");
+  `);
 
   const parseRowDates = (row: any) => {
     if (!row || typeof row !== 'object') return row;
@@ -119,6 +121,14 @@ export async function createEmbeddedPostgresClient(options?: {
         parts.push(`"studentId" = $${params.length}`);
         params.push(val.weekId);
         parts.push(`"weekId" = $${params.length}`);
+        continue;
+      }
+
+      if (rawKey === 'courseCode_order' && val && typeof val === 'object') {
+        params.push(val.courseCode);
+        parts.push(`"courseCode" = $${params.length}`);
+        params.push(val.order);
+        parts.push(`"order" = $${params.length}`);
         continue;
       }
 
