@@ -182,7 +182,7 @@ export default function AkademiPortalPage() {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-lg tracking-tight text-white">
-                Halim Akademi
+                Halimaslyk Akademi
               </span>
               <span className="font-mono text-[11px] px-2 py-0.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300">
                 DERS PORTALI
@@ -491,7 +491,7 @@ export default function AkademiPortalPage() {
 
       {/* Footer */}
       <footer className="relative z-10 w-full max-w-6xl mx-auto px-6 py-5 text-center text-xs text-slate-500 border-t border-white/[0.05]">
-        © {new Date().getFullYear()} Halim Aslıyüksek · Halim Akademi Eğitim
+        © {new Date().getFullYear()} Halim Aslıyüksek · Halimaslyk Akademi Eğitim
         Portalı
       </footer>
     </div>

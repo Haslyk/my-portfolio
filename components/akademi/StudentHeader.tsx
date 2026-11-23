@@ -54,7 +54,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
               </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-200 font-medium">
-              Ağ Temelleri · Halim Akademi
+              Ağ Temelleri · Halimaslyk Akademi
             </p>
           </div>
         </div>

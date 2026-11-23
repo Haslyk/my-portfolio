@@ -336,7 +336,7 @@ export default function AkademiAdminPage() {
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h1 className="text-base sm:text-lg font-extrabold">
-                Halim Akademi · Öğretmen Paneli
+                Halimaslyk Akademi · Öğretmen Paneli
               </h1>
             </div>
             <Link

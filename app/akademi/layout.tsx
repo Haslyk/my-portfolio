@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { AkademiQueryProvider } from '@/components/akademi/AkademiQueryProvider';
 
 export const metadata: Metadata = {
-  title: 'Halim Akademi | Etkileşimli Ders ve Uygulama Portalı',
+  title: 'Halimaslyk Akademi | Etkileşimli Ders ve Uygulama Portalı',
   description:
     'Ağ Temelleri, Bilgisayar Donanımı ve Görsel Programlama dersleri için etkileşimli uygulama ve öğrenci çalışma portalı.',
   robots: {
