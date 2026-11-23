@@ -26,6 +26,7 @@ import {
   ToggleLeft,
   ToggleRight,
   Trash2,
+  Lock,
   Unlock,
   HelpCircle,
 } from 'lucide-react';
@@ -354,12 +355,13 @@ export default function AkademiAdminPage() {
     }
   };
 
-  const handleUnlockWeekForAll = async () => {
+  const handleToggleWeekLockForAll = async (action: 'unlock' | 'lock') => {
     const courseLabel =
       COURSE_TABS.find((c) => c.code === selectedCourse)?.label ||
       selectedCourse;
+    const actionText = action === 'lock' ? 'kilitlemek' : 'açmak';
     const ok = window.confirm(
-      `${courseLabel} dersi ${selectedWeekOrder}. haftasını tüm kayıtlı öğrenciler için açmak istediğinize emin misiniz?`
+      `${courseLabel} dersi ${selectedWeekOrder}. haftasını tüm kayıtlı öğrenciler için ${actionText} istediğinize emin misiniz?`
     );
     if (!ok) return;
 
@@ -372,24 +374,28 @@ export default function AkademiAdminPage() {
           body: JSON.stringify({
             courseCode: selectedCourse,
             weekOrder: selectedWeekOrder,
-            unlockAll: true,
+            action,
+            applyToAll: true,
           }),
         }
       );
       await summaryQuery.refetch();
       await studentsQuery.refetch();
       showToast(res.message);
-    } catch {
-      showToast('Hafta kilidi açılamadı.');
+    } catch (err) {
+      showToast(
+        err instanceof ApiError ? err.message : 'Hafta kilidi güncellenemedi.'
+      );
     } finally {
       setUnlockingWeek(false);
     }
   };
 
-  const handleUnlockWeekForStudent = async (
+  const handleToggleWeekLockForStudent = async (
     studentId: string,
     courseCode: string,
-    weekOrder: number
+    weekOrder: number,
+    action: 'unlock' | 'lock'
   ) => {
     setUnlockingWeek(true);
     try {
@@ -400,6 +406,7 @@ export default function AkademiAdminPage() {
           body: JSON.stringify({
             courseCode,
             weekOrder,
+            action,
             studentId,
           }),
         }
@@ -408,8 +415,10 @@ export default function AkademiAdminPage() {
       await studentsQuery.refetch();
       await summaryQuery.refetch();
       showToast(res.message);
-    } catch {
-      showToast('Hafta kilidi açılamadı.');
+    } catch (err) {
+      showToast(
+        err instanceof ApiError ? err.message : 'Hafta kilidi güncellenemedi.'
+      );
     } finally {
       setUnlockingWeek(false);
     }
@@ -927,18 +936,6 @@ export default function AkademiAdminPage() {
             </div>
 
             <div className="lg:col-span-2 flex items-center justify-end gap-2">
-              {selectedWeekOrder > 1 && (
-                <button
-                  type="button"
-                  disabled={unlockingWeek}
-                  onClick={handleUnlockWeekForAll}
-                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-brand-navy text-xs font-extrabold shrink-0 disabled:opacity-50"
-                  title={`${selectedWeekOrder}. haftayı tüm öğrenciler için aç`}
-                >
-                  <Unlock className="w-3.5 h-3.5" />
-                  <span>Haftayı Aç</span>
-                </button>
-              )}
               <a
                 href={`/api/akademi/admin/export?course=${encodeURIComponent(
                   selectedCourse
@@ -949,11 +946,51 @@ export default function AkademiAdminPage() {
                       )}`
                     : ''
                 }`}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-white text-xs sm:text-sm font-extrabold"
+                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-white text-xs sm:text-sm font-extrabold"
               >
                 <Download className="w-4 h-4" />
-                <span>CSV</span>
+                <span>CSV İndir</span>
               </a>
+            </div>
+          </div>
+
+          {/* Always-visible Week Lock / Unlock Bar for Selected Course & Week */}
+          <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <div className="text-xs font-bold text-slate-600 flex items-center gap-2">
+              <Lock className="w-3.5 h-3.5 text-slate-500" />
+              <span>
+                Hafta Kilidi ({COURSE_TABS.find((c) => c.code === selectedCourse)?.label} · {selectedWeekOrder}. Hafta):
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={unlockingWeek || selectedWeekOrder === 1}
+                onClick={() => handleToggleWeekLockForAll('unlock')}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-950 text-xs font-extrabold transition disabled:opacity-40 disabled:cursor-not-allowed"
+                title={
+                  selectedWeekOrder === 1
+                    ? '1. hafta tüm öğrencilere varsayılan olarak açıktır'
+                    : `${selectedWeekOrder}. haftayı tüm öğrenciler için aç`
+                }
+              >
+                <Unlock className="w-3.5 h-3.5" />
+                <span>{selectedWeekOrder}. Haftayı Herkese Aç</span>
+              </button>
+              <button
+                type="button"
+                disabled={unlockingWeek || selectedWeekOrder === 1}
+                onClick={() => handleToggleWeekLockForAll('lock')}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-extrabold transition disabled:opacity-40 disabled:cursor-not-allowed"
+                title={
+                  selectedWeekOrder === 1
+                    ? '1. hafta başlangıç haftası olduğu için kilitlenemez'
+                    : `${selectedWeekOrder}. haftayı tüm öğrenciler için kilitle`
+                }
+              >
+                <Lock className="w-3.5 h-3.5" />
+                <span>{selectedWeekOrder}. Haftayı Kilitle</span>
+              </button>
             </div>
           </div>
         </section>
@@ -1374,21 +1411,40 @@ export default function AkademiAdminPage() {
                                 {w.order}. Hafta: {w.title}
                               </span>
                               {renderStatusPill(w.status)}
-                              {w.status === 'LOCKED' && (
+                              {w.order > 1 && w.status === 'LOCKED' && (
                                 <button
                                   type="button"
                                   disabled={unlockingWeek}
                                   onClick={() =>
-                                    handleUnlockWeekForStudent(
+                                    handleToggleWeekLockForStudent(
                                       detailStudentId,
                                       detailCourseTab,
-                                      w.order
+                                      w.order,
+                                      'unlock'
                                     )
                                   }
-                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-100 hover:bg-amber-200 text-amber-950 text-[11px] font-bold transition"
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-100 hover:bg-emerald-200 text-emerald-950 text-[11px] font-bold transition"
                                 >
                                   <Unlock className="w-3 h-3" />
                                   <span>Kilidi Aç</span>
+                                </button>
+                              )}
+                              {w.order > 1 && w.status !== 'LOCKED' && (
+                                <button
+                                  type="button"
+                                  disabled={unlockingWeek}
+                                  onClick={() =>
+                                    handleToggleWeekLockForStudent(
+                                      detailStudentId,
+                                      detailCourseTab,
+                                      w.order,
+                                      'lock'
+                                    )
+                                  }
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-200 hover:bg-slate-300 text-slate-800 text-[11px] font-bold transition"
+                                >
+                                  <Lock className="w-3 h-3" />
+                                  <span>Kilitle</span>
                                 </button>
                               )}
                             </div>
