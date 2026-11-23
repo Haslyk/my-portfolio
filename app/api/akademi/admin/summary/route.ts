@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthenticatedAdmin } from '@/lib/akademi/services/sessionService';
 import { computeAdminDataset } from '@/lib/akademi/services/adminDatasetService';
+import { getPrismaAsync } from '@/lib/akademi/services/db';
 
 export async function GET(req: NextRequest) {
   try {
@@ -16,6 +17,23 @@ export async function GET(req: NextRequest) {
 
     const { weeks, targetWeek, targetActivity, rows, courseSettings } =
       await computeAdminDataset(weekOrder, activityCode, courseCode);
+
+    const prisma = await getPrismaAsync();
+    const openHelpRequests = await prisma.helpRequest.findMany({
+      where: {
+        courseCode,
+        resolved: false
+      },
+      include: {
+        student: {
+          select: { id: true, firstName: true, lastName: true, studentNumber: true }
+        },
+        activity: {
+          select: { code: true, title: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
 
     const totalStudents = rows.length;
     const recentlySeenCount = rows.filter((r) => r.isRecentlySeen).length;
@@ -80,7 +98,17 @@ export async function GET(req: NextRequest) {
           allocatedSeconds: a.allocatedSeconds
         }))
       })),
-      activityCompletions
+      activityCompletions,
+      helpRequests: openHelpRequests.map((hr) => ({
+        id: hr.id,
+        studentId: hr.studentId,
+        studentName: `${hr.student.firstName} ${hr.student.lastName}`,
+        studentNumber: hr.student.studentNumber,
+        activityCode: hr.activity.code.replace(/^D-/, ''),
+        activityTitle: hr.activity.title,
+        message: hr.message,
+        createdAt: hr.createdAt.toISOString()
+      }))
     });
   } catch (err) {
     console.error('Admin summary error:', err);

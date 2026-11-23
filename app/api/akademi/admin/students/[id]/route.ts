@@ -365,3 +365,63 @@ export async function PATCH(
     );
   }
 }
+
+export async function DELETE(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  try {
+    const auth = await getAuthenticatedAdmin(req);
+    if (!auth.ok) return auth.response;
+
+    const { id: targetStudentId } = await context.params;
+    const prisma = await getPrismaAsync();
+    const existingStudent = await prisma.student.findUnique({
+      where: { id: targetStudentId }
+    });
+
+    if (!existingStudent) {
+      return NextResponse.json(
+        {
+          error: 'STUDENT_NOT_FOUND',
+          message: 'Öğrenci kaydı bulunamadı.'
+        },
+        { status: 404 }
+      );
+    }
+
+    await prisma.$transaction(async (tx) => {
+      await tx.adminAuditLog.create({
+        data: {
+          adminId: auth.admin.id,
+          studentId: null,
+          action: 'DELETE_STUDENT',
+          oldValue: {
+            id: existingStudent.id,
+            firstName: existingStudent.firstName,
+            lastName: existingStudent.lastName,
+            studentNumber: existingStudent.studentNumber
+          }
+        }
+      });
+
+      await tx.student.delete({
+        where: { id: existingStudent.id }
+      });
+    });
+
+    return NextResponse.json({
+      deletedId: existingStudent.id,
+      message: `${existingStudent.firstName} ${existingStudent.lastName} kaydı silindi.`
+    });
+  } catch (err) {
+    console.error('Admin delete student error:', err);
+    return NextResponse.json(
+      {
+        error: 'INTERNAL_SERVER_ERROR',
+        message: 'Öğrenci silinirken hata oluştu.'
+      },
+      { status: 500 }
+    );
+  }
+}

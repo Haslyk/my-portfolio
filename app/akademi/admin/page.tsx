@@ -25,6 +25,9 @@ import {
   ArrowLeft,
   ToggleLeft,
   ToggleRight,
+  Trash2,
+  Unlock,
+  HelpCircle,
 } from 'lucide-react';
 import {
   ApiError,
@@ -89,6 +92,10 @@ export default function AkademiAdminPage() {
   const [updatingGlobalCourseCode, setUpdatingGlobalCourseCode] = useState<
     string | null
   >(null);
+  const [unlockingWeek, setUnlockingWeek] = useState<boolean>(false);
+  const [deletingStudent, setDeletingStudent] = useState<boolean>(false);
+  const [resolvingHelpId, setResolvingHelpId] = useState<string | null>(null);
+  const [actionToast, setActionToast] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -316,6 +323,113 @@ export default function AkademiAdminPage() {
     }
   };
 
+  const showToast = (msg: string) => {
+    setActionToast(msg);
+    setTimeout(() => setActionToast(null), 3500);
+  };
+
+  const handleDeleteStudent = async (studentId: string, fullName: string) => {
+    const ok = window.confirm(
+      `"${fullName}" kaydını ve tüm ilerleme verilerini kalıcı olarak silmek istediğinize emin misiniz?`
+    );
+    if (!ok) return;
+
+    setDeletingStudent(true);
+    try {
+      const res = await apiRequest<{ message: string }>(
+        `/api/akademi/admin/students/${studentId}`,
+        { method: 'DELETE' }
+      );
+      setDetailStudentId(null);
+      await summaryQuery.refetch();
+      await studentsQuery.refetch();
+      showToast(res.message);
+    } catch (err) {
+      setEditMessage({
+        isError: true,
+        text: err instanceof ApiError ? err.message : 'Öğrenci silinemedi.',
+      });
+    } finally {
+      setDeletingStudent(false);
+    }
+  };
+
+  const handleUnlockWeekForAll = async () => {
+    const courseLabel =
+      COURSE_TABS.find((c) => c.code === selectedCourse)?.label ||
+      selectedCourse;
+    const ok = window.confirm(
+      `${courseLabel} dersi ${selectedWeekOrder}. haftasını tüm kayıtlı öğrenciler için açmak istediğinize emin misiniz?`
+    );
+    if (!ok) return;
+
+    setUnlockingWeek(true);
+    try {
+      const res = await apiRequest<{ message: string }>(
+        '/api/akademi/admin/weeks/unlock',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            courseCode: selectedCourse,
+            weekOrder: selectedWeekOrder,
+            unlockAll: true,
+          }),
+        }
+      );
+      await summaryQuery.refetch();
+      await studentsQuery.refetch();
+      showToast(res.message);
+    } catch {
+      showToast('Hafta kilidi açılamadı.');
+    } finally {
+      setUnlockingWeek(false);
+    }
+  };
+
+  const handleUnlockWeekForStudent = async (
+    studentId: string,
+    courseCode: string,
+    weekOrder: number
+  ) => {
+    setUnlockingWeek(true);
+    try {
+      const res = await apiRequest<{ message: string }>(
+        '/api/akademi/admin/weeks/unlock',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            courseCode,
+            weekOrder,
+            studentId,
+          }),
+        }
+      );
+      await studentDetailQuery.refetch();
+      await studentsQuery.refetch();
+      await summaryQuery.refetch();
+      showToast(res.message);
+    } catch {
+      showToast('Hafta kilidi açılamadı.');
+    } finally {
+      setUnlockingWeek(false);
+    }
+  };
+
+  const handleResolveHelpRequest = async (id: string) => {
+    setResolvingHelpId(id);
+    try {
+      await apiRequest('/api/akademi/admin/help', {
+        method: 'PATCH',
+        body: JSON.stringify({ id }),
+      });
+      await summaryQuery.refetch();
+    } catch {
+      // ignore
+    } finally {
+      setResolvingHelpId(null);
+    }
+  };
+
   if (checkingAuth) {
     return (
       <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center p-4">
@@ -508,6 +622,60 @@ export default function AkademiAdminPage() {
       </header>
 
       <main className="max-w-7xl w-full mx-auto px-4 py-5 space-y-4 flex-1">
+        {actionToast && (
+          <div className="bg-emerald-50 border border-emerald-400 text-emerald-950 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between">
+            <span>{actionToast}</span>
+            <button
+              type="button"
+              onClick={() => setActionToast(null)}
+              className="text-emerald-700 hover:text-emerald-950"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        {/* Open Help Requests Banner (only shown when students ask for help) */}
+        {Array.isArray(summaryQuery.data?.helpRequests) &&
+          summaryQuery.data.helpRequests.length > 0 && (
+            <section className="bg-amber-50 rounded-2xl border-2 border-amber-400 p-4 shadow-sm space-y-2.5">
+              <div className="flex items-center gap-2 text-amber-950 font-extrabold text-sm">
+                <HelpCircle className="w-4 h-4 text-amber-600" />
+                <span>
+                  Yardım İstekleri ({summaryQuery.data.helpRequests.length})
+                </span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                {summaryQuery.data.helpRequests.map((hr: any) => (
+                  <div
+                    key={hr.id}
+                    className="bg-white rounded-xl border border-amber-200 p-3 flex items-center justify-between gap-2"
+                  >
+                    <div className="min-w-0">
+                      <div className="font-bold text-xs text-brand-navy truncate">
+                        {hr.studentName}{' '}
+                        <span className="font-mono text-slate-500">
+                          ({hr.studentNumber})
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-slate-700 mt-0.5 truncate">
+                        <strong>{hr.activityCode}</strong> · {hr.activityTitle}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={resolvingHelpId === hr.id}
+                      onClick={() => handleResolveHelpRequest(hr.id)}
+                      className="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold shrink-0 disabled:opacity-50"
+                    >
+                      Çözüldü
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
         {/* Top Bar: Course Switcher + Compact Global Visibility Toggles */}
         <section className="bg-white rounded-2xl border border-slate-200 p-3.5 shadow-sm flex flex-wrap items-center justify-between gap-4">
           {/* Course Switcher Tabs */}
@@ -758,7 +926,19 @@ export default function AkademiAdminPage() {
               </div>
             </div>
 
-            <div className="lg:col-span-2 flex justify-end">
+            <div className="lg:col-span-2 flex items-center justify-end gap-2">
+              {selectedWeekOrder > 1 && (
+                <button
+                  type="button"
+                  disabled={unlockingWeek}
+                  onClick={handleUnlockWeekForAll}
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-brand-navy text-xs font-extrabold shrink-0 disabled:opacity-50"
+                  title={`${selectedWeekOrder}. haftayı tüm öğrenciler için aç`}
+                >
+                  <Unlock className="w-3.5 h-3.5" />
+                  <span>Haftayı Aç</span>
+                </button>
+              )}
               <a
                 href={`/api/akademi/admin/export?course=${encodeURIComponent(
                   selectedCourse
@@ -769,10 +949,10 @@ export default function AkademiAdminPage() {
                       )}`
                     : ''
                 }`}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-white text-xs sm:text-sm font-extrabold"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-brand-navy hover:bg-brand-navyLight text-white text-xs sm:text-sm font-extrabold"
               >
                 <Download className="w-4 h-4" />
-                <span>CSV İndir</span>
+                <span>CSV</span>
               </a>
             </div>
           </div>
@@ -1126,12 +1306,29 @@ export default function AkademiAdminPage() {
                           })}
                         </div>
 
-                        <button
-                          type="submit"
-                          className="px-4 py-1.5 rounded-lg bg-brand-navy hover:bg-brand-navyLight text-white text-xs font-extrabold"
-                        >
-                          Kaydet
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            disabled={deletingStudent}
+                            onClick={() =>
+                              handleDeleteStudent(
+                                detailStudentId,
+                                `${editForm.firstName} ${editForm.lastName}`
+                              )
+                            }
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-600 text-red-700 hover:text-white border border-red-200 text-xs font-extrabold transition disabled:opacity-50"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                            <span>Öğrenciyi Sil</span>
+                          </button>
+
+                          <button
+                            type="submit"
+                            className="px-4 py-1.5 rounded-lg bg-brand-navy hover:bg-brand-navyLight text-white text-xs font-extrabold"
+                          >
+                            Kaydet
+                          </button>
+                        </div>
                       </div>
                     </form>
                   )}
@@ -1177,6 +1374,23 @@ export default function AkademiAdminPage() {
                                 {w.order}. Hafta: {w.title}
                               </span>
                               {renderStatusPill(w.status)}
+                              {w.status === 'LOCKED' && (
+                                <button
+                                  type="button"
+                                  disabled={unlockingWeek}
+                                  onClick={() =>
+                                    handleUnlockWeekForStudent(
+                                      detailStudentId,
+                                      detailCourseTab,
+                                      w.order
+                                    )
+                                  }
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-100 hover:bg-amber-200 text-amber-950 text-[11px] font-bold transition"
+                                >
+                                  <Unlock className="w-3 h-3" />
+                                  <span>Kilidi Aç</span>
+                                </button>
+                              )}
                             </div>
                             <div className="text-xs font-semibold text-slate-600 flex gap-3">
                               <span>

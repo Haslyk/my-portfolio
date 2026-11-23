@@ -23,6 +23,7 @@ model Student {
   weekProgresses  WeekProgress[]
   lease           ActivityLease?
   auditLogs       AdminAuditLog[]
+  helpRequests    HelpRequest[]
 
   @@index([lastSeenAt])
   @@index([normalizedName])
@@ -94,6 +95,7 @@ model Activity {
 
   week             Week              @relation(fields: [weekId], references: [id], onDelete: Cascade)
   attempts         ActivityAttempt[]
+  helpRequests     HelpRequest[]
 
   @@index([weekId, orderInWeek])
   @@index([courseCode])
@@ -167,4 +169,21 @@ model AdminAuditLog {
 
   @@index([adminId, createdAt])
   @@index([studentId])
+}
+
+model HelpRequest {
+  id         String    @id @default(uuid())
+  studentId  String
+  activityId String
+  courseCode String    @default("pc-donanimi")
+  message    String    @default("")
+  resolved   Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  resolvedAt DateTime?
+
+  student    Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  activity   Activity  @relation(fields: [activityId], references: [id], onDelete: Cascade)
+
+  @@index([courseCode, resolved, createdAt])
+  @@index([studentId, resolved])
 }
