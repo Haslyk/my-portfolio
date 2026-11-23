@@ -21,7 +21,9 @@ export async function POST(
     const prisma = await getPrismaAsync();
     const studentId = auth.student.id;
     const leaseToken =
-      typeof body?.leaseToken === 'string' ? body.leaseToken : undefined;
+      typeof body?.leaseToken === 'string'
+        ? body.leaseToken
+        : req.headers.get('x-activity-lease') || undefined;
     const takeover = Boolean(body?.takeover);
 
     const attempt = await prisma.activityAttempt.findUnique({

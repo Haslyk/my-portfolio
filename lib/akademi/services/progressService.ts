@@ -8,26 +8,32 @@ export async function ensureStudentWeekProgresses(
   studentId: string,
   courseCode?: string
 ) {
-  const weeks = await tx.week.findMany({
-    where: courseCode ? { courseCode } : undefined,
-    orderBy: { order: 'asc' }
-  });
-  const existing = await tx.weekProgress.findMany({
-    where: { studentId }
-  });
-  const map = new Map(existing.map((wp) => [wp.weekId, wp]));
+  const [weeks, existing] = await Promise.all([
+    tx.week.findMany({
+      where: courseCode ? { courseCode } : undefined,
+      orderBy: { order: 'asc' },
+      select: { id: true, order: true }
+    }),
+    tx.weekProgress.findMany({
+      where: { studentId },
+      select: { weekId: true }
+    })
+  ]);
 
-  for (const w of weeks) {
-    if (!map.has(w.id)) {
-      const created = await tx.weekProgress.create({
-        data: {
-          studentId,
-          weekId: w.id,
-          status: w.order === 1 ? 'NOT_STARTED' : 'LOCKED'
-        }
-      });
-      map.set(w.id, created);
-    }
+  const existingIds = new Set(existing.map((wp) => wp.weekId));
+  const missing = weeks
+    .filter((w) => !existingIds.has(w.id))
+    .map((w) => ({
+      studentId,
+      weekId: w.id,
+      status: w.order === 1 ? 'NOT_STARTED' : 'LOCKED'
+    }));
+
+  if (missing.length > 0) {
+    await tx.weekProgress.createMany({
+      data: missing,
+      skipDuplicates: true
+    });
   }
 }
 
@@ -36,6 +42,32 @@ export async function checkWeekUnlocked(
   studentId: string,
   weekId: string
 ): Promise<{ unlocked: boolean; status: WeekStatus; weekOrder: number }> {
+  // Fast-path: check existing weekProgress + week in a single query
+  const wp = await tx.weekProgress.findUnique({
+    where: {
+      studentId_weekId: {
+        studentId,
+        weekId
+      }
+    },
+    include: { week: { select: { order: true, courseCode: true } } }
+  });
+
+  if (wp) {
+    if (wp.week.order === 1 && wp.status === 'LOCKED') {
+      await tx.weekProgress.update({
+        where: { id: wp.id },
+        data: { status: 'NOT_STARTED' }
+      });
+      return { unlocked: true, status: 'NOT_STARTED', weekOrder: 1 };
+    }
+    return {
+      unlocked: wp.status !== 'LOCKED',
+      status: wp.status as WeekStatus,
+      weekOrder: wp.week.order
+    };
+  }
+
   const week = await tx.week.findUnique({ where: { id: weekId } });
   if (!week) {
     throw new Error('WEEK_NOT_FOUND');
@@ -43,34 +75,9 @@ export async function checkWeekUnlocked(
 
   await ensureStudentWeekProgresses(tx, studentId, week.courseCode);
 
-  const wp = await tx.weekProgress.findUnique({
-    where: {
-      studentId_weekId: {
-        studentId,
-        weekId
-      }
-    }
-  });
-
-  if (!wp) {
-    return {
-      unlocked: week.order === 1,
-      status: week.order === 1 ? 'NOT_STARTED' : 'LOCKED',
-      weekOrder: week.order
-    };
-  }
-
-  if (week.order === 1 && wp.status === 'LOCKED') {
-    await tx.weekProgress.update({
-      where: { id: wp.id },
-      data: { status: 'NOT_STARTED' }
-    });
-    return { unlocked: true, status: 'NOT_STARTED', weekOrder: 1 };
-  }
-
   return {
-    unlocked: wp.status !== 'LOCKED',
-    status: wp.status as WeekStatus,
+    unlocked: week.order === 1,
+    status: week.order === 1 ? 'NOT_STARTED' : 'LOCKED',
     weekOrder: week.order
   };
 }

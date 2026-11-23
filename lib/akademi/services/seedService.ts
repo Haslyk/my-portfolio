@@ -5,7 +5,18 @@ import {
 } from '@/lib/akademi/shared';
 import { PUBLIC_CURRICULUM_WEEKS } from '@/lib/akademi/pc-donanimi';
 
-export async function seedCurriculum(prisma: PrismaClient) {
+export async function seedCurriculum(prisma: PrismaClient, force = false) {
+  // Fast-path: if curriculum & courses are already seeded in DB, skip 50+ sequential upserts on serverless cold starts
+  if (!force) {
+    const [courseCount, activityCount] = await Promise.all([
+      prisma.courseSetting.count(),
+      prisma.activity.count()
+    ]);
+    if (courseCount >= AKADEMI_COURSES_CATALOG.length && activityCount >= 40) {
+      return;
+    }
+  }
+
   // 1) Seed 3 Courses in CourseSetting (always keep title and isReady synced with catalog)
   for (const course of AKADEMI_COURSES_CATALOG) {
     const existingCourse = await prisma.courseSetting.findUnique({
@@ -141,32 +152,6 @@ export async function seedCurriculum(prisma: PrismaClient) {
           contentVersion: 1
         }
       });
-    }
-  }
-
-  // 4) Ensure existing students have WeekProgress records for all seeded weeks across all courses
-  const allWeeks = await prisma.week.findMany({ orderBy: { order: 'asc' } });
-  const allStudents = await prisma.student.findMany({ select: { id: true } });
-
-  for (const student of allStudents) {
-    for (const week of allWeeks) {
-      const existing = await prisma.weekProgress.findUnique({
-        where: {
-          studentId_weekId: {
-            studentId: student.id,
-            weekId: week.id
-          }
-        }
-      });
-      if (!existing) {
-        await prisma.weekProgress.create({
-          data: {
-            studentId: student.id,
-            weekId: week.id,
-            status: week.order === 1 ? 'NOT_STARTED' : 'LOCKED'
-          }
-        });
-      }
     }
   }
 }

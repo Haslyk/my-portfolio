@@ -174,7 +174,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
       if (pendingStateRef.current) {
         persistDraftToServer(pendingStateRef.current, revisionRef.current);
       }
-    }, 650);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [draftState, persistDraftToServer]);
 
@@ -273,7 +273,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
           setLeaseConflict(true);
         }
       }
-    }, 20000);
+    }, 25000);
 
     return () => clearInterval(interval);
   }, [isIdlePaused, leaseConflict, sendPause, session.attemptId]);

@@ -266,7 +266,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
           setLeaseConflict(true);
         }
       }
-    }, 20000);
+    }, 25000);
 
     return () => {
       clearInterval(interval);
@@ -285,7 +285,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
     }
     debounceTimerRef.current = setTimeout(() => {
       syncDraftToServer(nextState, latestRevisionRef.current);
-    }, 450);
+    }, 1000);
   };
 
   /**

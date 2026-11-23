@@ -34,21 +34,38 @@ async function initAkademiDbInternal(): Promise<PrismaClient> {
     client = embedded.prisma as PrismaClient;
     globalForAkademiDb.akademiUsingEmbeddedPg = true;
   } else {
-    try {
-      const realPrisma = new PrismaClient();
-      await realPrisma.$connect();
-      await realPrisma.$queryRaw`SELECT 1`;
-      client = realPrisma;
+    let connectedPrisma: PrismaClient | null = null;
+    let lastError: unknown = null;
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      const candidate = new PrismaClient();
+      try {
+        await candidate.$connect();
+        await candidate.$queryRaw`SELECT 1`;
+        connectedPrisma = candidate;
+        break;
+      } catch (err) {
+        lastError = err;
+        await candidate.$disconnect().catch(() => {});
+        if (attempt < 3) {
+          await new Promise((r) => setTimeout(r, attempt * 400));
+        }
+      }
+    }
+
+    if (connectedPrisma) {
+      client = connectedPrisma;
       globalForAkademiDb.akademiUsingEmbeddedPg = false;
-    } catch (err) {
+    } else if (process.env.VERCEL) {
+      // Never silently fall back to ephemeral /tmp PGlite on Vercel when DATABASE_URL is configured
+      console.error('Vercel PostgreSQL bağlantısı 3 denemede başarısız:', lastError);
+      throw lastError;
+    } else {
       console.warn(
         'Harici PostgreSQL bağlantısı kurulamadı, PGlite gömülü veritabanına geçiliyor:',
-        err
+        lastError
       );
-      const isVercel = Boolean(process.env.VERCEL);
-      const dataDir = isVercel
-        ? '/tmp/akademi-pgdata'
-        : path.resolve(process.cwd(), '.pgdata');
+      const dataDir = path.resolve(process.cwd(), '.pgdata');
       const embedded = await createEmbeddedPostgresClient({ dataDir });
       client = embedded.prisma as PrismaClient;
       globalForAkademiDb.akademiUsingEmbeddedPg = true;
