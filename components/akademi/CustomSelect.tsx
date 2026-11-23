@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Check, X } from 'lucide-react';
 
@@ -25,7 +26,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
   id,
   value,
   options,
-  placeholder = 'â€” SeÃ§iniz â€”',
+  placeholder = '— Seçiniz —',
   onChange,
   allowClear = false,
   monospace = false,
@@ -150,7 +151,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
               setIsOpen(false);
             }}
             className="p-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 border-2 border-red-200 shrink-0 transition-colors"
-            title="SeÃ§imi Temizle"
+            title="Seçimi Temizle"
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>
@@ -231,4 +232,3 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
     </div>
   );
 };
-

@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React, { useState } from 'react';
 import {
   ActivityPublicConfig,
@@ -81,7 +82,7 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
 
   const customSelectOptions = matching.rightTargets.map((rt, idx) => ({
     value: rt.id,
-    badge: `GÃ¶rev ${String.fromCharCode(65 + idx)}`,
+    badge: `Görev ${String.fromCharCode(65 + idx)}`,
     label: rt.text
   }));
 
@@ -95,12 +96,12 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
           </div>
           <div>
             <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
-              DonanÄ±m & GÃ¶rev EÅŸleÅŸtirme Ä°stasyonu
+              Donanım & Görev Eşleştirme İstasyonu
             </div>
             <div className="text-sm sm:text-base font-extrabold">
               {matchedCount === totalCount
-                ? 'TÃ¼m cihazlarÄ±n gÃ¶rev kartlarÄ± takÄ±ldÄ±! "Kontrol Et" ile enerjiyi ver.'
-                : `${totalCount} aÄŸ cihazÄ±ndan ${matchedCount} tanesine gÃ¶rev atadÄ±n.`}
+                ? 'Tüm cihazların görev kartları takıldı! "Kontrol Et" ile enerjiyi ver.'
+                : `${totalCount} ağ cihazından ${matchedCount} tanesine görev atadın.`}
             </div>
           </div>
         </div>
@@ -123,9 +124,9 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-3.5 text-sm text-blue-950 font-medium flex items-center gap-2.5">
         <Sparkles className="w-5 h-5 text-blue-700 shrink-0" />
         <span>
-          <strong>Ä°ki Kolay YÃ¶ntem:</strong> Ä°ster soldan bir cihaza tÄ±klayÄ±p
-          saÄŸdaki gÃ¶rev kartÄ±na tÄ±kla, istersen cihazÄ±n altÄ±ndaki ÅŸÄ±k gÃ¶rev
-          seÃ§icisinden doÄŸrudan seÃ§!
+          <strong>İki Kolay Yöntem:</strong> İster soldan bir cihaza tıklayıp
+          sağdaki görev kartına tıkla, istersen cihazın altındaki şık görev
+          seçicisinden doğrudan seç!
         </span>
       </div>
 
@@ -133,7 +134,7 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
         {/* Left column: Devices */}
         <div className="space-y-3.5">
           <h4 className="text-sm font-extrabold uppercase tracking-wider text-brand-navy">
-            1. AÄŸ CihazlarÄ± ({matchedCount}/{totalCount} HazÄ±r)
+            1. Ağ Cihazları ({matchedCount}/{totalCount} Hazır)
           </h4>
           {matching.leftItems.map((item) => {
             const isSelected = selectedLeftId === item.id;
@@ -178,7 +179,7 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
                         <span>{item.label}</span>
                         {isSelected && (
                           <span className="text-xs px-2 py-0.5 rounded-full bg-brand-orange text-brand-navy font-extrabold">
-                            Åimdi SaÄŸdan GÃ¶rev SeÃ§ â†’
+                            Şimdi Sağdan Görev Seç →
                           </span>
                         )}
                       </div>
@@ -200,13 +201,13 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
                 {/* Styled CustomSelect Dropdown */}
                 <div className="mt-2">
                   <label className="block text-xs font-extrabold text-slate-600 mb-1.5">
-                    {item.label} GÃ¶rev KartÄ±:
+                    {item.label} Görev Kartı:
                   </label>
                   <CustomSelect
                     id={`select_${item.id}`}
                     value={assignedTargetId}
                     options={customSelectOptions}
-                    placeholder="â€” Bu Cihaz Ä°Ã§in GÃ¶rev SeÃ§in â€”"
+                    placeholder="— Bu Cihaz İçin Görev Seçin —"
                     allowClear={true}
                     onChange={(val) => handleDirectSelectChange(item.id, val)}
                   />
@@ -243,10 +244,10 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
         {/* Right column: Target Role Cards */}
         <div className="space-y-3.5">
           <h4 className="text-sm font-extrabold uppercase tracking-wider text-brand-navy">
-            2. GÃ¶rev KartlarÄ±{' '}
+            2. Görev Kartları{' '}
             {selectedLeftId && (
               <span className="text-brand-purple font-extrabold normal-case">
-                (SeÃ§ili cihaza atamak istediÄŸin karta tÄ±kla!)
+                (Seçili cihaza atamak istediğin karta tıkla!)
               </span>
             )}
           </h4>
@@ -285,13 +286,13 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
                             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-brand-orange text-brand-navy shadow-sm"
                           >
                             <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
-                            <span>BaÄŸlÄ± Cihaz: {ml.label}</span>
+                            <span>Bağlı Cihaz: {ml.label}</span>
                           </span>
                         ))}
                       </div>
                     ) : (
                       <div className="mt-2 text-xs font-semibold text-slate-400">
-                        HenÃ¼z bir cihaza atanmadÄ±
+                        Henüz bir cihaza atanmadı
                       </div>
                     )}
                   </div>
@@ -304,4 +305,3 @@ export const CardMatchingWidget: React.FC<WidgetProps> = ({
     </div>
   );
 };
-

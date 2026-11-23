@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React from 'react';
 import {
   ActivityPublicConfig,
@@ -43,7 +44,7 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
           </div>
           <div className="text-base sm:text-lg font-extrabold mt-0.5">
             Hedef: <span className="text-brand-orange font-mono">{arp.targetIpToFind}</span> IP
-            adresli yazÄ±cÄ±nÄ±n MAC adresini ARP ile Ã¶ÄŸrenmek
+            adresli yazıcının MAC adresini ARP ile öğrenmek
           </div>
         </div>
       </div>
@@ -53,11 +54,11 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3 text-xs font-extrabold">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
             <span className="w-3 h-0.5 border-b-2 border-dashed border-amber-700 inline-block" />
-            Kesik Ã‡izgi: ARP YayÄ±n Ä°steÄŸi (Broadcast - TÃ¼m AÄŸa)
+            Kesik Çizgi: ARP Yayın İsteği (Broadcast - Tüm Ağa)
           </span>
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300">
             <span className="w-3 h-1 bg-emerald-600 inline-block" />
-            DÃ¼z YeÅŸil Ã‡izgi: ARP YanÄ±tÄ± (Unicast - YalnÄ±zca Hedef Cihazdan)
+            Düz Yeşil Çizgi: ARP Yanıtı (Unicast - Yalnızca Hedef Cihazdan)
           </span>
         </div>
 
@@ -65,7 +66,7 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
           viewBox="0 0 660 210"
           className="w-full h-auto bg-slate-900 rounded-xl border border-slate-700"
           role="img"
-          aria-label="ARP Ä°steÄŸi ve YanÄ±tÄ± GÃ¶rselleÅŸtirmesi"
+          aria-label="ARP İsteği ve Yanıtı Görselleştirmesi"
         >
           {/* Sender Host A */}
           <g transform="translate(20, 60)">
@@ -153,11 +154,11 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
               IP: 192.168.1.30
             </text>
             <text x="80" y="64" textAnchor="middle" fill="#94A3B8" fontSize="10">
-              {broadcastSent ? 'ARP Ä°steÄŸi UlaÅŸtÄ± (.20 DeÄŸil)' : 'AÄŸda Bekliyor'}
+              {broadcastSent ? 'ARP İsteği Ulaştı (.20 Değil)' : 'Ağda Bekliyor'}
             </text>
           </g>
 
-          {/* Target 2: YazÄ±cÄ± (.20) */}
+          {/* Target 2: Yazıcı (.20) */}
           <g transform="translate(475, 112)">
             <rect
               x="0"
@@ -183,17 +184,17 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
               fontSize="13"
               fontWeight="bold"
             >
-              AÄŸ YazÄ±cÄ±sÄ±
+              Ağ Yazıcısı
             </text>
             <text x="80" y="46" textAnchor="middle" fill="#6EE7B7" fontSize="12">
               IP: 192.168.1.20
             </text>
             <text x="80" y="66" textAnchor="middle" fill="#FDE68A" fontSize="11">
               {selectedTargetId === 'host_printer'
-                ? 'YanÄ±t Verdi (Unicast)'
+                ? 'Yanıt Verdi (Unicast)'
                 : broadcastSent
-                ? 'ARP Ä°steÄŸi UlaÅŸtÄ±!'
-                : 'AÄŸda Bekliyor'}
+                ? 'ARP İsteği Ulaştı!'
+                : 'Ağda Bekliyor'}
             </text>
           </g>
 
@@ -257,12 +258,12 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
       {/* Step 1: Start ARP Broadcast */}
       <div className="bg-white rounded-2xl border-2 border-slate-200 p-5">
         <h4 className="font-extrabold text-brand-navy text-base mb-2">
-          AdÄ±m 1: ARP YayÄ±n (Broadcast) Ä°steÄŸini BaÅŸlat
+          Adım 1: ARP Yayın (Broadcast) İsteğini Başlat
         </h4>
         <p className="text-sm text-slate-600 mb-3">
-          Bilgisayar Aâ€™dan yerel aÄŸdaki tÃ¼m cihazlara{' '}
+          Bilgisayar A’dan yerel ağdaki tüm cihazlara{' '}
           <strong>"{arp.targetIpToFind} IP adresi kimde?"</strong> sorusunu
-          gÃ¶nder.
+          gönder.
         </p>
         <button
           type="button"
@@ -281,8 +282,8 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
           <Radio className="w-5 h-5" aria-hidden="true" />
           <span>
             {broadcastSent
-              ? 'ARP YayÄ±n Ä°steÄŸi TÃ¼m Yerel AÄŸa GÃ¶nderildi'
-              : '1. ARP YayÄ±n Ä°steÄŸini BaÅŸlat'}
+              ? 'ARP Yayın İsteği Tüm Yerel Ağa Gönderildi'
+              : '1. ARP Yayın İsteğini Başlat'}
           </span>
         </button>
       </div>
@@ -290,8 +291,8 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
       {/* Step 2: Select Responding Device */}
       <div className="bg-white rounded-2xl border-2 border-slate-200 p-5">
         <h4 className="font-extrabold text-brand-navy text-base mb-2">
-          AdÄ±m 2: Hangi Cihaz Bu ARP Ä°steÄŸine YanÄ±t Verir? ({arp.targetIpToFind}{' '}
-          Sahibini SeÃ§)
+          Adım 2: Hangi Cihaz Bu ARP İsteğine Yanıt Verir? ({arp.targetIpToFind}{' '}
+          Sahibini Seç)
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {arp.targets.map((t) => {
@@ -337,7 +338,7 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
       {/* Step 3: Match Printer's MAC Card */}
       <div className="bg-white rounded-2xl border-2 border-slate-200 p-5">
         <h4 className="font-extrabold text-brand-navy text-base mb-2">
-          AdÄ±m 3: YazÄ±cÄ±nÄ±n DÃ¶ndÃ¼rdÃ¼ÄŸÃ¼ MAC Adresi KartÄ±nÄ± EÅŸleÅŸtir
+          Adım 3: Yazıcının Döndürdüğü MAC Adresi Kartını Eşleştir
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {arp.macCards.map((card) => {
@@ -403,4 +404,3 @@ export const ArpSimulationWidget: React.FC<WidgetProps> = ({
     </div>
   );
 };
-

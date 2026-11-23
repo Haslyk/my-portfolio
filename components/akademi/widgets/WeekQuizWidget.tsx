@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React from 'react';
 import {
   ActivityPublicConfig,
@@ -38,10 +39,10 @@ export const WeekQuizWidget: React.FC<WidgetProps> = ({
   return (
     <div className="space-y-6">
       <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 text-sm text-brand-navy font-medium">
-        <strong>DeÄŸerlendirme Bilgisi:</strong> Bu deÄŸerlendirme Ã¶ÄŸrenme
-        odaklÄ±dÄ±r; sÄ±nÄ±rsÄ±z tekrar hakkÄ±n vardÄ±r. DoÄŸru iÅŸaretlediÄŸin sorular
-        korunur, aÃ§Ä±klayÄ±cÄ± geri bildirimleri okuyarak diÄŸer sorularÄ±
-        dÃ¼zeltebilirsin.
+        <strong>Değerlendirme Bilgisi:</strong> Bu değerlendirme öğrenme
+        odaklıdır; sınırsız tekrar hakkın vardır. Doğru işaretlediğin sorular
+        korunur, açıklayıcı geri bildirimleri okuyarak diğer soruları
+        düzeltebilirsin.
       </div>
 
       {quiz.questions.map((q) => {
@@ -125,4 +126,3 @@ export const WeekQuizWidget: React.FC<WidgetProps> = ({
     </div>
   );
 };
-

@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React, { useEffect } from 'react';
 import {
   ActivityPublicConfig,
@@ -73,10 +74,10 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
     return {
       value: ip,
       label: ip,
-      badge: inSameSubnet ? '192.168.1.x' : 'FarklÄ± AÄŸ',
+      badge: inSameSubnet ? '192.168.1.x' : 'Farklı Ağ',
       sublabel: inSameSubnet
-        ? 'Yerel aÄŸ geÃ§idi ile aynÄ± alt aÄŸda (/24)'
-        : 'Dikkat: 192.168.2.x farklÄ± bir alt aÄŸdÄ±r!'
+        ? 'Yerel ağ geçidi ile aynı alt ağda (/24)'
+        : 'Dikkat: 192.168.2.x farklı bir alt ağdır!'
     };
   });
 
@@ -90,10 +91,10 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
           </div>
           <div>
             <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
-              AÄŸ GeÃ§idi (YÃ¶nlendirici) Konsolu
+              Ağ Geçidi (Yönlendirici) Konsolu
             </div>
             <div className="text-lg sm:text-xl font-extrabold font-mono text-white">
-              GeÃ§it IP: <span className="text-brand-orange">{ipa.gatewayIp}</span>
+              Geçit IP: <span className="text-brand-orange">{ipa.gatewayIp}</span>
             </div>
           </div>
         </div>
@@ -101,10 +102,10 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
         <div className="flex flex-wrap items-center gap-3">
           <div className="bg-slate-900/80 px-4 py-2.5 rounded-xl border border-slate-600">
             <div className="text-xs font-bold text-slate-300">
-              Alt AÄŸ Maskesi (/24)
+              Alt Ağ Maskesi (/24)
             </div>
             <div className="text-sm sm:text-base font-extrabold font-mono text-emerald-400">
-              {ipa.subnetMask} â†’ {gatewayPrefix}.x
+              {ipa.subnetMask} → {gatewayPrefix}.x
             </div>
           </div>
         </div>
@@ -164,7 +165,7 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
                         {dev.label}
                       </h4>
                       <span className="text-xs text-slate-500 font-semibold">
-                        Yerel AÄŸ Ä°stemcisi
+                        Yerel Ağ İstemcisi
                       </span>
                     </div>
                   </div>
@@ -184,11 +185,11 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
                     <Wifi className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>
                       {isCleanOnline
-                        ? 'AÄŸda HazÄ±r'
+                        ? 'Ağda Hazır'
                         : isDuplicate
-                        ? 'Ã‡akÄ±ÅŸma!'
+                        ? 'Çakışma!'
                         : isWrongSubnet
-                        ? 'FarklÄ± AÄŸ!'
+                        ? 'Farklı Ağ!'
                         : 'IP Bekliyor'}
                     </span>
                   </span>
@@ -201,7 +202,7 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
                   id={`ip_select_${dev.id}`}
                   value={currentIp}
                   options={customIpOptions}
-                  placeholder="â€” IP Adresi SeÃ§in â€”"
+                  placeholder="— IP Adresi Seçin —"
                   monospace={true}
                   allowClear={true}
                   onChange={(val) => handleAssignIp(dev.id, val)}
@@ -210,7 +211,7 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
                 {/* Quick Click IP Pill Buttons */}
                 <div className="mt-3.5">
                   <div className="text-[11px] font-bold text-slate-500 mb-1.5">
-                    HÄ±zlÄ± IP TuÅŸlarÄ±:
+                    Hızlı IP Tuşları:
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
                     {ipa.ipPool.map((ip) => {
@@ -238,7 +239,7 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
                 <div className="mt-3.5 p-3 rounded-xl bg-red-50 border border-red-300 text-xs font-bold text-red-900 flex items-start gap-2">
                   <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
                   <span>
-                    IP Ã‡akÄ±ÅŸmasÄ± AlarmÄ±! <code>{currentIp}</code> adresi birden
+                    IP Çakışması Alarmı! <code>{currentIp}</code> adresi birden
                     fazla cihaza verildi.
                   </span>
                 </div>
@@ -248,8 +249,8 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
                 <div className="mt-3.5 p-3 rounded-xl bg-amber-50 border border-amber-300 text-xs font-bold text-amber-950 flex items-start gap-2">
                   <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                   <span>
-                    Alt AÄŸ UyarÄ±sÄ±: <code>{currentIp}</code> adresi{' '}
-                    <code>{gatewayPrefix}.x</code> yerel aÄŸÄ±yla aynÄ± aÄŸda deÄŸil!
+                    Alt Ağ Uyarısı: <code>{currentIp}</code> adresi{' '}
+                    <code>{gatewayPrefix}.x</code> yerel ağıyla aynı ağda değil!
                   </span>
                 </div>
               )}
@@ -257,7 +258,7 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
               {isCleanOnline && !fb && (
                 <div className="mt-3.5 p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs font-bold text-emerald-900 flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Alt aÄŸ uyumlu ve benzersiz IP seÃ§ildi.</span>
+                  <span>Alt ağ uyumlu ve benzersiz IP seçildi.</span>
                 </div>
               )}
 
@@ -342,4 +343,3 @@ export const IpAssignmentWidget: React.FC<WidgetProps> = ({
     </div>
   );
 };
-

@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React, { useState } from 'react';
 import {
   ActivityPublicConfig,
@@ -39,7 +40,7 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
   if (!hw) return null;
 
   // ==========================================================================
-  // W1-H: Evimin BaÄŸlantÄ±larÄ±nÄ± TanÄ±yorum
+  // W1-H: Evimin Bağlantılarını Tanıyorum
   // ==========================================================================
   if (hw.weekCode === 'W1-H' && hw.homeDevices) {
     const prefs: Record<string, string> =
@@ -214,7 +215,7 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
   }
 
   // ==========================================================================
-  // W5-H: KÃ¼Ã§Ã¼k AÄŸÄ±mÄ± TamamlÄ±yorum (4 AdÄ±mlÄ± Final Ã–ncesi Ã–dev)
+  // W5-H: Küçük Ağımı Tamamlıyorum (4 Adımlı Final Öncesi Ödev)
   // ==========================================================================
   if (hw.weekCode === 'W5-H' && hw.capstone) {
     const cap = hw.capstone;
@@ -242,18 +243,18 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
     return (
       <div className="space-y-6">
         <div className="bg-amber-50 border border-amber-300 rounded-xl p-4 text-sm text-amber-950 font-semibold">
-          <strong>Final Ã–ncesi Uygulama Ã–devi:</strong> Bu Ã¶devde 4 adÄ±mÄ± sÄ±rayla
-          tamamlayacaksÄ±n. Her adÄ±mdaki Ã§alÄ±ÅŸman otomatik kaydedilir ve sayfa
+          <strong>Final Öncesi Uygulama Ödevi:</strong> Bu ödevde 4 adımı sırayla
+          tamamlayacaksın. Her adımdaki çalışman otomatik kaydedilir ve sayfa
           yenilense bile korunur.
         </div>
 
         {/* 4 Step Tabs */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           {[
-            { num: 1, label: '1. AÄŸ BaÄŸlantÄ±larÄ±' },
+            { num: 1, label: '1. Ağ Bağlantıları' },
             { num: 2, label: '2. IP Adresleme' },
-            { num: 3, label: '3. Yerel YazÄ±cÄ± Yolu' },
-            { num: 4, label: '4. DÄ±ÅŸ AÄŸ Yolu' }
+            { num: 3, label: '3. Yerel Yazıcı Yolu' },
+            { num: 4, label: '4. Dış Ağ Yolu' }
           ].map((tab, idx) => {
             const fb = stepFeedbacks[idx];
             const isCurrent = activeCapstoneStep === tab.num;
@@ -290,12 +291,12 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
           <div className="space-y-4">
             <div className="bg-white rounded-xl border border-slate-200 p-4">
               <h4 className="font-extrabold text-brand-navy text-base">
-                AdÄ±m 1: CihazlarÄ± BaÄŸla
+                Adım 1: Cihazları Bağla
               </h4>
               <p className="text-sm text-slate-600 mt-1">
-                PC 1, PC 2 ve YazÄ±cÄ± cihazlarÄ±nÄ± â†” Switchâ€™e; Switchâ€™i de â†”
-                YÃ¶nlendiriciye (.1) kablolu olarak baÄŸla (Toplam 4 kablolu
-                baÄŸlantÄ±).
+                PC 1, PC 2 ve Yazıcı cihazlarını ↔ Switch’e; Switch’i de ↔
+                Yönlendiriciye (.1) kablolu olarak bağla (Toplam 4 kablolu
+                bağlantı).
               </p>
             </div>
             <NetworkBuilderCanvas
@@ -318,7 +319,7 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
               <div className="flex items-center gap-2.5">
                 <RouterIcon className="w-5 h-5 text-brand-orange" />
                 <span className="font-bold text-sm">
-                  YÃ¶nlendirici (GeÃ§it):{' '}
+                  Yönlendirici (Geçit):{' '}
                   <strong className="text-brand-orange font-mono">
                     {cap.gatewayIp}
                   </strong>
@@ -335,10 +336,10 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
                 const ipOptions = cap.ipPool.map((ip) => ({
                   value: ip,
                   label: ip,
-                  badge: ip.startsWith('192.168.1.') ? '192.168.1.x' : 'FarklÄ± AÄŸ',
+                  badge: ip.startsWith('192.168.1.') ? '192.168.1.x' : 'Farklı Ağ',
                   sublabel: ip.startsWith('192.168.1.')
-                    ? 'Yerel aÄŸ geÃ§idi (.1) ile uyumlu'
-                    : 'Dikkat: FarklÄ± alt aÄŸ!'
+                    ? 'Yerel ağ geçidi (.1) ile uyumlu'
+                    : 'Dikkat: Farklı alt ağ!'
                 }));
                 return (
                   <div
@@ -358,7 +359,7 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
                     <CustomSelect
                       value={currentIp}
                       options={ipOptions}
-                      placeholder="â€” IP Adresi SeÃ§in â€”"
+                      placeholder="— IP Adresi Seçin —"
                       monospace={true}
                       allowClear={true}
                       onChange={(val) =>
@@ -416,7 +417,7 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
             onClick={() => setActiveCapstoneStep((s) => Math.max(1, s - 1))}
             className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 text-sm font-bold border border-slate-300"
           >
-            â† Ã–nceki AdÄ±m
+            ← Önceki Adım
           </button>
           <button
             type="button"
@@ -424,7 +425,7 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
             onClick={() => setActiveCapstoneStep((s) => Math.min(4, s + 1))}
             className="px-4 py-2 rounded-xl bg-brand-purple hover:bg-purple-800 disabled:opacity-40 text-white text-sm font-bold"
           >
-            Sonraki AdÄ±m â†’
+            Sonraki Adım →
           </button>
         </div>
 
@@ -456,4 +457,3 @@ export const MultiStepHomeworkWidget: React.FC<WidgetProps> = ({
 
   return null;
 };
-

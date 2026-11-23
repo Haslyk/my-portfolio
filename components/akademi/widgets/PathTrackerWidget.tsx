@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React, { useState } from 'react';
 import {
   ActivityPublicConfig,
@@ -104,12 +105,12 @@ export const OrderedPathSelector: React.FC<PathSelectorSubProps> = ({
       {/* Selected Path Breadcrumb */}
       <div className="bg-slate-50 rounded-xl border border-slate-200 p-3.5">
         <div className="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-2">
-          SeÃ§tiÄŸin Yol SÄ±ralamasÄ±:
+          Seçtiğin Yol Sıralaması:
         </div>
         {selectedPath.length === 0 ? (
           <p className="text-sm text-slate-500 font-medium">
-            HenÃ¼z cihaz seÃ§ilmedi. YukarÄ±daki cihaz dÃ¼ÄŸmelerine paketin
-            izleyeceÄŸi sÄ±rayla tÄ±kla.
+            Henüz cihaz seçilmedi. Yukarıdaki cihaz düğmelerine paketin
+            izleyeceği sırayla tıkla.
           </p>
         ) : (
           <div className="flex flex-wrap items-center gap-2">
@@ -178,7 +179,7 @@ export const PathTrackerWidget: React.FC<{
       <div className="bg-white rounded-2xl border-2 border-slate-200 p-4">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <span className="text-xs sm:text-sm font-extrabold text-brand-navy">
-            Referans AÄŸ ÅemasÄ± (DiÄŸer aÄŸlar sadeleÅŸtirilmiÅŸ bulutla gÃ¶sterilmiÅŸtir)
+            Referans Ağ Şeması (Diğer ağlar sadeleştirilmiş bulutla gösterilmiştir)
           </span>
           <div className="flex items-center gap-2">
             {pt.missions.map((m) => (
@@ -192,7 +193,7 @@ export const PathTrackerWidget: React.FC<{
                     : 'bg-slate-100 text-slate-700 border-slate-300'
                 }`}
               >
-                Åemada GÃ¶ster: {m.id === 'local_path' ? '1. Yerel Yol' : '2. DÄ±ÅŸ AÄŸ Yolu'}
+                Şemada Göster: {m.id === 'local_path' ? '1. Yerel Yol' : '2. Dış Ağ Yolu'}
               </button>
             ))}
           </div>
@@ -202,7 +203,7 @@ export const PathTrackerWidget: React.FC<{
           viewBox="0 0 700 260"
           className="w-full h-auto bg-slate-900 rounded-xl border border-slate-700"
           role="img"
-          aria-label="Yerel aÄŸ ve dÄ±ÅŸ aÄŸ topolojisi"
+          aria-label="Yerel ağ ve dış ağ topolojisi"
         >
           {/* LAN Zone Box */}
           <rect
@@ -222,7 +223,7 @@ export const PathTrackerWidget: React.FC<{
             fontSize="11"
             fontWeight="bold"
           >
-            YEREL AÄ (LAN - 192.168.1.0/24)
+            YEREL AĞ (LAN - 192.168.1.0/24)
           </text>
 
           {/* Connections */}
@@ -348,7 +349,7 @@ export const PathTrackerWidget: React.FC<{
               fontSize="12"
               fontWeight="bold"
             >
-              Yerel YazÄ±cÄ±
+              Yerel Yazıcı
             </text>
             <text x="60" y="42" textAnchor="middle" fill="#A7F3D0" fontSize="10">
               192.168.1.20
@@ -375,10 +376,10 @@ export const PathTrackerWidget: React.FC<{
               fontSize="12"
               fontWeight="bold"
             >
-              YÃ¶nlendirici
+              Yönlendirici
             </text>
             <text x="57" y="46" textAnchor="middle" fill="#DDD6FE" fontSize="10">
-              GeÃ§it: 192.168.1.1
+              Geçit: 192.168.1.1
             </text>
           </g>
 
@@ -401,7 +402,7 @@ export const PathTrackerWidget: React.FC<{
               fontSize="10"
               fontWeight="bold"
             >
-              DiÄŸer AÄŸlar (Bulut)
+              Diğer Ağlar (Bulut)
             </text>
           </g>
 
@@ -430,7 +431,7 @@ export const PathTrackerWidget: React.FC<{
               Uzak Sunucu
             </text>
             <text x="50" y="46" textAnchor="middle" fill="#FDE68A" fontSize="10">
-              DÄ±ÅŸ AÄŸ
+              Dış Ağ
             </text>
           </g>
         </svg>
@@ -465,4 +466,3 @@ export const PathTrackerWidget: React.FC<{
     </div>
   );
 };
-

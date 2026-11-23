@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { WeekAnimationPublic } from '@/lib/akademi/shared';
 import {
@@ -47,15 +48,15 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
     const stepNum = currentStepIndex + 1;
 
     if (animation.code === 'ANIM-W3') {
-      // FotoÄŸrafÄ±n YolculuÄŸu
+      // Fotoğrafın Yolculuğu
       return (
         <svg
           viewBox="0 0 680 220"
           className="w-full h-auto max-h-56 bg-slate-900 rounded-xl border border-slate-700"
           role="img"
-          aria-label={`FotoÄŸrafÄ±n yolculuÄŸu adÄ±m ${stepNum}`}
+          aria-label={`Fotoğrafın yolculuğu adım ${stepNum}`}
         >
-          {/* GÃ¶nderici PC */}
+          {/* Gönderici PC */}
           <g transform="translate(30, 55)">
             <rect
               x="0"
@@ -75,14 +76,14 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
               fontSize="13"
               fontWeight="bold"
             >
-              AyÅŸe (GÃ¶nderici)
+              Ayşe (Gönderici)
             </text>
             <text x="55" y="52" textAnchor="middle" fill="#FDE68A" fontSize="11">
               Kampus.jpg
             </text>
           </g>
 
-          {/* AÄŸ Yolu (Switch & Router) */}
+          {/* Ağ Yolu (Switch & Router) */}
           <line
             x1="140"
             y1="92"
@@ -114,7 +115,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
                 fontSize="13"
                 fontWeight="bold"
               >
-                BÃ¼tÃ¼n FotoÄŸraf
+                Bütün Fotoğraf
               </text>
               <text
                 x="70"
@@ -123,7 +124,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
                 fill="#E9D5FF"
                 fontSize="11"
               >
-                (HenÃ¼z BÃ¶lÃ¼nmedi)
+                (Henüz Bölünmedi)
               </text>
             </g>
           )}
@@ -150,7 +151,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
                     fontSize="13"
                     fontWeight="bold"
                   >
-                    ParÃ§a {pkt}/4
+                    Parça {pkt}/4
                   </text>
                   <text
                     x="34"
@@ -160,7 +161,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
                     fontSize="10"
                     fontWeight="bold"
                   >
-                    SÄ±ra #{pkt}
+                    Sıra #{pkt}
                   </text>
                 </g>
               ))}
@@ -187,7 +188,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
                 fontSize="13"
                 fontWeight="bold"
               >
-                1-2-3-4 BirleÅŸtirildi!
+                1-2-3-4 Birleştirildi!
               </text>
               <text
                 x="77"
@@ -201,7 +202,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
             </g>
           )}
 
-          {/* AlÄ±cÄ± PC */}
+          {/* Alıcı PC */}
           <g transform="translate(535, 55)">
             <rect
               x="0"
@@ -221,7 +222,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
               fontSize="13"
               fontWeight="bold"
             >
-              Ali (AlÄ±cÄ±)
+              Ali (Alıcı)
             </text>
             <text
               x="57"
@@ -230,7 +231,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
               fill={stepNum === 4 ? '#6EE7B7' : '#CBD5E1'}
               fontSize="11"
             >
-              {stepNum === 4 ? 'FotoÄŸraf AÃ§Ä±ldÄ±' : 'Bekliyor...'}
+              {stepNum === 4 ? 'Fotoğraf Açıldı' : 'Bekliyor...'}
             </text>
           </g>
 
@@ -256,7 +257,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
           viewBox="0 0 680 230"
           className="w-full h-auto max-h-60 bg-slate-900 rounded-xl border border-slate-700"
           role="img"
-          aria-label={`ARP animasyonu adÄ±m ${stepNum}`}
+          aria-label={`ARP animasyonu adım ${stepNum}`}
         >
           {/* Bilgisayar A */}
           <g transform="translate(25, 65)">
@@ -338,11 +339,11 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
               IP: 192.168.1.30
             </text>
             <text x="80" y="61" textAnchor="middle" fill="#94A3B8" fontSize="11">
-              {stepNum >= 3 ? '(YoksaydÄ±: Ben .20 deÄŸilim)' : 'MAC: 02:00:00:00:00:30'}
+              {stepNum >= 3 ? '(Yoksaydı: Ben .20 değilim)' : 'MAC: 02:00:00:00:00:30'}
             </text>
           </g>
 
-          {/* YazÄ±cÄ± (192.168.1.20) */}
+          {/* Yazıcı (192.168.1.20) */}
           <g transform="translate(495, 118)">
             <rect
               x="0"
@@ -362,7 +363,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
               fontSize="13"
               fontWeight="bold"
             >
-              AÄŸ YazÄ±cÄ±sÄ± (Hedef)
+              Ağ Yazıcısı (Hedef)
             </text>
             <text x="80" y="45" textAnchor="middle" fill="#6EE7B7" fontSize="12">
               IP: 192.168.1.20
@@ -372,7 +373,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
             </text>
           </g>
 
-          {/* BaÄŸlantÄ± Ã‡izgileri */}
+          {/* Bağlantı Çizgileri */}
           <line
             x1="170"
             y1="107"
@@ -410,22 +411,22 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
             fontSize="13"
             fontWeight="bold"
           >
-            {stepNum === 1 && 'Hedef: 192.168.1.20 Â· MAC: ??? (HenÃ¼z Bilinmiyor)'}
-            {stepNum === 2 && 'ARP YayÄ±n (Broadcast - Kesik Oklar): "192.168.1.20 Kimde?"'}
-            {stepNum === 3 && 'ARP YanÄ±tÄ± (Unicast - DÃ¼z YeÅŸil Hat): "192.168.1.20 bende: 02:00:00:00:00:20"'}
-            {stepNum === 4 && 'ARP Tablosuna Kaydedildi: 192.168.1.20 â†” 02:00:00:00:00:20'}
+            {stepNum === 1 && 'Hedef: 192.168.1.20 · MAC: ??? (Henüz Bilinmiyor)'}
+            {stepNum === 2 && 'ARP Yayın (Broadcast - Kesik Oklar): "192.168.1.20 Kimde?"'}
+            {stepNum === 3 && 'ARP Yanıtı (Unicast - Düz Yeşil Hat): "192.168.1.20 bende: 02:00:00:00:00:20"'}
+            {stepNum === 4 && 'ARP Tablosuna Kaydedildi: 192.168.1.20 ↔ 02:00:00:00:00:20'}
           </text>
         </svg>
       );
     }
 
-    // ANIM-W5: AynÄ± AÄŸ mÄ±, BaÅŸka AÄŸ mÄ±?
+    // ANIM-W5: Aynı Ağ mı, Başka Ağ mı?
     return (
       <svg
         viewBox="0 0 680 230"
         className="w-full h-auto max-h-60 bg-slate-900 rounded-xl border border-slate-700"
         role="img"
-        aria-label={`AÄŸlar arasÄ± iletiÅŸim adÄ±m ${stepNum}`}
+        aria-label={`Ağlar arası iletişim adım ${stepNum}`}
       >
         {/* Bilgisayar */}
         <g transform="translate(20, 70)">
@@ -478,7 +479,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
           </text>
         </g>
 
-        {/* Yerel YazÄ±cÄ± */}
+        {/* Yerel Yazıcı */}
         <g transform="translate(175, 162)">
           <rect
             x="0"
@@ -498,14 +499,14 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
             fontSize="12"
             fontWeight="bold"
           >
-            Yerel YazÄ±cÄ±
+            Yerel Yazıcı
           </text>
           <text x="62" y="42" textAnchor="middle" fill="#A7F3D0" fontSize="11">
             192.168.1.20 (LAN)
           </text>
         </g>
 
-        {/* YÃ¶nlendirici */}
+        {/* Yönlendirici */}
         <g transform="translate(345, 70)">
           <rect
             x="0"
@@ -525,10 +526,10 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
             fontSize="13"
             fontWeight="bold"
           >
-            YÃ¶nlendirici
+            Yönlendirici
           </text>
           <text x="67" y="48" textAnchor="middle" fill="#DDD6FE" fontSize="11">
-            GeÃ§it: 192.168.1.1
+            Geçit: 192.168.1.1
           </text>
         </g>
 
@@ -555,11 +556,11 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
             Uzak Sunucu
           </text>
           <text x="65" y="48" textAnchor="middle" fill="#FDE68A" fontSize="11">
-            DÄ±ÅŸ AÄŸ (Ä°nternet)
+            Dış Ağ (İnternet)
           </text>
         </g>
 
-        {/* Ã‡izgiler */}
+        {/* Çizgiler */}
         <line
           x1="140"
           y1="105"
@@ -613,14 +614,14 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
                 {animation.title}
               </h3>
               <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-brand-purple border border-purple-200">
-                Ä°steÄŸe BaÄŸlÄ± GÃ¶rsel Rehber (~{animation.totalDurationSeconds} sn)
+                İsteğe Bağlı Görsel Rehber (~{animation.totalDurationSeconds} sn)
               </span>
             </div>
             <p className="text-sm text-slate-600 mt-0.5">{animation.subtitle}</p>
           </div>
         </div>
 
-        {/* Controls: Oynat/Duraklat, BaÅŸtan BaÅŸlat, AdÄ±m AdÄ±m */}
+        {/* Controls: Oynat/Duraklat, Baştan Başlat, Adım Adım */}
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
@@ -646,7 +647,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold border border-slate-300"
           >
             <RotateCcw className="w-4 h-4" aria-hidden="true" />
-            <span>BaÅŸtan BaÅŸlat</span>
+            <span>Baştan Başlat</span>
           </button>
         </div>
       </div>
@@ -666,7 +667,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
           className="flex items-center gap-1 px-3.5 py-2 rounded-lg bg-white border border-slate-300 text-sm font-bold text-slate-800 disabled:opacity-40 hover:bg-slate-100"
         >
           <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-          <span>Ã–nceki AdÄ±m</span>
+          <span>Önceki Adım</span>
         </button>
 
         <div className="flex items-center gap-2">
@@ -684,7 +685,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
                   : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
               }`}
             >
-              AdÄ±m {idx + 1}
+              Adım {idx + 1}
             </button>
           ))}
         </div>
@@ -698,7 +699,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
           disabled={currentStepIndex === steps.length - 1}
           className="flex items-center gap-1 px-3.5 py-2 rounded-lg bg-white border border-slate-300 text-sm font-bold text-slate-800 disabled:opacity-40 hover:bg-slate-100"
         >
-          <span>Sonraki AdÄ±m</span>
+          <span>Sonraki Adım</span>
           <ChevronRight className="w-4 h-4" aria-hidden="true" />
         </button>
       </div>
@@ -720,7 +721,7 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
       {/* Key Takeaways (preventing technical misconceptions) */}
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5">
         <p className="text-xs font-extrabold uppercase tracking-wider text-slate-600 mb-2">
-          UnutulmamasÄ± Gereken Teknik DoÄŸrular
+          Unutulmaması Gereken Teknik Doğrular
         </p>
         <ul className="space-y-1.5">
           {animation.keyTakeaways.map((note, idx) => (
@@ -740,4 +741,3 @@ export const WeekAnimationCard: React.FC<WeekAnimationCardProps> = ({
     </section>
   );
 };
-

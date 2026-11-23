@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React from 'react';
 import {
   ActivityPublicConfig,
@@ -45,8 +46,8 @@ export const ScenarioChoiceWidget: React.FC<WidgetProps> = ({
     };
     const nextReasons = { ...reasons };
 
-    // EÄŸer soru Evet/HayÄ±r + gerekÃ§e sorusuysa ve Ã¶ÄŸrenci "Evet" (YES) dediyse,
-    // HayÄ±r'Ä±n gerekÃ§eleri gÃ¶sterilmeyeceÄŸi iÃ§in Ã¶nceki gerekÃ§e seÃ§imini temizle.
+    // Eğer soru Evet/Hayır + gerekçe sorusuysa ve öğrenci "Evet" (YES) dediyse,
+    // Hayır'ın gerekçeleri gösterilmeyeceği için önceki gerekçe seçimini temizle.
     if (hasFollowUpReasons && optionId !== 'NO') {
       delete nextReasons[questionId];
     }
@@ -89,12 +90,12 @@ export const ScenarioChoiceWidget: React.FC<WidgetProps> = ({
           </div>
           <div>
             <div className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
-              Saha Vaka Analizi GÃ¶revi
+              Saha Vaka Analizi Görevi
             </div>
             <div className="text-sm sm:text-base font-extrabold">
               {completedQuestionsCount === totalQuestions
-                ? 'TÃ¼m vakalarÄ± inceledin! Åimdi "Kontrol Et" dÃ¼ÄŸmesiyle analizini doÄŸrula.'
-                : `${totalQuestions} aÄŸ vakasÄ±ndan ${completedQuestionsCount} tanesini yanÄ±tladÄ±n.`}
+                ? 'Tüm vakaları inceledin! Şimdi "Kontrol Et" düğmesiyle analizini doğrula.'
+                : `${totalQuestions} ağ vakasından ${completedQuestionsCount} tanesini yanıtladın.`}
             </div>
           </div>
         </div>
@@ -152,7 +153,7 @@ export const ScenarioChoiceWidget: React.FC<WidgetProps> = ({
               </span>
               {selectedOption && (
                 <span className="text-xs font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                  SeÃ§im YapÄ±ldÄ±
+                  Seçim Yapıldı
                 </span>
               )}
             </div>
@@ -203,14 +204,14 @@ export const ScenarioChoiceWidget: React.FC<WidgetProps> = ({
               })}
             </div>
 
-            {/* Follow-up Reasons: ONLY shown when student selects "NO" (HayÄ±r)! */}
+            {/* Follow-up Reasons: ONLY shown when student selects "NO" (Hayır)! */}
             {hasFollowUp && selectedOption === 'NO' && (
               <div className="mt-4 pt-4 border-t-2 border-dashed border-purple-200 bg-purple-50/40 -mx-2 px-4 py-3 rounded-xl">
                 <div className="flex items-center gap-2 text-xs sm:text-sm font-extrabold text-brand-purple mb-2.5">
                   <CornerDownRight className="w-4 h-4 shrink-0" />
                   <span>
-                    "HayÄ±r" dedin! Åimdi bunun teknik gerekÃ§esini ÅŸÄ±klardan
-                    seÃ§:
+                    "Hayır" dedin! Şimdi bunun teknik gerekçesini şıklardan
+                    seç:
                   </span>
                 </div>
                 <div className="space-y-2.5">
@@ -247,8 +248,8 @@ export const ScenarioChoiceWidget: React.FC<WidgetProps> = ({
             {/* Helpful prompt when "YES" is selected on a Yes/No question */}
             {hasFollowUp && selectedOption === 'YES' && (
               <div className="mt-3 text-xs font-semibold text-slate-500 bg-slate-50 px-3 py-2 rounded-lg border border-slate-200">
-                Tercihin kaydedildi. HazÄ±r olduÄŸunda alttaki{' '}
-                <strong>"Kontrol Et"</strong> dÃ¼ÄŸmesiyle cevabÄ±nÄ± test
+                Tercihin kaydedildi. Hazır olduğunda alttaki{' '}
+                <strong>"Kontrol Et"</strong> düğmesiyle cevabını test
                 edebilirsin.
               </div>
             )}
@@ -281,4 +282,3 @@ export const ScenarioChoiceWidget: React.FC<WidgetProps> = ({
     </div>
   );
 };
-

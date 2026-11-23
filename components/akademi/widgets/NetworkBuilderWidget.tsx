@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import {
   ActivityPublicConfig,
@@ -74,7 +75,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
     }
 
     if (selectedFirstNodeId === nodeId) {
-      setStatusNotice('Bir cihazÄ± kendi kendisine baÄŸlayamazsÄ±n. SeÃ§im iptal edildi.');
+      setStatusNotice('Bir cihazı kendi kendisine bağlayamazsın. Seçim iptal edildi.');
       setSelectedFirstNodeId(null);
       return;
     }
@@ -88,7 +89,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
 
     if (existsIndex !== -1) {
       setStatusNotice(
-        'Bu iki cihaz arasÄ±nda zaten bir baÄŸlantÄ± var. TÃ¼rÃ¼nÃ¼ deÄŸiÅŸtirmek istersen Ã¶nce mevcut Ã§izgiyi seÃ§ip silebilirsin.'
+        'Bu iki cihaz arasında zaten bir bağlantı var. Türünü değiştirmek istersen önce mevcut çizgiyi seçip silebilirsin.'
       );
       setSelectedFirstNodeId(null);
       return;
@@ -127,7 +128,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-slate-200">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs sm:text-sm font-extrabold text-brand-navy">
-            BaÄŸlantÄ± TÃ¼rÃ¼:
+            Bağlantı Türü:
           </span>
           {allowedConnectionTypes.includes('wired') && (
             <button
@@ -140,7 +141,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
               }`}
             >
               <Cable className="w-4 h-4" aria-hidden="true" />
-              <span>Kablolu (DÃ¼z Ã‡izgi)</span>
+              <span>Kablolu (Düz Çizgi)</span>
             </button>
           )}
           {allowedConnectionTypes.includes('wireless') && (
@@ -154,7 +155,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
               }`}
             >
               <Wifi className="w-4 h-4" aria-hidden="true" />
-              <span>Kablosuz / Wi-Fi (Kesik Ã‡izgi)</span>
+              <span>Kablosuz / Wi-Fi (Kesik Çizgi)</span>
             </button>
           )}
         </div>
@@ -164,15 +165,15 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
           {firstNodeObj && (
             <div className="flex items-center gap-2 bg-purple-100 text-brand-purple px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold border border-purple-300">
               <span>
-                1. Cihaz: <strong>{firstNodeObj.label}</strong> â†’ Åimdi baÄŸlamak
-                istediÄŸin 2. cihaza tÄ±kla
+                1. Cihaz: <strong>{firstNodeObj.label}</strong> → Şimdi bağlamak
+                istediğin 2. cihaza tıkla
               </span>
               <button
                 type="button"
                 onClick={() => setSelectedFirstNodeId(null)}
                 className="underline ml-1 text-xs font-extrabold"
               >
-                Ä°ptal
+                İptal
               </button>
             </div>
           )}
@@ -184,7 +185,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-extrabold shadow-sm"
             >
               <Trash2 className="w-4 h-4" aria-hidden="true" />
-              <span>SeÃ§ili BaÄŸlantÄ±yÄ± Sil</span>
+              <span>Seçili Bağlantıyı Sil</span>
             </button>
           )}
         </div>
@@ -202,7 +203,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
           viewBox={isMobileView ? '0 0 360 530' : '0 0 700 410'}
           className="w-full h-auto select-none"
           role="region"
-          aria-label="AÄŸ BaÄŸlantÄ± ÅemasÄ±"
+          aria-label="Ağ Bağlantı Şeması"
         >
           {/* Background subtle grid */}
           <rect
@@ -298,7 +299,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
                   }
                 >
                   {isSelected
-                    ? 'Silmek Ä°Ã§in'
+                    ? 'Silmek İçin'
                     : isWireless
                     ? 'Kablosuz'
                     : 'Kablolu'}
@@ -324,7 +325,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
                 className="cursor-pointer"
                 role="button"
                 tabIndex={0}
-                aria-label={`${node.label} cihazÄ±`}
+                aria-label={`${node.label} cihazı`}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -379,7 +380,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
                   }
                 >
                   {isSelected
-                    ? 'SeÃ§ildi (1. Cihaz)'
+                    ? 'Seçildi (1. Cihaz)'
                     : node.deviceType.toUpperCase()}
                 </text>
               </g>
@@ -391,12 +392,12 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
       {/* Accessible List of Current Connections with Delete buttons */}
       <div className="bg-white rounded-xl border border-slate-200 p-4">
         <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-600 mb-2.5">
-          Kurulan BaÄŸlantÄ±lar ({edges.length})
+          Kurulan Bağlantılar ({edges.length})
         </h4>
         {edges.length === 0 ? (
           <p className="text-sm text-slate-500">
-            HenÃ¼z baÄŸlantÄ± kurulmadÄ±. Åemadaki iki cihaza sÄ±rayla tÄ±klayarak
-            baÄŸlantÄ± ekleyebilirsin.
+            Henüz bağlantı kurulmadı. Şemadaki iki cihaza sırayla tıklayarak
+            bağlantı ekleyebilirsin.
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -414,7 +415,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
                 >
                   <div className="flex items-center gap-2 font-bold text-brand-navy">
                     <span>
-                      {fromLabel} â†” {toLabel}
+                      {fromLabel} ↔ {toLabel}
                     </span>
                     <span
                       className={`text-xs px-2 py-0.5 rounded-full font-extrabold ${
@@ -423,7 +424,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
                           : 'bg-slate-200 text-slate-800'
                       }`}
                     >
-                      {isWireless ? 'Kablosuz (Kesik)' : 'Kablolu (DÃ¼z)'}
+                      {isWireless ? 'Kablosuz (Kesik)' : 'Kablolu (Düz)'}
                     </span>
                   </div>
                   <button
@@ -432,7 +433,7 @@ export const NetworkBuilderCanvas: React.FC<NetworkBuilderProps> = ({
                     className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-red-50 hover:bg-red-100 text-red-700 text-xs font-extrabold border border-red-200"
                   >
                     <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>BaÄŸlantÄ±yÄ± Sil</span>
+                    <span>Bağlantıyı Sil</span>
                   </button>
                 </div>
               );
@@ -490,4 +491,3 @@ export const NetworkBuilderWidget: React.FC<{
     />
   );
 };
-

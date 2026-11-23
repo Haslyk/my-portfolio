@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   ActivityPublicConfig,
@@ -354,7 +355,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
         message:
           err instanceof ApiError
             ? err.message
-            : 'Sunucuya ulaÅŸÄ±lamadÄ±. BaÄŸlantÄ±nÄ±z geldiÄŸinde Ã§alÄ±ÅŸmanÄ±z korunacak; lÃ¼tfen tekrar "Kontrol Et" dÃ¼ÄŸmesine basÄ±n.'
+            : 'Sunucuya ulaşılamadı. Bağlantınız geldiğinde çalışmanız korunacak; lütfen tekrar "Kontrol Et" düğmesine basın.'
       });
     } finally {
       setIsChecking(false);
@@ -465,11 +466,11 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
             <Layers className="w-6 h-6 text-amber-700 shrink-0 mt-0.5" />
             <div>
               <h4 className="font-extrabold text-base">
-                BaÅŸka Bir Sekmede AÃ§Ä±k
+                Başka Bir Sekmede Açık
               </h4>
               <p className="text-sm font-medium">
-                SÃ¼renin iki sekmede Ã§ift sayÄ±lmamasÄ± iÃ§in bu sekmede sÃ¼re sayacÄ±
-                duraklatÄ±ldÄ±. Bu sekmeden devam etmek istiyorsan Ã§alÄ±ÅŸmayÄ±
+                Sürenin iki sekmede çift sayılmaması için bu sekmede süre sayacı
+                duraklatıldı. Bu sekmeden devam etmek istiyorsan çalışmayı
                 devralabilirsin.
               </p>
             </div>
@@ -493,13 +494,13 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-brand-navy text-sm font-extrabold border border-slate-300"
           >
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-            <span>Hafta EkranÄ±na DÃ¶n</span>
+            <span>Hafta Ekranına Dön</span>
           </button>
 
           <div className="flex flex-wrap items-center gap-2">
             {session.mode === 'PRACTICE' && (
               <span className="px-3 py-1 rounded-full bg-purple-100 text-brand-purple border border-purple-300 text-xs font-extrabold">
-                Tekrar Ã‡alÄ±ÅŸma Modu (Ä°lk BaÅŸarÄ±n Korunuyor)
+                Tekrar Çalışma Modu (İlk Başarın Korunuyor)
               </span>
             )}
 
@@ -507,8 +508,8 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-300 text-xs sm:text-sm font-bold text-slate-800">
               <Clock className="w-4 h-4 text-brand-purple" aria-hidden="true" />
               <span>
-                Etkin SÃ¼re: <strong>{formatDurationTr(activeSeconds)}</strong> /{' '}
-                AyrÄ±lan: {Math.round(session.allocatedSeconds / 60)} dk
+                Etkin Süre: <strong>{formatDurationTr(activeSeconds)}</strong> /{' '}
+                Ayrılan: {Math.round(session.allocatedSeconds / 60)} dk
               </span>
             </div>
 
@@ -523,7 +524,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
               {attemptStatus === 'COMPLETED' ? (
                 <>
                   <CheckCircle2 className="w-4 h-4 text-emerald-700" />
-                  <span>TamamlandÄ±</span>
+                  <span>Tamamlandı</span>
                 </>
               ) : (
                 <>
@@ -537,31 +538,31 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
 
         <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-brand-purple mb-1">
           <span>{session.activityCode}</span>
-          <span>Â·</span>
+          <span>·</span>
           <span>
-            Tahmini Ã‡alÄ±ÅŸma {Math.round(session.expectedSeconds / 60)} dk
+            Tahmini Çalışma {Math.round(session.expectedSeconds / 60)} dk
           </span>
         </div>
         <h2 className="text-xl sm:text-2xl font-extrabold text-brand-navy">
           {session.title}
         </h2>
         <p className="text-sm sm:text-base text-slate-700 mt-1 font-medium">
-          <strong>AmaÃ§:</strong> {session.shortPurpose}
+          <strong>Amaç:</strong> {session.shortPurpose}
         </p>
 
         {/* Non-punitive 10-minute exceeded message */}
         {isOverAllocatedTime && (
           <div className="mt-3 bg-blue-50 border border-blue-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-blue-900">
-            AyrÄ±lan 10 dakikalÄ±k sÃ¼re doldu ancak hiÃ§ sorun deÄŸil â€”{' '}
-            <strong>Devam edebilirsin!</strong> Ã‡alÄ±ÅŸman kapanmaz ve puan
-            kaybÄ± yaÅŸanmaz.
+            Ayrılan 10 dakikalık süre doldu ancak hiç sorun değil —{' '}
+            <strong>Devam edebilirsin!</strong> Çalışman kapanmaz ve puan
+            kaybı yaşanmaz.
           </div>
         )}
 
         {/* Numbered Instructions */}
         <div className="mt-4 bg-slate-50 rounded-xl border border-slate-200 p-4">
           <h3 className="text-xs font-extrabold uppercase tracking-wider text-brand-navy mb-2">
-            AdÄ±m AdÄ±m YÃ¶nergeler
+            Adım Adım Yönergeler
           </h3>
           <ol className="space-y-1.5">
             {session.config.instructions.map((inst, idx) => (
@@ -608,13 +609,13 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
                 <div className="flex flex-wrap items-center gap-2 mb-1">
                   <h4 className="font-extrabold text-lg sm:text-xl text-brand-navy">
                     {checkSummary.passed
-                      ? 'GÃ¶rev TamamlandÄ±! AÄŸ BaÄŸlantÄ±sÄ± OnaylandÄ±!'
-                      : 'BazÄ± NoktalarÄ± DÃ¼zeltmemiz Gerekiyor'}
+                      ? 'Görev Tamamlandı! Ağ Bağlantısı Onaylandı!'
+                      : 'Bazı Noktaları Düzeltmemiz Gerekiyor'}
                   </h4>
                   {checkSummary.passed && (
                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-700 text-white text-xs font-extrabold">
                       <Award className="w-3.5 h-3.5" />
-                      <span>+100 AtÃ¶lye PuanÄ±</span>
+                      <span>+100 Atölye Puanı</span>
                     </span>
                   )}
                 </div>
@@ -629,13 +630,13 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
                     {checkCountLocal === 1 && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-purple-100 text-brand-purple border border-purple-300 text-xs font-extrabold">
                         <Flame className="w-4 h-4 text-brand-orangeDark" />
-                        <span>Kusursuz Tek AtÄ±ÅŸ! (Ä°lk Denemede DoÄŸru)</span>
+                        <span>Kusursuz Tek Atış! (İlk Denemede Doğru)</span>
                       </span>
                     )}
                     {isEarlyFinisher && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-100 text-amber-950 border border-amber-300 text-xs font-extrabold">
                         <Sparkles className="w-4 h-4 text-amber-700" />
-                        <span>HÄ±zlÄ± Teknisyen (10 dk SÃ¼reden Ã–nce TamamladÄ±n)</span>
+                        <span>Hızlı Teknisyen (10 dk Süreden Önce Tamamladın)</span>
                       </span>
                     )}
                   </div>
@@ -645,8 +646,8 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
                   <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-navy text-brand-orange font-extrabold text-xs sm:text-sm shadow-sm">
                     <Sparkles className="w-4 h-4" />
                     <span>
-                      Harika! Bu haftanÄ±n tÃ¼m zorunlu gÃ¶revlerini bitirdin ve
-                      SONRAKÄ° HAFTANIN KÄ°LÄ°DÄ° AÃ‡ILDI!
+                      Harika! Bu haftanın tüm zorunlu görevlerini bitirdin ve
+                      SONRAKİ HAFTANIN KİLİDİ AÇILDI!
                     </span>
                   </div>
                 )}
@@ -659,7 +660,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
                 onClick={onBackToWeek}
                 className="px-6 py-3.5 rounded-2xl bg-brand-navy hover:bg-brand-navyLight text-white text-sm sm:text-base font-extrabold shrink-0 shadow-md"
               >
-                Hafta EkranÄ±na DÃ¶n â†’
+                Hafta Ekranına Dön →
               </button>
             )}
           </div>
@@ -674,7 +675,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
             <div className="flex-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-brand-purple text-white">
-                  Erken Bitirenlere Mini DÃ¼ÅŸÃ¼nme Sorusu (Ä°steÄŸe BaÄŸlÄ±)
+                  Erken Bitirenlere Mini Düşünme Sorusu (İsteğe Bağlı)
                 </span>
               </div>
               <p className="text-base font-extrabold text-brand-navy mt-2">
@@ -686,7 +687,7 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
                   onClick={() => setShowEarlyFinisherAnswer(true)}
                   className="mt-3 px-4 py-2 rounded-xl bg-white hover:bg-purple-100 text-brand-purple border border-purple-300 text-xs sm:text-sm font-extrabold"
                 >
-                  AÃ§Ä±klamayÄ± GÃ¶r
+                  Açıklamayı Gör
                 </button>
               ) : (
                 <p className="mt-2 text-sm text-slate-800 bg-white p-3.5 rounded-xl border border-purple-200 font-medium">
@@ -703,13 +704,13 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
         <div className="bg-amber-50 border-2 border-brand-orange rounded-2xl p-4 text-sm text-amber-950 font-semibold flex items-start gap-3">
           <HelpCircle className="w-5 h-5 text-brand-orangeDark shrink-0 mt-0.5" />
           <div>
-            <div className="font-extrabold text-brand-navy mb-0.5">Ä°pucu:</div>
+            <div className="font-extrabold text-brand-navy mb-0.5">İpucu:</div>
             <div>{session.config.hint}</div>
           </div>
         </div>
       )}
 
-      {/* Bottom Action Bar: Kontrol Et, Ä°pucu, SÄ±fÄ±rla */}
+      {/* Bottom Action Bar: Kontrol Et, İpucu, Sıfırla */}
       <div className="bg-white rounded-2xl border-2 border-slate-200 p-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
           <button
@@ -718,17 +719,17 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 text-sm font-extrabold border border-amber-300"
           >
             <HelpCircle className="w-4 h-4" aria-hidden="true" />
-            <span>{showHint ? 'Ä°pucunu Gizle' : 'Ä°pucu GÃ¶ster'}</span>
+            <span>{showHint ? 'İpucunu Gizle' : 'İpucu Göster'}</span>
           </button>
 
           <button
             type="button"
             onClick={handleResetDraft}
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-extrabold border border-slate-300"
-            title="YalnÄ±zca ekrandaki mevcut Ã§alÄ±ÅŸma taslaÄŸÄ±nÄ± temizler; Ã¶nceki baÅŸarÄ± kaydÄ±nÄ± silmez"
+            title="Yalnızca ekrandaki mevcut çalışma taslağını temizler; önceki başarı kaydını silmez"
           >
             <RotateCcw className="w-4 h-4" aria-hidden="true" />
-            <span>TaslaÄŸÄ± SÄ±fÄ±rla</span>
+            <span>Taslağı Sıfırla</span>
           </button>
         </div>
 
@@ -754,4 +755,3 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
     </div>
   );
 };
-

@@ -1,4 +1,5 @@
-﻿"use client";
+"use client";
+
 import React from 'react';
 import {
   ActivityPublicConfig,
@@ -52,9 +53,9 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
     return (
       <div className="space-y-4">
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-3.5 text-sm text-blue-950 font-medium">
-          KartlarÄ±n saÄŸÄ±ndaki <strong>YukarÄ± TaÅŸÄ±</strong> ve{' '}
-          <strong>AÅŸaÄŸÄ± TaÅŸÄ±</strong> dÃ¼ÄŸmelerini kullanarak adÄ±mlarÄ± 1â€™den 4â€™e
-          doÄŸru sÄ±rala.
+          Kartların sağındaki <strong>Yukarı Taşı</strong> ve{' '}
+          <strong>Aşağı Taşı</strong> düğmelerini kullanarak adımları 1’den 4’e
+          doğru sırala.
         </div>
 
         <div className="space-y-3">
@@ -108,20 +109,20 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
                     onClick={() => moveCard(idx, -1)}
                     disabled={idx === 0}
                     className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 text-xs sm:text-sm font-bold border border-slate-300"
-                    aria-label={`${card.title} kartÄ±nÄ± yukarÄ± taÅŸÄ±`}
+                    aria-label={`${card.title} kartını yukarı taşı`}
                   >
                     <ArrowUp className="w-4 h-4" aria-hidden="true" />
-                    <span>YukarÄ±</span>
+                    <span>Yukarı</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => moveCard(idx, 1)}
                     disabled={idx === orderedCards.length - 1}
                     className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 text-xs sm:text-sm font-bold border border-slate-300"
-                    aria-label={`${card.title} kartÄ±nÄ± aÅŸaÄŸÄ± taÅŸÄ±`}
+                    aria-label={`${card.title} kartını aşağı taşı`}
                   >
                     <ArrowDown className="w-4 h-4" aria-hidden="true" />
-                    <span>AÅŸaÄŸÄ±</span>
+                    <span>Aşağı</span>
                   </button>
                 </div>
               </div>
@@ -147,13 +148,13 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
     return (
       <div className="space-y-6">
         <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 text-sm text-brand-navy font-medium">
-          <strong>TCP GÃ¼venilir Ä°letim Notu:</strong> {mp.protocolNote}
+          <strong>TCP Güvenilir İletim Notu:</strong> {mp.protocolNote}
         </div>
 
         {/* Visual Buffer Display */}
         <div className="bg-white rounded-2xl border-2 border-slate-200 p-5">
           <h4 className="text-sm font-extrabold uppercase tracking-wider text-slate-600 mb-3">
-            AlÄ±cÄ± Cihaza UlaÅŸan FotoÄŸraf ParÃ§alarÄ±
+            Alıcı Cihaza Ulaşan Fotoğraf Parçaları
           </h4>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[1, 2, 3, 4].map((num) => {
@@ -177,10 +178,10 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
                   </div>
                   <div className="text-lg font-extrabold mt-1">
                     {isInitiallyPresent
-                      ? `ParÃ§a #${num} (Var)`
+                      ? `Parça #${num} (Var)`
                       : isPlacedHere
-                      ? 'ParÃ§a #3 (Eklendi)'
-                      : 'EKSÄ°K PARÃ‡A!'}
+                      ? 'Parça #3 (Eklendi)'
+                      : 'EKSİK PARÇA!'}
                   </div>
                 </div>
               );
@@ -191,7 +192,7 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
         {/* Step 1: Choose missing packet number */}
         <div className="bg-white rounded-2xl border-2 border-slate-200 p-5">
           <h4 className="font-extrabold text-brand-navy text-base mb-2">
-            AdÄ±m 1: Eksik Olan ParÃ§a NumarasÄ±nÄ± SeÃ§
+            Adım 1: Eksik Olan Parça Numarasını Seç
           </h4>
           <div className="flex flex-wrap gap-3">
             {mp.candidateMissingNumbers.map((num) => (
@@ -213,7 +214,7 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
                     : 'bg-slate-50 hover:bg-slate-100 text-slate-900 border-slate-300'
                 }`}
               >
-                ParÃ§a #{num}
+                Parça #{num}
               </button>
             ))}
           </div>
@@ -222,7 +223,7 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
         {/* Step 2: Request retransmission */}
         <div className="bg-white rounded-2xl border-2 border-slate-200 p-5">
           <h4 className="font-extrabold text-brand-navy text-base mb-2">
-            AdÄ±m 2: Eksik ParÃ§ayÄ± GÃ¶ndericiden Yeniden Ä°ste (TCP Retransmission)
+            Adım 2: Eksik Parçayı Göndericiden Yeniden İste (TCP Retransmission)
           </h4>
           <button
             type="button"
@@ -242,10 +243,10 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
             <RefreshCw className="w-5 h-5" aria-hidden="true" />
             <span>
               {requestedRetransmit
-                ? `ParÃ§a #${selectedMissingNumber} GÃ¶ndericiden Geldi!`
+                ? `Parça #${selectedMissingNumber} Göndericiden Geldi!`
                 : selectedMissingNumber
-                ? `ParÃ§a #${selectedMissingNumber} Ä°Ã§in Yeniden Ä°stek GÃ¶nder`
-                : 'Ã–nce AdÄ±m 1â€™de Eksik NumarayÄ± SeÃ§'}
+                ? `Parça #${selectedMissingNumber} İçin Yeniden İstek Gönder`
+                : 'Önce Adım 1’de Eksik Numarayı Seç'}
             </span>
           </button>
         </div>
@@ -253,7 +254,7 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
         {/* Step 3: Place received packet in correct slot */}
         <div className="bg-white rounded-2xl border-2 border-slate-200 p-5">
           <h4 className="font-extrabold text-brand-navy text-base mb-2">
-            AdÄ±m 3: Gelen ParÃ§ayÄ± DoÄŸru Konuma YerleÅŸtir
+            Adım 3: Gelen Parçayı Doğru Konuma Yerleştir
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
             {mp.slotLabels.map((label, idx) => {
@@ -287,7 +288,7 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
         {/* Step 4: Merge packets */}
         <div className="bg-white rounded-2xl border-2 border-slate-200 p-5">
           <h4 className="font-extrabold text-brand-navy text-base mb-2">
-            AdÄ±m 4: SÄ±ralÄ± ParÃ§alarÄ± BirleÅŸtir ve FotoÄŸrafÄ± GÃ¶ster
+            Adım 4: Sıralı Parçaları Birleştir ve Fotoğrafı Göster
           </h4>
           <button
             type="button"
@@ -307,8 +308,8 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
             <Layers className="w-5 h-5" aria-hidden="true" />
             <span>
               {isMerged
-                ? 'ParÃ§alar (1-2-3-4) BirleÅŸtirildi!'
-                : 'FotoÄŸrafÄ± BirleÅŸtir'}
+                ? 'Parçalar (1-2-3-4) Birleştirildi!'
+                : 'Fotoğrafı Birleştir'}
             </span>
           </button>
 
@@ -320,11 +321,11 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
                 <ImageIcon className="w-8 h-8 text-emerald-700 shrink-0" />
                 <div>
                   <div className="font-extrabold text-sm sm:text-base">
-                    Kampus_Fotografi.jpg (4/4 ParÃ§a TamamlandÄ±)
+                    Kampus_Fotografi.jpg (4/4 Parça Tamamlandı)
                   </div>
                   <div className="text-xs sm:text-sm text-emerald-800">
-                    TCP protokolÃ¼ eksik olan 3. parÃ§ayÄ± yeniden istedi ve fotoÄŸrafÄ±
-                    bozulmadan ekranda oluÅŸturdu. Åimdi "Kontrol Et" dÃ¼ÄŸmesine
+                    TCP protokolü eksik olan 3. parçayı yeniden istedi ve fotoğrafı
+                    bozulmadan ekranda oluşturdu. Şimdi "Kontrol Et" düğmesine
                     basabilirsin!
                   </div>
                 </div>
@@ -360,4 +361,3 @@ export const OrderingWidget: React.FC<WidgetProps> = ({
 
   return null;
 };
-
