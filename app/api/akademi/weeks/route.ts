@@ -42,11 +42,24 @@ export async function GET(req: NextRequest) {
           (pw) => pw.order === dbWeek.order
         );
         const wp = dbWeek.weekProgresses[0];
-        const status = wp
+        const prevWeek =
+          dbWeek.order > 1
+            ? dbWeeks.find((w) => w.order === dbWeek.order - 1)
+            : null;
+        const prevCompleted = prevWeek?.weekProgresses[0]?.status === 'COMPLETED';
+        const isAdminLocked = dbWeek.order > 1 && !dbWeek.isAdminUnlocked;
+
+        let status = wp
           ? wp.status
           : dbWeek.order === 1
           ? 'NOT_STARTED'
           : 'LOCKED';
+
+        if (isAdminLocked) {
+          status = 'LOCKED';
+        } else if (dbWeek.order > 1 && status === 'LOCKED' && prevCompleted) {
+          status = 'NOT_STARTED';
+        }
         const unlocked = status !== 'LOCKED';
 
         const weekActivities = dbWeek.activities.map((dbAct) => {
@@ -146,11 +159,24 @@ export async function GET(req: NextRequest) {
     const result = dbWeeks.map((dbWeek) => {
       const currWeek = CURRICULUM_WEEKS.find((cw) => cw.order === dbWeek.order);
       const wp = dbWeek.weekProgresses[0];
-      const status = wp
+      const prevWeek =
+        dbWeek.order > 1
+          ? dbWeeks.find((w) => w.order === dbWeek.order - 1)
+          : null;
+      const prevCompleted = prevWeek?.weekProgresses[0]?.status === 'COMPLETED';
+      const isAdminLocked = dbWeek.order > 1 && !dbWeek.isAdminUnlocked;
+
+      let status = wp
         ? wp.status
         : dbWeek.order === 1
         ? 'NOT_STARTED'
         : 'LOCKED';
+
+      if (isAdminLocked) {
+        status = 'LOCKED';
+      } else if (dbWeek.order > 1 && status === 'LOCKED' && prevCompleted) {
+        status = 'NOT_STARTED';
+      }
 
       const activitiesSummary = dbWeek.activities.map((dbAct) => {
         const currAct = currWeek?.activities.find(

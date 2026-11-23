@@ -355,13 +355,16 @@ export default function AkademiAdminPage() {
     }
   };
 
-  const handleToggleWeekLockForAll = async (action: 'unlock' | 'lock') => {
+  const handleToggleWeekLockForAll = async (
+    weekOrder: number,
+    action: 'unlock' | 'lock'
+  ) => {
     const courseLabel =
       COURSE_TABS.find((c) => c.code === selectedCourse)?.label ||
       selectedCourse;
     const actionText = action === 'lock' ? 'kilitlemek' : 'açmak';
     const ok = window.confirm(
-      `${courseLabel} dersi ${selectedWeekOrder}. haftasını tüm kayıtlı öğrenciler için ${actionText} istediğinize emin misiniz?`
+      `${courseLabel} dersi ${weekOrder}. haftasını ${actionText} istediğinize emin misiniz?`
     );
     if (!ok) return;
 
@@ -373,7 +376,7 @@ export default function AkademiAdminPage() {
           method: 'POST',
           body: JSON.stringify({
             courseCode: selectedCourse,
-            weekOrder: selectedWeekOrder,
+            weekOrder,
             action,
             applyToAll: true,
           }),
@@ -954,43 +957,56 @@ export default function AkademiAdminPage() {
             </div>
           </div>
 
-          {/* Always-visible Week Lock / Unlock Bar for Selected Course & Week */}
-          <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
-            <div className="text-xs font-bold text-slate-600 flex items-center gap-2">
+          {/* Always-visible 5-Week Admin Lock / Unlock Strip */}
+          <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2.5">
+            <div className="text-xs font-bold text-slate-600 flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-slate-500" />
               <span>
-                Hafta Kilidi ({COURSE_TABS.find((c) => c.code === selectedCourse)?.label} · {selectedWeekOrder}. Hafta):
+                Hafta Kilitleri ({COURSE_TABS.find((c) => c.code === selectedCourse)?.label}):
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                disabled={unlockingWeek || selectedWeekOrder === 1}
-                onClick={() => handleToggleWeekLockForAll('unlock')}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-950 text-xs font-extrabold transition disabled:opacity-40 disabled:cursor-not-allowed"
-                title={
-                  selectedWeekOrder === 1
-                    ? '1. hafta tüm öğrencilere varsayılan olarak açıktır'
-                    : `${selectedWeekOrder}. haftayı tüm öğrenciler için aç`
-                }
-              >
-                <Unlock className="w-3.5 h-3.5" />
-                <span>{selectedWeekOrder}. Haftayı Herkese Aç</span>
-              </button>
-              <button
-                type="button"
-                disabled={unlockingWeek || selectedWeekOrder === 1}
-                onClick={() => handleToggleWeekLockForAll('lock')}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-extrabold transition disabled:opacity-40 disabled:cursor-not-allowed"
-                title={
-                  selectedWeekOrder === 1
-                    ? '1. hafta başlangıç haftası olduğu için kilitlenemez'
-                    : `${selectedWeekOrder}. haftayı tüm öğrenciler için kilitle`
-                }
-              >
-                <Lock className="w-3.5 h-3.5" />
-                <span>{selectedWeekOrder}. Haftayı Kilitle</span>
-              </button>
+            <div className="flex flex-wrap items-center gap-1.5">
+              {[1, 2, 3, 4, 5].map((order) => {
+                const w = weeksCatalog.find((x: any) => x.order === order);
+                const isOpen = order === 1 ? true : Boolean(w?.isAdminUnlocked);
+                return (
+                  <button
+                    key={order}
+                    type="button"
+                    disabled={unlockingWeek || order === 1}
+                    onClick={() =>
+                      handleToggleWeekLockForAll(
+                        order,
+                        isOpen ? 'lock' : 'unlock'
+                      )
+                    }
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition ${
+                      order === 1
+                        ? 'bg-emerald-50 border-emerald-200 text-emerald-800 cursor-default'
+                        : isOpen
+                        ? 'bg-emerald-100 hover:bg-emerald-200 border-emerald-400 text-emerald-950'
+                        : 'bg-slate-100 hover:bg-amber-100 border-slate-300 text-slate-700 hover:text-amber-950'
+                    }`}
+                    title={
+                      order === 1
+                        ? '1. Hafta her zaman açıktır'
+                        : isOpen
+                        ? `${order}. Haftayı tekrar kilitle`
+                        : `${order}. Haftanın kilidini aç (önceki haftayı bitirenler girebilir)`
+                    }
+                  >
+                    {isOpen ? (
+                      <Unlock className="w-3.5 h-3.5 text-emerald-700" />
+                    ) : (
+                      <Lock className="w-3.5 h-3.5 text-slate-500" />
+                    )}
+                    <span>{order}. Hafta</span>
+                    <span className="text-[10px] opacity-80">
+                      {isOpen ? 'Açık' : 'Kilitli'}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </section>

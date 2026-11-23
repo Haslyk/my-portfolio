@@ -41,7 +41,12 @@ export async function checkWeekUnlocked(
   tx: DbClient,
   studentId: string,
   weekId: string
-): Promise<{ unlocked: boolean; status: WeekStatus; weekOrder: number }> {
+): Promise<{
+  unlocked: boolean;
+  status: WeekStatus;
+  weekOrder: number;
+  adminLocked?: boolean;
+}> {
   // Fast-path: check existing weekProgress + week in a single query
   const wp = await tx.weekProgress.findUnique({
     where: {
@@ -50,10 +55,22 @@ export async function checkWeekUnlocked(
         weekId
       }
     },
-    include: { week: { select: { order: true, courseCode: true } } }
+    include: {
+      week: { select: { order: true, courseCode: true, isAdminUnlocked: true } }
+    }
   });
 
   if (wp) {
+    // Rule: Weeks 2..5 require BOTH admin unlock AND previous week completion
+    if (wp.week.order > 1 && !wp.week.isAdminUnlocked) {
+      return {
+        unlocked: false,
+        status: 'LOCKED',
+        weekOrder: wp.week.order,
+        adminLocked: true
+      };
+    }
+
     if (wp.week.order === 1 && wp.status === 'LOCKED') {
       await tx.weekProgress.update({
         where: { id: wp.id },
@@ -61,6 +78,42 @@ export async function checkWeekUnlocked(
       });
       return { unlocked: true, status: 'NOT_STARTED', weekOrder: 1 };
     }
+
+    // If admin unlocked this week, verify if previous week is completed and unlock if still LOCKED
+    if (wp.week.order > 1 && wp.week.isAdminUnlocked && wp.status === 'LOCKED') {
+      const prevWeek = await tx.week.findUnique({
+        where: {
+          courseCode_order: {
+            courseCode: wp.week.courseCode,
+            order: wp.week.order - 1
+          }
+        },
+        select: { id: true }
+      });
+      if (prevWeek) {
+        const prevWp = await tx.weekProgress.findUnique({
+          where: {
+            studentId_weekId: {
+              studentId,
+              weekId: prevWeek.id
+            }
+          },
+          select: { status: true }
+        });
+        if (prevWp?.status === 'COMPLETED') {
+          await tx.weekProgress.update({
+            where: { id: wp.id },
+            data: { status: 'NOT_STARTED' }
+          });
+          return {
+            unlocked: true,
+            status: 'NOT_STARTED',
+            weekOrder: wp.week.order
+          };
+        }
+      }
+    }
+
     return {
       unlocked: wp.status !== 'LOCKED',
       status: wp.status as WeekStatus,
@@ -74,6 +127,15 @@ export async function checkWeekUnlocked(
   }
 
   await ensureStudentWeekProgresses(tx, studentId, week.courseCode);
+
+  if (week.order > 1 && !week.isAdminUnlocked) {
+    return {
+      unlocked: false,
+      status: 'LOCKED',
+      weekOrder: week.order,
+      adminLocked: true
+    };
+  }
 
   return {
     unlocked: week.order === 1,
@@ -178,7 +240,8 @@ export async function recalculateAndSyncWeekProgress(
         }
       }
     });
-    if (nextWeek) {
+    // Next week only unlocks if admin has ALSO unlocked that week
+    if (nextWeek && nextWeek.isAdminUnlocked) {
       const nextWp = await tx.weekProgress.findUnique({
         where: {
           studentId_weekId: {

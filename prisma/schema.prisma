@@ -67,13 +67,14 @@ model Session {
 }
 
 model Week {
-  id             String         @id @default(uuid())
-  courseCode     String         @default("ag-temelleri")
-  order          Int
-  title          String
+  id              String         @id @default(uuid())
+  courseCode      String         @default("ag-temelleri")
+  order           Int
+  title           String
+  isAdminUnlocked Boolean        @default(false)
 
-  activities     Activity[]
-  weekProgresses WeekProgress[]
+  activities      Activity[]
+  weekProgresses  WeekProgress[]
 
   @@unique([courseCode, order])
   @@index([courseCode])

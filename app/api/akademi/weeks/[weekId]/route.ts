@@ -57,7 +57,9 @@ export async function GET(
       return NextResponse.json(
         {
           error: 'WEEK_LOCKED',
-          message: `${dbWeek.order}. Hafta henüz kilitli. Önce bir önceki haftanın iki zorunlu etkinliğini ve değerlendirmesini tamamlamalısın.`
+          message: lockCheck.adminLocked
+            ? `${dbWeek.order}. Hafta henüz ders öğretmeni tarafından açılmadı.`
+            : `${dbWeek.order}. Hafta henüz kilitli. Önce bir önceki haftanın iki zorunlu etkinliğini ve değerlendirmesini tamamlamalısın.`
         },
         { status: 403 }
       );

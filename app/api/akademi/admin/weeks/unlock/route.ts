@@ -58,9 +58,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const targetStatus = action === 'lock' ? 'LOCKED' : 'NOT_STARTED';
-
+    // Individual student override (still respects global Week.isAdminUnlocked on lock)
     if (studentId) {
+      const targetStatus = action === 'lock' ? 'LOCKED' : 'NOT_STARTED';
       const existing = await prisma.weekProgress.findUnique({
         where: {
           studentId_weekId: {
@@ -69,6 +69,13 @@ export async function POST(req: NextRequest) {
           }
         }
       });
+
+      if (action === 'unlock' && !week.isAdminUnlocked) {
+        await prisma.week.update({
+          where: { id: week.id },
+          data: { isAdminUnlocked: true }
+        });
+      }
 
       if (!existing) {
         await prisma.weekProgress.create({
@@ -100,54 +107,77 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Course-wide admin week lock / unlock
     if (isAll) {
-      const allStudents = await prisma.student.findMany({
-        select: { id: true }
-      });
+      if (action === 'unlock') {
+        const prevWeek =
+          weekOrder > 1
+            ? await prisma.week.findUnique({
+                where: {
+                  courseCode_order: {
+                    courseCode,
+                    order: weekOrder - 1
+                  }
+                }
+              })
+            : null;
 
-      await prisma.$transaction(async (tx) => {
-        if (action === 'unlock') {
-          await tx.weekProgress.updateMany({
-            where: {
-              weekId: week.id,
-              status: 'LOCKED'
-            },
-            data: {
-              status: 'NOT_STARTED'
+        await prisma.$transaction(async (tx) => {
+          // 1) Mark week as admin-unlocked
+          await tx.week.update({
+            where: { id: week.id },
+            data: { isAdminUnlocked: true }
+          });
+
+          // 2) Unlock WeekProgress ONLY for students who have completed the previous week
+          if (prevWeek) {
+            const completedPrev = await tx.weekProgress.findMany({
+              where: {
+                weekId: prevWeek.id,
+                status: 'COMPLETED'
+              },
+              select: { studentId: true }
+            });
+            const eligibleStudentIds = completedPrev.map((p) => p.studentId);
+            if (eligibleStudentIds.length > 0) {
+              await tx.weekProgress.updateMany({
+                where: {
+                  weekId: week.id,
+                  studentId: { in: eligibleStudentIds },
+                  status: 'LOCKED'
+                },
+                data: { status: 'NOT_STARTED' }
+              });
+              await tx.weekProgress.createMany({
+                data: eligibleStudentIds.map((sid) => ({
+                  studentId: sid,
+                  weekId: week.id,
+                  status: 'NOT_STARTED'
+                })),
+                skipDuplicates: true
+              });
             }
-          });
-        } else {
-          await tx.weekProgress.updateMany({
-            where: {
-              weekId: week.id
-            },
-            data: {
-              status: 'LOCKED'
-            }
-          });
-        }
+          }
+        });
 
-        if (allStudents.length > 0) {
-          await tx.weekProgress.createMany({
-            data: allStudents.map((s) => ({
-              studentId: s.id,
-              weekId: week.id,
-              status: targetStatus
-            })),
-            skipDuplicates: true
-          });
-        }
-      });
+        return NextResponse.json({
+          ok: true,
+          action: 'unlock',
+          message: `${weekOrder}. hafta kilidi açıldı (önceki haftayı tamamlayan öğrenciler erişebilir).`
+        });
+      } else {
+        // Lock week globally by setting isAdminUnlocked = false (preserves existing student progress!)
+        await prisma.week.update({
+          where: { id: week.id },
+          data: { isAdminUnlocked: false }
+        });
 
-      return NextResponse.json({
-        ok: true,
-        action,
-        count: allStudents.length,
-        message:
-          action === 'lock'
-            ? `${weekOrder}. hafta tüm öğrenciler için kilitlendi.`
-            : `${weekOrder}. hafta tüm öğrenciler için açıldı.`
-      });
+        return NextResponse.json({
+          ok: true,
+          action: 'lock',
+          message: `${weekOrder}. hafta kilitlendi (öğrencilerin önceki ilerlemeleri korunur).`
+        });
+      }
     }
 
     return NextResponse.json(

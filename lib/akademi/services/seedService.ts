@@ -60,7 +60,8 @@ export async function seedCurriculum(prisma: PrismaClient, force = false) {
       create: {
         courseCode: 'ag-temelleri',
         order: weekData.order,
-        title: weekData.title
+        title: weekData.title,
+        isAdminUnlocked: weekData.order === 1
       }
     });
 
@@ -111,7 +112,8 @@ export async function seedCurriculum(prisma: PrismaClient, force = false) {
       create: {
         courseCode: 'pc-donanimi',
         order: weekDef.order,
-        title: weekDef.title
+        title: weekDef.title,
+        isAdminUnlocked: weekDef.order === 1
       }
     });
 

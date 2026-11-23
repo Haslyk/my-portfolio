@@ -89,6 +89,7 @@ export async function GET(req: NextRequest) {
         id: w.id,
         order: w.order,
         title: w.title,
+        isAdminUnlocked: w.isAdminUnlocked,
         activities: w.activities.map((a) => ({
           id: a.id,
           code: a.code,
