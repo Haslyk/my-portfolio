@@ -29,6 +29,8 @@ import {
   Lock,
   Unlock,
   HelpCircle,
+  UserPlus,
+  Check,
 } from 'lucide-react';
 import {
   ApiError,
@@ -117,6 +119,11 @@ export default function AkademiAdminPage() {
   const [deletingStudent, setDeletingStudent] = useState<boolean>(false);
   const [resolvingHelpId, setResolvingHelpId] = useState<string | null>(null);
   const [actionToast, setActionToast] = useState<string | null>(null);
+
+  // Registration Requests Modal State
+  const [showRequestsModal, setShowRequestsModal] = useState<boolean>(false);
+  const [selectedRequestIds, setSelectedRequestIds] = useState<string[]>([]);
+  const [processingRequests, setProcessingRequests] = useState<boolean>(false);
 
   useEffect(() => {
     let mounted = true;
@@ -486,6 +493,65 @@ export default function AkademiAdminPage() {
     }
   };
 
+  const pendingRequests: any[] = Array.isArray(
+    summaryQuery.data?.pendingRequests
+  )
+    ? summaryQuery.data.pendingRequests
+    : [];
+  const pendingRequestsCount: number =
+    summaryQuery.data?.pendingRequestsCount ?? pendingRequests.length;
+
+  const handleToggleRequestSelection = (id: string) => {
+    setSelectedRequestIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const handleToggleSelectAllRequests = () => {
+    if (
+      pendingRequests.length > 0 &&
+      selectedRequestIds.length === pendingRequests.length
+    ) {
+      setSelectedRequestIds([]);
+    } else {
+      setSelectedRequestIds(pendingRequests.map((r) => r.id));
+    }
+  };
+
+  const handleReviewRequests = async (
+    ids: string[],
+    action: 'approve' | 'reject'
+  ) => {
+    if (ids.length === 0) return;
+    if (action === 'reject') {
+      const ok = window.confirm(
+        `Seçili ${ids.length} kayıt isteğini reddedip silmek istediğinize emin misiniz?`
+      );
+      if (!ok) return;
+    }
+
+    setProcessingRequests(true);
+    try {
+      const res = await apiRequest<{ message: string }>(
+        '/api/akademi/admin/requests',
+        {
+          method: 'POST',
+          body: JSON.stringify({ studentIds: ids, action }),
+        }
+      );
+      setSelectedRequestIds((prev) => prev.filter((id) => !ids.includes(id)));
+      await summaryQuery.refetch();
+      await studentsQuery.refetch();
+      showToast(res.message);
+    } catch (err) {
+      showToast(
+        err instanceof ApiError ? err.message : 'İstekler işlenemedi.'
+      );
+    } finally {
+      setProcessingRequests(false);
+    }
+  };
+
   if (checkingAuth) {
     return (
       <div className="min-h-screen bg-slate-100 flex flex-col items-center justify-center p-4">
@@ -651,6 +717,28 @@ export default function AkademiAdminPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedRequestIds([]);
+                setShowRequestsModal(true);
+              }}
+              className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold transition ${
+                pendingRequestsCount > 0
+                  ? 'bg-brand-orange hover:bg-amber-400 text-brand-navy shadow-sm'
+                  : 'bg-white/10 hover:bg-white/20 text-white'
+              }`}
+              title="Bekleyen Öğrenci Kayıt İstekleri"
+            >
+              <UserPlus className="w-3.5 h-3.5" />
+              <span>İstekler</span>
+              {pendingRequestsCount > 0 && (
+                <span className="ml-0.5 px-1.5 py-0.5 rounded-full bg-red-600 text-white text-[10px] font-black leading-none shadow-sm">
+                  +{pendingRequestsCount}
+                </span>
+              )}
+            </button>
+
             <button
               type="button"
               onClick={handleManualRefresh}
@@ -1394,6 +1482,198 @@ export default function AkademiAdminPage() {
           </div>
         </section>
       </main>
+
+      {/* Registration Requests Popup Modal */}
+      {showRequestsModal && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 bg-slate-900/65 backdrop-blur-xs flex items-center justify-center p-4"
+        >
+          <div className="bg-white rounded-2xl border border-slate-200 max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            {/* Modal Header */}
+            <div className="px-5 py-4 bg-brand-navy text-white flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-brand-orange text-brand-navy flex items-center justify-center">
+                  <UserPlus className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-extrabold leading-tight">
+                    Kayıt İstekleri
+                  </h3>
+                  <p className="text-xs text-slate-300">
+                    {pendingRequestsCount > 0
+                      ? `${pendingRequestsCount} öğrenci onay bekliyor`
+                      : 'Bekleyen kayıt isteği yok'}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowRequestsModal(false)}
+                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Select All Bar */}
+            {pendingRequests.length > 0 && (
+              <div className="px-5 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <label className="inline-flex items-center gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={
+                      pendingRequests.length > 0 &&
+                      selectedRequestIds.length === pendingRequests.length
+                    }
+                    onChange={handleToggleSelectAllRequests}
+                    className="w-4 h-4 rounded border-slate-300 text-brand-purple focus:ring-brand-purple"
+                  />
+                  <span className="text-xs sm:text-sm font-extrabold text-brand-navy">
+                    Tümünü Seç
+                  </span>
+                </label>
+                <span className="text-xs font-bold text-slate-500">
+                  {selectedRequestIds.length} / {pendingRequests.length} seçili
+                </span>
+              </div>
+            )}
+
+            {/* Requests List */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+              {pendingRequests.length === 0 ? (
+                <div className="py-12 text-center space-y-2">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
+                  <p className="text-sm font-bold text-slate-700">
+                    Şu an bekleyen kayıt isteği bulunmuyor.
+                  </p>
+                </div>
+              ) : (
+                pendingRequests.map((reqItem: any) => {
+                  const isChecked = selectedRequestIds.includes(reqItem.id);
+                  return (
+                    <div
+                      key={reqItem.id}
+                      onClick={() => handleToggleRequestSelection(reqItem.id)}
+                      className={`p-3.5 rounded-xl border-2 transition cursor-pointer flex flex-wrap items-center justify-between gap-3 ${
+                        isChecked
+                          ? 'border-brand-purple bg-purple-50/50'
+                          : 'border-slate-200 bg-white hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => {}}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleRequestSelection(reqItem.id);
+                          }}
+                          className="w-4 h-4 rounded border-slate-300 text-brand-purple focus:ring-brand-purple shrink-0"
+                        />
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-extrabold text-sm text-brand-navy">
+                              {reqItem.fullName}
+                            </span>
+                            <span className="px-2 py-0.5 rounded-md bg-purple-100 text-brand-purple text-[11px] font-extrabold">
+                              {reqItem.classLevel}. Sınıf - {reqItem.section}
+                            </span>
+                          </div>
+                          <div className="text-xs text-slate-500 mt-0.5 flex items-center gap-2">
+                            <span className="font-mono font-bold text-slate-700">
+                              No: {reqItem.studentNumber}
+                            </span>
+                            <span>·</span>
+                            <span>
+                              {formatIstanbulDateTime(reqItem.createdAt)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        className="flex items-center gap-1.5 shrink-0"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          type="button"
+                          disabled={processingRequests}
+                          onClick={() =>
+                            handleReviewRequests([reqItem.id], 'approve')
+                          }
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-100 hover:bg-emerald-600 text-emerald-900 hover:text-white text-xs font-bold transition disabled:opacity-50"
+                          title="Onayla"
+                        >
+                          <Check className="w-3.5 h-3.5" />
+                          <span>Onayla</span>
+                        </button>
+                        <button
+                          type="button"
+                          disabled={processingRequests}
+                          onClick={() =>
+                            handleReviewRequests([reqItem.id], 'reject')
+                          }
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-50 hover:bg-red-600 text-red-700 hover:text-white text-xs font-bold transition disabled:opacity-50"
+                          title="Reddet"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                          <span>Reddet</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Bulk Action Footer */}
+            {pendingRequests.length > 0 && (
+              <div className="px-5 py-3.5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-semibold text-slate-600">
+                  {selectedRequestIds.length > 0
+                    ? `${selectedRequestIds.length} kişi seçildi`
+                    : 'Toplu işlem için öğrenci seçin'}
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={
+                      processingRequests || selectedRequestIds.length === 0
+                    }
+                    onClick={() =>
+                      handleReviewRequests(selectedRequestIds, 'reject')
+                    }
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-extrabold transition disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <X className="w-4 h-4" />
+                    <span>
+                      Seçilenleri Reddet ({selectedRequestIds.length})
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={
+                      processingRequests || selectedRequestIds.length === 0
+                    }
+                    onClick={() =>
+                      handleReviewRequests(selectedRequestIds, 'approve')
+                    }
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-extrabold shadow-sm transition disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>
+                      Seçilenleri Onayla ({selectedRequestIds.length})
+                    </span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Student Detail Modal */}
       {detailStudentId && (

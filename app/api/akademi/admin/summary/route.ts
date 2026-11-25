@@ -20,21 +20,41 @@ export async function GET(req: NextRequest) {
       await computeAdminDataset(weekOrder, activityCode, courseCode, groupFilter);
 
     const prisma = await getPrismaAsync();
-    const openHelpRequests = await prisma.helpRequest.findMany({
-      where: {
-        courseCode,
-        resolved: false
-      },
-      include: {
-        student: {
-          select: { id: true, firstName: true, lastName: true, studentNumber: true }
+    const [openHelpRequests, pendingStudents] = await Promise.all([
+      prisma.helpRequest.findMany({
+        where: {
+          courseCode,
+          resolved: false
         },
-        activity: {
-          select: { code: true, title: true }
+        include: {
+          student: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              studentNumber: true
+            }
+          },
+          activity: {
+            select: { code: true, title: true }
+          }
+        },
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.student.findMany({
+        where: { approvalStatus: 'PENDING' },
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          studentNumber: true,
+          classLevel: true,
+          section: true,
+          createdAt: true
         }
-      },
-      orderBy: { createdAt: 'desc' }
-    });
+      })
+    ]);
 
     const totalStudents = rows.length;
     const recentlySeenCount = rows.filter((r) => r.isRecentlySeen).length;
@@ -113,6 +133,18 @@ export async function GET(req: NextRequest) {
         activityTitle: hr.activity.title,
         message: hr.message,
         createdAt: hr.createdAt.toISOString()
+      })),
+      pendingRequestsCount: pendingStudents.length,
+      pendingRequests: pendingStudents.map((s) => ({
+        id: s.id,
+        firstName: s.firstName,
+        lastName: s.lastName,
+        fullName: `${s.firstName} ${s.lastName}`,
+        studentNumber: s.studentNumber,
+        classLevel: s.classLevel ?? 2,
+        section: s.section || 'A',
+        groupKey: `${s.classLevel ?? 2}-${s.section || 'A'}`,
+        createdAt: s.createdAt.toISOString()
       }))
     });
   } catch (err) {

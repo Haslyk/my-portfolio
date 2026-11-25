@@ -55,14 +55,20 @@ export async function computeAdminDataset(
     curriculumEnsured = true;
   }
 
-  let studentWhere: { classLevel?: number; section?: string } | undefined;
+  const studentWhere: {
+    approvalStatus: string;
+    classLevel?: number;
+    section?: string;
+  } = { approvalStatus: 'APPROVED' };
+
   if (groupFilter === '1') {
-    studentWhere = { classLevel: 1 };
+    studentWhere.classLevel = 1;
   } else if (groupFilter === '2') {
-    studentWhere = { classLevel: 2 };
+    studentWhere.classLevel = 2;
   } else if (groupFilter && /^[12]-[AB]$/.test(groupFilter)) {
     const [cls, sec] = groupFilter.split('-');
-    studentWhere = { classLevel: parseInt(cls, 10), section: sec };
+    studentWhere.classLevel = parseInt(cls, 10);
+    studentWhere.section = sec;
   }
 
   const weeks = await prisma.week.findMany({

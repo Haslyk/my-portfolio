@@ -16,6 +16,7 @@ model Student {
   studentNumber   String            @unique
   classLevel      Int               @default(2)
   section         String            @default("A")
+  approvalStatus  String            @default("PENDING") // "PENDING" | "APPROVED"
   allowedCourses  Json?
   createdAt       DateTime          @default(now())
   lastSeenAt      DateTime          @default(now())
@@ -30,6 +31,7 @@ model Student {
   @@index([lastSeenAt])
   @@index([normalizedName])
   @@index([classLevel, section])
+  @@index([approvalStatus])
 }
 
 model CourseSetting {

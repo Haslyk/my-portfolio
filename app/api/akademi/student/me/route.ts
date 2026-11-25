@@ -7,7 +7,7 @@ import { getAuthenticatedStudent } from '@/lib/akademi/services/sessionService';
 
 export async function GET(req: NextRequest) {
   try {
-    const auth = await getAuthenticatedStudent(req);
+    const auth = await getAuthenticatedStudent(req, { allowPending: true });
     if (!auth.ok) return auth.response;
 
     const prisma = await getPrismaAsync();
@@ -16,10 +16,10 @@ export async function GET(req: NextRequest) {
       data: { lastSeenAt: new Date() }
     });
 
-    const visibleCourses = await computeAllowedCoursesForStudent(
-      prisma,
-      freshStudent as any
-    );
+    const isApproved = (freshStudent as any).approvalStatus === 'APPROVED';
+    const visibleCourses = isApproved
+      ? await computeAllowedCoursesForStudent(prisma, freshStudent as any)
+      : [];
 
     return NextResponse.json({
       student: {
@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
         studentNumber: freshStudent.studentNumber,
         classLevel: freshStudent.classLevel,
         section: freshStudent.section,
+        approvalStatus: (freshStudent as any).approvalStatus || 'PENDING',
         visibleCourses
       },
       csrfToken: auth.student.csrfToken

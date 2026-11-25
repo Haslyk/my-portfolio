@@ -83,6 +83,7 @@ export async function POST(req: NextRequest) {
             studentNumber,
             classLevel: parsed.data.classLevel,
             section: parsed.data.section,
+            approvalStatus: 'PENDING',
             lastSeenAt: new Date()
           }
         });
@@ -121,18 +122,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const isApproved = (student as any).approvalStatus === 'APPROVED';
+
     await prisma.$transaction(async (tx) => {
       await tx.student.update({
         where: { id: student!.id },
         data: { lastSeenAt: new Date() }
       });
-      await ensureStudentWeekProgresses(tx, student!.id);
+      if (isApproved) {
+        await ensureStudentWeekProgresses(tx, student!.id);
+      }
     });
 
-    const visibleCourses = await computeAllowedCoursesForStudent(
-      prisma,
-      student as any
-    );
+    const visibleCourses = isApproved
+      ? await computeAllowedCoursesForStudent(prisma, student as any)
+      : [];
 
     const response = NextResponse.json({
       student: {
@@ -142,9 +146,12 @@ export async function POST(req: NextRequest) {
         studentNumber: student.studentNumber,
         classLevel: student.classLevel,
         section: student.section,
+        approvalStatus: (student as any).approvalStatus || 'PENDING',
         visibleCourses
       },
-      message: 'Akademiye hoş geldin!'
+      message: isApproved
+        ? 'Akademiye hoş geldin!'
+        : 'Kayıt isteğiniz gönderildi. Öğretmen onayı bekleniyor.'
     });
 
     await createStudentSessionCookie(student.id, response, req);

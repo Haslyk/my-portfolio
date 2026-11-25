@@ -18,7 +18,9 @@ import {
   User,
   GraduationCap,
   Lock,
-  Sparkles
+  Sparkles,
+  Clock,
+  RefreshCw
 } from 'lucide-react';
 import { AnimatedCanvasBackground } from '@/components/animated-canvas-background';
 import {
@@ -38,6 +40,7 @@ interface StudentSessionInfo {
   studentNumber: string;
   classLevel?: number;
   section?: string;
+  approvalStatus?: string;
   visibleCourses: string[];
 }
 
@@ -54,6 +57,30 @@ export default function AkademiPortalPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isMismatchError, setIsMismatchError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [checkingApproval, setCheckingApproval] = useState(false);
+
+  const refreshApprovalStatus = async () => {
+    setCheckingApproval(true);
+    try {
+      const res = await apiRequest<{ student: StudentSessionInfo }>(
+        '/api/akademi/student/me'
+      );
+      setStudent(res.student);
+    } catch {
+      // If rejected and deleted by admin, log out to join screen
+      setStudent(null);
+    } finally {
+      setCheckingApproval(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!student || student.approvalStatus === 'APPROVED') return;
+    const timer = setInterval(() => {
+      refreshApprovalStatus();
+    }, 10000);
+    return () => clearInterval(timer);
+  }, [student]);
 
   useEffect(() => {
     let mounted = true;
@@ -447,6 +474,80 @@ export default function AkademiPortalPage() {
                     )}
                   </button>
                 </form>
+              </div>
+            </div>
+          </motion.div>
+        ) : student.approvalStatus !== 'APPROVED' ? (
+          /* STEP 1.5: Pending Admin Approval Screen */
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="w-full max-w-lg mx-auto"
+          >
+            <div className="rounded-3xl bg-slate-900/85 border border-amber-500/40 backdrop-blur-xl p-7 sm:p-9 shadow-2xl text-center space-y-5">
+              <div className="w-16 h-16 rounded-2xl bg-amber-500/15 border border-amber-400/40 text-amber-300 flex items-center justify-center mx-auto">
+                <Clock className="w-8 h-8" />
+              </div>
+
+              <div className="space-y-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-bold">
+                  Onay Bekleniyor
+                </span>
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+                  Kayıt İsteğiniz Gönderildi
+                </h1>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  Kayıt talebiniz ders öğretmeninize iletildi. Öğretmeniniz
+                  onayladığında dersleriniz bu ekranda otomatik olarak
+                  açılacaktır.
+                </p>
+              </div>
+
+              <div className="rounded-2xl bg-white/[0.04] border border-white/[0.1] p-4 text-left space-y-1.5 text-xs sm:text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Ad Soyad:</span>
+                  <span className="font-bold text-white">
+                    {student.firstName} {student.lastName}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Okul Numarası:</span>
+                  <span className="font-mono font-bold text-teal-300">
+                    {student.studentNumber}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Sınıf / Grup:</span>
+                  <span className="font-bold text-white">
+                    {student.classLevel ?? 2}. Sınıf - {student.section || 'A'}{' '}
+                    Grubu
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+                <button
+                  type="button"
+                  disabled={checkingApproval}
+                  onClick={refreshApprovalStatus}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-extrabold text-xs sm:text-sm transition disabled:opacity-60"
+                >
+                  <RefreshCw
+                    className={`w-4 h-4 ${
+                      checkingApproval ? 'animate-spin' : ''
+                    }`}
+                  />
+                  <span>Durumu Kontrol Et</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] border border-white/[0.12] text-slate-200 font-bold text-xs sm:text-sm transition"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Çıkış Yap</span>
+                </button>
               </div>
             </div>
           </motion.div>

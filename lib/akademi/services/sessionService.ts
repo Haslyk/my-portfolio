@@ -119,6 +119,7 @@ export interface AuthenticatedStudent {
   firstName: string;
   lastName: string;
   studentNumber: string;
+  approvalStatus: string;
   allowedCourses: any;
   sessionId: string;
   csrfToken: string;
@@ -132,7 +133,8 @@ export interface AuthenticatedAdmin {
 }
 
 export async function getAuthenticatedStudent(
-  req: NextRequest
+  req: NextRequest,
+  options?: { allowPending?: boolean }
 ): Promise<
   | { ok: true; student: AuthenticatedStudent }
   | { ok: false; response: NextResponse }
@@ -180,6 +182,21 @@ export async function getAuthenticatedStudent(
     return { ok: false, response: res };
   }
 
+  const approvalStatus = (session.student as any).approvalStatus || 'APPROVED';
+  if (approvalStatus !== 'APPROVED' && !options?.allowPending) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        {
+          error: 'PENDING_APPROVAL',
+          message:
+            'Kayıt isteğiniz öğretmen onayı bekliyor. Onaylandıktan sonra derslere erişebilirsiniz.'
+        },
+        { status: 403 }
+      )
+    };
+  }
+
   return {
     ok: true,
     student: {
@@ -187,6 +204,7 @@ export async function getAuthenticatedStudent(
       firstName: session.student.firstName,
       lastName: session.student.lastName,
       studentNumber: session.student.studentNumber,
+      approvalStatus,
       allowedCourses: (session.student as any).allowedCourses ?? null,
       sessionId: session.id,
       csrfToken: session.csrfToken
