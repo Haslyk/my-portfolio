@@ -113,11 +113,23 @@ export async function getPrismaAsync(): Promise<PrismaClient> {
 
 export async function computeAllowedCoursesForStudent(
   prisma: PrismaClient,
-  student: { allowedCourses?: any }
+  student: { allowedCourses?: any; classLevel?: number; section?: string }
 ): Promise<string[]> {
   if (Array.isArray(student.allowedCourses)) {
     return student.allowedCourses.map(String);
   }
+  const cls = student.classLevel === 1 ? 1 : 2;
+  const sec = student.section === 'B' ? 'B' : 'A';
+  const groupKey = `${cls}-${sec}`;
+
   const settings = await prisma.courseSetting.findMany();
-  return settings.filter((s) => s.defaultVisible).map((s) => s.code);
+  return settings
+    .filter((s) => {
+      const vg = (s as any).visibleGroups;
+      if (Array.isArray(vg)) {
+        return vg.map(String).includes(groupKey);
+      }
+      return s.defaultVisible;
+    })
+    .map((s) => s.code);
 }

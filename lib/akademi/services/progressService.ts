@@ -5,6 +5,14 @@ type DbClient = PrismaClient | Prisma.TransactionClient;
 
 export const ALL_STUDENT_GROUPS = ['1-A', '1-B', '2-A', '2-B'] as const;
 
+export function resolveTargetGroups(groupKey?: string | null): string[] {
+  if (!groupKey || groupKey === 'ALL') return [...ALL_STUDENT_GROUPS];
+  if (groupKey === '1') return ['1-A', '1-B'];
+  if (groupKey === '2') return ['2-A', '2-B'];
+  if (/^[12]-[AB]$/.test(groupKey)) return [groupKey];
+  return [...ALL_STUDENT_GROUPS];
+}
+
 export function getStudentGroupKey(
   classLevel?: number | null,
   section?: string | null

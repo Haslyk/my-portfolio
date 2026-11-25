@@ -3,8 +3,8 @@ import { z } from 'zod';
 import { getPrismaAsync } from '@/lib/akademi/services/db';
 import { getAuthenticatedAdmin } from '@/lib/akademi/services/sessionService';
 import {
-  ALL_STUDENT_GROUPS,
-  getStudentGroupKey
+  getStudentGroupKey,
+  resolveTargetGroups
 } from '@/lib/akademi/services/progressService';
 
 const weekLockSchema = z.object({
@@ -133,17 +133,18 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // 2) Group-based or All-groups lock/unlock
+    // 2) Group-based, Class-based ('1' | '2'), or All-groups lock/unlock
     if (isAllOrGroup) {
-      const isSpecificGroup =
-        typeof groupKey === 'string' && /^[12]-[AB]$/.test(groupKey);
-      const targetGroups = isSpecificGroup
-        ? [groupKey]
-        : [...ALL_STUDENT_GROUPS];
+      const targetGroups = resolveTargetGroups(groupKey);
+      const isAll = !groupKey || groupKey === 'ALL';
 
-      const groupLabel = isSpecificGroup
-        ? `${groupKey.split('-')[0]}. Sınıf ${groupKey.split('-')[1]} Grubu`
-        : 'Tüm Gruplar';
+      const groupLabel = isAll
+        ? 'Tüm Gruplar'
+        : groupKey === '1'
+        ? '1. Sınıf (A ve B)'
+        : groupKey === '2'
+        ? '2. Sınıf (A ve B)'
+        : `${groupKey.split('-')[0]}. Sınıf ${groupKey.split('-')[1]} Grubu`;
 
       if (action === 'unlock') {
         const nextGroups = Array.from(
@@ -173,18 +174,16 @@ export async function POST(req: NextRequest) {
 
           // Unlock WeekProgress ONLY for students in targetGroups who completed the previous week
           if (prevWeek) {
-            const studentFilter = isSpecificGroup
-              ? {
-                  classLevel: parseInt(groupKey.split('-')[0], 10),
-                  section: groupKey.split('-')[1]
-                }
-              : undefined;
+            const targetPairs = targetGroups.map((g) => {
+              const [cls, sec] = g.split('-');
+              return { classLevel: parseInt(cls, 10), section: sec };
+            });
 
             const completedPrev = await tx.weekProgress.findMany({
               where: {
                 weekId: prevWeek.id,
                 status: 'COMPLETED',
-                ...(studentFilter ? { student: studentFilter } : {})
+                ...(isAll ? {} : { student: { OR: targetPairs } })
               },
               select: { studentId: true }
             });
@@ -217,9 +216,9 @@ export async function POST(req: NextRequest) {
           message: `${weekOrder}. hafta kilidi ${groupLabel} için açıldı (önceki haftayı tamamlayanlar girebilir).`
         });
       } else {
-        const nextGroups = isSpecificGroup
-          ? currentGroups.filter((g) => g !== groupKey)
-          : [];
+        const nextGroups = isAll
+          ? []
+          : currentGroups.filter((g) => !targetGroups.includes(g));
 
         await prisma.week.update({
           where: { id: week.id },

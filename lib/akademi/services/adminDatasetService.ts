@@ -56,7 +56,11 @@ export async function computeAdminDataset(
   }
 
   let studentWhere: { classLevel?: number; section?: string } | undefined;
-  if (groupFilter && /^[12]-[AB]$/.test(groupFilter)) {
+  if (groupFilter === '1') {
+    studentWhere = { classLevel: 1 };
+  } else if (groupFilter === '2') {
+    studentWhere = { classLevel: 2 };
+  } else if (groupFilter && /^[12]-[AB]$/.test(groupFilter)) {
     const [cls, sec] = groupFilter.split('-');
     studentWhere = { classLevel: parseInt(cls, 10), section: sec };
   }
@@ -72,18 +76,21 @@ export async function computeAdminDataset(
   const dbCourseSettings = await prisma.courseSetting.findMany();
   const courseSettings = AKADEMI_COURSES_CATALOG.map((cat) => {
     const dbMatch = dbCourseSettings.find((c) => c.code === cat.code);
+    const rawGroups = dbMatch ? (dbMatch as any).visibleGroups : undefined;
+    const visibleGroups: string[] = Array.isArray(rawGroups)
+      ? rawGroups.map(String)
+      : (dbMatch ? dbMatch.defaultVisible : cat.defaultVisible)
+      ? ['1-A', '1-B', '2-A', '2-B']
+      : [];
     return {
       code: cat.code,
       title: cat.title,
       shortTitle: cat.shortTitle,
-      defaultVisible: dbMatch ? dbMatch.defaultVisible : cat.defaultVisible,
+      defaultVisible: visibleGroups.length > 0,
+      visibleGroups,
       isReady: dbMatch ? dbMatch.isReady : cat.isReady
     };
   });
-
-  const defaultVisibleCodes = courseSettings
-    .filter((c) => c.defaultVisible)
-    .map((c) => c.code);
 
   const students = await prisma.student.findMany({
     where: studentWhere,
@@ -120,8 +127,11 @@ export async function computeAdminDataset(
     const allowedCourses: string[] | null = Array.isArray(rawAllowed)
       ? rawAllowed.map(String)
       : null;
+    const groupDefaultCodes = courseSettings
+      .filter((c) => c.visibleGroups.includes(groupKey))
+      .map((c) => c.code);
     const effectiveCourses: string[] =
-      allowedCourses !== null ? allowedCourses : defaultVisibleCodes;
+      allowedCourses !== null ? allowedCourses : groupDefaultCodes;
 
     const courseAttempts = student.attempts.filter(
       (att) =>

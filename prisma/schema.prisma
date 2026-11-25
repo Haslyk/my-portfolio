@@ -36,6 +36,7 @@ model CourseSetting {
   code            String   @id
   title           String
   defaultVisible  Boolean  @default(true)
+  visibleGroups   Json     @default("[]")
   isReady         Boolean  @default(false)
   updatedAt       DateTime @updatedAt
 }

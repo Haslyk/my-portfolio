@@ -45,13 +45,22 @@ const COURSE_TABS = [
   { code: 'gorsel-programlama', label: 'Görsel Programlama', Icon: Code2 },
 ];
 
-const GROUP_TABS = [
-  { key: 'ALL', label: 'Tüm Gruplar' },
-  { key: '1-A', label: '1. Sınıf - A' },
-  { key: '1-B', label: '1. Sınıf - B' },
-  { key: '2-A', label: '2. Sınıf - A' },
-  { key: '2-B', label: '2. Sınıf - B' },
-];
+const GROUP_LABELS: Record<string, string> = {
+  ALL: 'Tüm Gruplar',
+  '1': '1. Sınıf (A & B)',
+  '2': '2. Sınıf (A & B)',
+  '1-A': '1. Sınıf - A',
+  '1-B': '1. Sınıf - B',
+  '2-A': '2. Sınıf - A',
+  '2-B': '2. Sınıf - B',
+};
+
+function getTargetGroupsClient(groupKey: string): string[] {
+  if (groupKey === '1') return ['1-A', '1-B'];
+  if (groupKey === '2') return ['2-A', '2-B'];
+  if (/^[12]-[AB]$/.test(groupKey)) return [groupKey];
+  return ['1-A', '1-B', '2-A', '2-B'];
+}
 
 const cleanCode = (code: string | null | undefined) =>
   code ? code.replace(/^D-/, '') : '';
@@ -264,7 +273,7 @@ export default function AkademiAdminPage() {
 
   const handleToggleGlobalCourse = async (
     courseCode: string,
-    currentVisible: boolean
+    nextVisible: boolean
   ) => {
     setUpdatingGlobalCourseCode(courseCode);
     try {
@@ -272,12 +281,22 @@ export default function AkademiAdminPage() {
         method: 'PATCH',
         body: JSON.stringify({
           code: courseCode,
-          defaultVisible: !currentVisible,
+          defaultVisible: nextVisible,
+          groupKey: selectedGroup,
           applyToAllStudents: true,
         }),
       });
       await summaryQuery.refetch();
       await studentsQuery.refetch();
+      const groupLabel = GROUP_LABELS[selectedGroup] || 'Tüm Gruplar';
+      const courseLabel =
+        AKADEMI_COURSES_CATALOG.find((c) => c.code === courseCode)
+          ?.shortTitle || courseCode;
+      showToast(
+        `${courseLabel} dersi ${groupLabel} için ${
+          nextVisible ? 'açıldı' : 'kapatıldı'
+        }.`
+      );
     } catch {
       // ignore
     } finally {
@@ -385,8 +404,7 @@ export default function AkademiAdminPage() {
     const courseLabel =
       COURSE_TABS.find((c) => c.code === selectedCourse)?.label ||
       selectedCourse;
-    const groupLabel =
-      GROUP_TABS.find((g) => g.key === selectedGroup)?.label || 'Tüm Gruplar';
+    const groupLabel = GROUP_LABELS[selectedGroup] || 'Tüm Gruplar';
     const actionText = action === 'lock' ? 'kilitlemek' : 'açmak';
     const ok = window.confirm(
       `${courseLabel} dersi ${weekOrder}. haftasını "${groupLabel}" için ${actionText} istediğinize emin misiniz?`
@@ -763,13 +781,30 @@ export default function AkademiAdminPage() {
             })}
           </div>
 
-          {/* Global Default Course Visibility Controls */}
+          {/* Group-Scoped Course Visibility Controls */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold text-slate-500">
-              Genel Görünürlük:
+              Ders Görünürlüğü (
+              <strong className="text-brand-purple">
+                {GROUP_LABELS[selectedGroup]}
+              </strong>
+              ):
             </span>
             {courseSettings.map((course: any) => {
-              const isVisible = Boolean(course.defaultVisible);
+              const targetGroups = getTargetGroupsClient(selectedGroup);
+              const visibleGroups: string[] = Array.isArray(
+                course.visibleGroups
+              )
+                ? course.visibleGroups
+                : course.defaultVisible
+                ? ['1-A', '1-B', '2-A', '2-B']
+                : [];
+              const openCount = targetGroups.filter((g) =>
+                visibleGroups.includes(g)
+              ).length;
+              const isAllOpen = openCount === targetGroups.length;
+              const isPartial =
+                openCount > 0 && openCount < targetGroups.length;
               const isBusy = updatingGlobalCourseCode === course.code;
 
               return (
@@ -778,18 +813,22 @@ export default function AkademiAdminPage() {
                   type="button"
                   disabled={isBusy}
                   onClick={() =>
-                    handleToggleGlobalCourse(course.code, isVisible)
+                    handleToggleGlobalCourse(course.code, !isAllOpen)
                   }
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
-                    isVisible
+                    isAllOpen
                       ? 'bg-emerald-50 border-emerald-400 text-emerald-900 hover:bg-emerald-100'
+                      : isPartial
+                      ? 'bg-amber-50 border-amber-400 text-amber-900 hover:bg-amber-100'
                       : 'bg-slate-100 border-slate-300 text-slate-600 hover:bg-slate-200'
                   }`}
-                  title="Tüm öğrenciler için varsayılan görünürlüğü aç/kapat"
+                  title={`${GROUP_LABELS[selectedGroup]} için ${
+                    course.shortTitle || course.title
+                  } dersini ${isAllOpen ? 'kapat' : 'aç'}`}
                 >
                   {isBusy ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : isVisible ? (
+                  ) : isAllOpen ? (
                     <ToggleRight className="w-4 h-4 text-emerald-700" />
                   ) : (
                     <ToggleLeft className="w-4 h-4 text-slate-500" />
@@ -797,38 +836,95 @@ export default function AkademiAdminPage() {
                   <span>{course.shortTitle || course.title}</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.2 rounded font-extrabold ${
-                      isVisible
+                      isAllOpen
                         ? 'bg-emerald-200/80 text-emerald-950'
+                        : isPartial
+                        ? 'bg-amber-200/80 text-amber-950'
                         : 'bg-slate-200 text-slate-700'
                     }`}
                   >
-                    {isVisible ? 'Açık' : 'Gizli'}
+                    {isAllOpen
+                      ? 'Açık'
+                      : isPartial
+                      ? `${openCount}/${targetGroups.length}`
+                      : 'Gizli'}
                   </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Class / Group Selector Tabs */}
-          <div className="w-full pt-3 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
+          {/* Accordion Class & Section Selector */}
+          <div className="w-full pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
             <span className="text-xs font-bold text-slate-500 mr-1">
               Sınıf / Grup:
             </span>
-            {GROUP_TABS.map((grp) => {
-              const active = selectedGroup === grp.key;
+
+            <button
+              type="button"
+              onClick={() => setSelectedGroup('ALL')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition ${
+                selectedGroup === 'ALL'
+                  ? 'bg-brand-purple text-white shadow-sm'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+              }`}
+            >
+              Tüm Gruplar
+            </button>
+
+            {(['1', '2'] as const).map((cls) => {
+              const isClassWhole = selectedGroup === cls;
+              const isClassExpanded =
+                selectedGroup === cls || selectedGroup.startsWith(`${cls}-`);
+
               return (
-                <button
-                  key={grp.key}
-                  type="button"
-                  onClick={() => setSelectedGroup(grp.key)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition ${
-                    active
-                      ? 'bg-brand-purple text-white shadow-sm'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                <div
+                  key={cls}
+                  className={`inline-flex items-center rounded-xl border transition-all overflow-hidden ${
+                    isClassExpanded
+                      ? 'border-brand-purple/50 bg-purple-50/70'
+                      : 'border-transparent bg-transparent'
                   }`}
                 >
-                  {grp.label}
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedGroup(cls)}
+                    className={`px-3 py-1.5 text-xs font-extrabold transition ${
+                      isClassWhole
+                        ? 'bg-brand-purple text-white'
+                        : isClassExpanded
+                        ? 'bg-purple-100 text-brand-purple hover:bg-purple-200'
+                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg'
+                    }`}
+                    title={`${cls}. Sınıfın tamamını (A ve B grupları) seç`}
+                  >
+                    {cls}. Sınıf
+                  </button>
+
+                  {isClassExpanded && (
+                    <div className="inline-flex items-center gap-1 px-1.5 py-1 border-l border-purple-200">
+                      {(['A', 'B'] as const).map((sec) => {
+                        const key = `${cls}-${sec}`;
+                        const isSecActive = selectedGroup === key;
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => setSelectedGroup(key)}
+                            className={`px-2.5 py-0.5 rounded-md text-[11px] font-extrabold transition ${
+                              isSecActive
+                                ? 'bg-brand-navy text-white shadow-sm'
+                                : 'bg-white text-slate-700 hover:bg-purple-100 border border-slate-200'
+                            }`}
+                            title={`Sadece ${cls}. Sınıf ${sec} Grubunu seç`}
+                          >
+                            {sec} Grubu
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
@@ -1018,7 +1114,7 @@ export default function AkademiAdminPage() {
               <span>
                 Hafta Kilitleri ({COURSE_TABS.find((c) => c.code === selectedCourse)?.label} ·{' '}
                 <strong className="text-brand-purple">
-                  {GROUP_TABS.find((g) => g.key === selectedGroup)?.label}
+                  {GROUP_LABELS[selectedGroup]}
                 </strong>
                 ):
               </span>
@@ -1029,18 +1125,16 @@ export default function AkademiAdminPage() {
                 const unlockedGroups: string[] = Array.isArray(w?.unlockedGroups)
                   ? w.unlockedGroups
                   : [];
-                const isAllSelected = selectedGroup === 'ALL';
+                const targetGroups = getTargetGroupsClient(selectedGroup);
+                const openCount = targetGroups.filter((g) =>
+                  unlockedGroups.includes(g)
+                ).length;
                 const isOpen =
-                  order === 1
-                    ? true
-                    : isAllSelected
-                    ? unlockedGroups.length >= 4
-                    : unlockedGroups.includes(selectedGroup);
+                  order === 1 ? true : openCount === targetGroups.length;
                 const isPartial =
                   order > 1 &&
-                  isAllSelected &&
-                  unlockedGroups.length > 0 &&
-                  unlockedGroups.length < 4;
+                  openCount > 0 &&
+                  openCount < targetGroups.length;
 
                 return (
                   <button
@@ -1080,7 +1174,7 @@ export default function AkademiAdminPage() {
                       {isOpen
                         ? 'Açık'
                         : isPartial
-                        ? `${unlockedGroups.length}/4`
+                        ? `${openCount}/${targetGroups.length}`
                         : 'Kilitli'}
                     </span>
                   </button>
