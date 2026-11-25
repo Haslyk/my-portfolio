@@ -36,6 +36,8 @@ interface StudentSessionInfo {
   firstName: string;
   lastName: string;
   studentNumber: string;
+  classLevel?: number;
+  section?: string;
   visibleCourses: string[];
 }
 
@@ -47,6 +49,8 @@ export default function AkademiPortalPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [studentNumber, setStudentNumber] = useState('');
+  const [classLevel, setClassLevel] = useState<number>(2);
+  const [section, setSection] = useState<'A' | 'B'>('A');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isMismatchError, setIsMismatchError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -96,7 +100,9 @@ export default function AkademiPortalPage() {
         body: JSON.stringify({
           firstName,
           lastName,
-          studentNumber
+          studentNumber,
+          classLevel,
+          section
         })
       });
 
@@ -205,6 +211,11 @@ export default function AkademiPortalPage() {
               <span className="font-mono text-xs text-slate-400">
                 ({student.studentNumber})
               </span>
+              {student.classLevel && student.section && (
+                <span className="px-2 py-0.5 rounded-md bg-teal-500/20 border border-teal-500/30 text-teal-300 font-bold text-[11px]">
+                  {student.classLevel}-{student.section}
+                </span>
+              )}
             </div>
           )}
 
@@ -369,6 +380,53 @@ export default function AkademiPortalPage() {
                       Yalnızca rakam giriniz (5–15 hane). Baştaki sıfırlar
                       otomatik korunur.
                     </p>
+                  </div>
+
+                  {/* Sınıf ve Şube / Grup Seçimi */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs sm:text-sm font-bold text-slate-200 mb-1.5">
+                        Sınıf
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {[1, 2].map((cls) => (
+                          <button
+                            key={cls}
+                            type="button"
+                            onClick={() => setClassLevel(cls)}
+                            className={`py-2.5 rounded-xl text-xs sm:text-sm font-extrabold border transition-all ${
+                              classLevel === cls
+                                ? 'bg-teal-500/20 border-teal-400 text-teal-200 shadow-sm'
+                                : 'bg-white/[0.04] border-white/[0.12] text-slate-300 hover:bg-white/[0.08]'
+                            }`}
+                          >
+                            {cls}. Sınıf
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs sm:text-sm font-bold text-slate-200 mb-1.5">
+                        Şube / Grup
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {(['A', 'B'] as const).map((sec) => (
+                          <button
+                            key={sec}
+                            type="button"
+                            onClick={() => setSection(sec)}
+                            className={`py-2.5 rounded-xl text-xs sm:text-sm font-extrabold border transition-all ${
+                              section === sec
+                                ? 'bg-teal-500/20 border-teal-400 text-teal-200 shadow-sm'
+                                : 'bg-white/[0.04] border-white/[0.12] text-slate-300 hover:bg-white/[0.08]'
+                            }`}
+                          >
+                            {sec} Grubu
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                   <button

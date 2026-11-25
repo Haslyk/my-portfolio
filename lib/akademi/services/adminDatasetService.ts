@@ -1,6 +1,7 @@
 import { getPrismaAsync } from './db';
 import { AKADEMI_COURSES_CATALOG } from '@/lib/akademi/shared';
 import { seedCurriculum } from './seedService';
+import { getStudentGroupKey, isWeekUnlockedForGroup } from './progressService';
 
 export interface ComputedStudentRow {
   id: string;
@@ -8,6 +9,9 @@ export interface ComputedStudentRow {
   lastName: string;
   fullName: string;
   studentNumber: string;
+  classLevel: number;
+  section: string;
+  groupKey: string;
   allowedCourses: string[] | null;
   effectiveCourses: string[];
   createdAt: string;
@@ -42,12 +46,19 @@ let curriculumEnsured = false;
 export async function computeAdminDataset(
   selectedWeekOrder: number,
   selectedActivityCode?: string,
-  courseCode: string = 'ag-temelleri'
+  courseCode: string = 'ag-temelleri',
+  groupFilter?: string
 ) {
   const prisma = await getPrismaAsync();
   if (!curriculumEnsured) {
     await seedCurriculum(prisma);
     curriculumEnsured = true;
+  }
+
+  let studentWhere: { classLevel?: number; section?: string } | undefined;
+  if (groupFilter && /^[12]-[AB]$/.test(groupFilter)) {
+    const [cls, sec] = groupFilter.split('-');
+    studentWhere = { classLevel: parseInt(cls, 10), section: sec };
   }
 
   const weeks = await prisma.week.findMany({
@@ -75,6 +86,7 @@ export async function computeAdminDataset(
     .map((c) => c.code);
 
   const students = await prisma.student.findMany({
+    where: studentWhere,
     orderBy: [{ createdAt: 'desc' }],
     include: {
       weekProgresses: true,
@@ -100,6 +112,9 @@ export async function computeAdminDataset(
 
   const rows: ComputedStudentRow[] = students.map((student) => {
     const isRecentlySeen = nowMs - student.lastSeenAt.getTime() <= 60 * 1000;
+    const classLevel = student.classLevel ?? 2;
+    const section = student.section || 'A';
+    const groupKey = getStudentGroupKey(classLevel, section);
 
     const rawAllowed = (student as any).allowedCourses;
     const allowedCourses: string[] | null = Array.isArray(rawAllowed)
@@ -177,8 +192,10 @@ export async function computeAdminDataset(
 
     if (targetWeek) {
       const wp = student.weekProgresses.find((p) => p.weekId === targetWeek.id);
-      selectedWeekStatus =
-        wp?.status || (targetWeek.order === 1 ? 'NOT_STARTED' : 'LOCKED');
+      const adminAllowed = isWeekUnlockedForGroup(targetWeek, groupKey);
+      selectedWeekStatus = !adminAllowed
+        ? 'LOCKED'
+        : wp?.status || (targetWeek.order === 1 ? 'NOT_STARTED' : 'LOCKED');
 
       const reqActs = targetWeek.activities.filter((a) => a.required);
       selectedWeekRequiredTotal = reqActs.length;
@@ -267,6 +284,9 @@ export async function computeAdminDataset(
       lastName: student.lastName,
       fullName: `${student.firstName} ${student.lastName}`,
       studentNumber: student.studentNumber,
+      classLevel,
+      section,
+      groupKey,
       allowedCourses,
       effectiveCourses,
       createdAt: student.createdAt.toISOString(),

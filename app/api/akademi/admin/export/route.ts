@@ -45,17 +45,24 @@ export async function GET(req: NextRequest) {
 
     const url = new URL(req.url);
     const courseCode = url.searchParams.get('course') || 'ag-temelleri';
+    const groupFilter = url.searchParams.get('group') || undefined;
     const weekOrder =
       parseInt(url.searchParams.get('weekOrder') || '1', 10) || 1;
     const rawAct = url.searchParams.get('activityCode');
     const activityCode = rawAct && rawAct.trim() ? rawAct.trim() : undefined;
 
-    const { rows } = await computeAdminDataset(weekOrder, activityCode, courseCode);
+    const { rows } = await computeAdminDataset(
+      weekOrder,
+      activityCode,
+      courseCode,
+      groupFilter
+    );
 
     const headers = [
       'Öğrenci Numarası (Metin)',
       'Ad',
       'Soyad',
+      'Sınıf / Grup',
       'Gösterilen Dersler',
       'Son Tamamlanan Hafta',
       'İlk Tamamlanmamış Hafta',
@@ -80,6 +87,7 @@ export async function GET(req: NextRequest) {
         sanitizeCsvCell(r.studentNumber, true),
         sanitizeCsvCell(r.firstName),
         sanitizeCsvCell(r.lastName),
+        sanitizeCsvCell(`${r.classLevel}. Sınıf - ${r.section}`),
         sanitizeCsvCell(r.effectiveCourses.join(', ')),
         sanitizeCsvCell(
           r.lastCompletedWeekOrder

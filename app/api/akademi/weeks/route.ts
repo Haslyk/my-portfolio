@@ -3,7 +3,11 @@ import { CURRICULUM_WEEKS } from '@/lib/akademi/shared';
 import { PUBLIC_CURRICULUM_WEEKS } from '@/lib/akademi/pc-donanimi';
 import { getPrismaAsync } from '@/lib/akademi/services/db';
 import { getAuthenticatedStudent } from '@/lib/akademi/services/sessionService';
-import { ensureStudentWeekProgresses } from '@/lib/akademi/services/progressService';
+import {
+  ensureStudentWeekProgresses,
+  getStudentGroupKey,
+  isWeekUnlockedForGroup
+} from '@/lib/akademi/services/progressService';
 
 export async function GET(req: NextRequest) {
   try {
@@ -18,23 +22,33 @@ export async function GET(req: NextRequest) {
 
     await ensureStudentWeekProgresses(prisma, studentId, courseCode);
 
-    const dbWeeks = await prisma.week.findMany({
-      where: { courseCode },
-      orderBy: { order: 'asc' },
-      include: {
-        activities: {
-          orderBy: { orderInWeek: 'asc' }
-        },
-        weekProgresses: {
-          where: { studentId }
+    const [studentInfo, dbWeeks, attempts] = await Promise.all([
+      prisma.student.findUnique({
+        where: { id: studentId },
+        select: { classLevel: true, section: true }
+      }),
+      prisma.week.findMany({
+        where: { courseCode },
+        orderBy: { order: 'asc' },
+        include: {
+          activities: {
+            orderBy: { orderInWeek: 'asc' }
+          },
+          weekProgresses: {
+            where: { studentId }
+          }
         }
-      }
-    });
+      }),
+      prisma.activityAttempt.findMany({
+        where: { studentId },
+        orderBy: { startedAt: 'asc' }
+      })
+    ]);
 
-    const attempts = await prisma.activityAttempt.findMany({
-      where: { studentId },
-      orderBy: { startedAt: 'asc' }
-    });
+    const groupKey = getStudentGroupKey(
+      studentInfo?.classLevel,
+      studentInfo?.section
+    );
 
     if (courseCode === 'pc-donanimi') {
       const result = dbWeeks.map((dbWeek) => {
@@ -47,7 +61,8 @@ export async function GET(req: NextRequest) {
             ? dbWeeks.find((w) => w.order === dbWeek.order - 1)
             : null;
         const prevCompleted = prevWeek?.weekProgresses[0]?.status === 'COMPLETED';
-        const isAdminLocked = dbWeek.order > 1 && !dbWeek.isAdminUnlocked;
+        const isAdminLocked =
+          dbWeek.order > 1 && !isWeekUnlockedForGroup(dbWeek, groupKey);
 
         let status = wp
           ? wp.status
@@ -164,7 +179,8 @@ export async function GET(req: NextRequest) {
           ? dbWeeks.find((w) => w.order === dbWeek.order - 1)
           : null;
       const prevCompleted = prevWeek?.weekProgresses[0]?.status === 'COMPLETED';
-      const isAdminLocked = dbWeek.order > 1 && !dbWeek.isAdminUnlocked;
+      const isAdminLocked =
+        dbWeek.order > 1 && !isWeekUnlockedForGroup(dbWeek, groupKey);
 
       let status = wp
         ? wp.status

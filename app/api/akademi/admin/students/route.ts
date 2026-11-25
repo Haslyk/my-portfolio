@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
 
     const url = new URL(req.url);
     const courseCode = url.searchParams.get('course') || 'ag-temelleri';
+    const groupFilter = url.searchParams.get('group') || undefined;
     const weekOrder =
       parseInt(url.searchParams.get('weekOrder') || '1', 10) || 1;
     const rawAct = url.searchParams.get('activityCode');
@@ -21,7 +22,8 @@ export async function GET(req: NextRequest) {
     const { rows, courseSettings } = await computeAdminDataset(
       weekOrder,
       activityCode,
-      courseCode
+      courseCode,
+      groupFilter
     );
 
     let filtered = rows;

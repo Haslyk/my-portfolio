@@ -3,6 +3,28 @@ import { WeekStatus } from '@/lib/akademi/shared';
 
 type DbClient = PrismaClient | Prisma.TransactionClient;
 
+export const ALL_STUDENT_GROUPS = ['1-A', '1-B', '2-A', '2-B'] as const;
+
+export function getStudentGroupKey(
+  classLevel?: number | null,
+  section?: string | null
+): string {
+  const cls = classLevel === 1 ? 1 : 2;
+  const sec = section === 'B' ? 'B' : 'A';
+  return `${cls}-${sec}`;
+}
+
+export function isWeekUnlockedForGroup(
+  week: { order: number; isAdminUnlocked?: boolean; unlockedGroups?: any },
+  groupKey: string
+): boolean {
+  if (week.order === 1) return true;
+  if (Array.isArray(week.unlockedGroups)) {
+    return week.unlockedGroups.map(String).includes(groupKey);
+  }
+  return Boolean(week.isAdminUnlocked);
+}
+
 export async function ensureStudentWeekProgresses(
   tx: DbClient,
   studentId: string,
@@ -47,22 +69,37 @@ export async function checkWeekUnlocked(
   weekOrder: number;
   adminLocked?: boolean;
 }> {
-  // Fast-path: check existing weekProgress + week in a single query
-  const wp = await tx.weekProgress.findUnique({
-    where: {
-      studentId_weekId: {
-        studentId,
-        weekId
+  const [wp, student] = await Promise.all([
+    tx.weekProgress.findUnique({
+      where: {
+        studentId_weekId: {
+          studentId,
+          weekId
+        }
+      },
+      include: {
+        week: {
+          select: {
+            order: true,
+            courseCode: true,
+            isAdminUnlocked: true,
+            unlockedGroups: true
+          }
+        }
       }
-    },
-    include: {
-      week: { select: { order: true, courseCode: true, isAdminUnlocked: true } }
-    }
-  });
+    }),
+    tx.student.findUnique({
+      where: { id: studentId },
+      select: { classLevel: true, section: true }
+    })
+  ]);
+
+  const groupKey = getStudentGroupKey(student?.classLevel, student?.section);
 
   if (wp) {
-    // Rule: Weeks 2..5 require BOTH admin unlock AND previous week completion
-    if (wp.week.order > 1 && !wp.week.isAdminUnlocked) {
+    const adminAllowed = isWeekUnlockedForGroup(wp.week, groupKey);
+    // Rule: Weeks 2..5 require BOTH admin unlock for student's group AND previous week completion
+    if (wp.week.order > 1 && !adminAllowed) {
       return {
         unlocked: false,
         status: 'LOCKED',
@@ -79,8 +116,8 @@ export async function checkWeekUnlocked(
       return { unlocked: true, status: 'NOT_STARTED', weekOrder: 1 };
     }
 
-    // If admin unlocked this week, verify if previous week is completed and unlock if still LOCKED
-    if (wp.week.order > 1 && wp.week.isAdminUnlocked && wp.status === 'LOCKED') {
+    // If admin unlocked this week for the student's group, verify if previous week is completed and unlock if still LOCKED
+    if (wp.week.order > 1 && adminAllowed && wp.status === 'LOCKED') {
       const prevWeek = await tx.week.findUnique({
         where: {
           courseCode_order: {
@@ -128,7 +165,7 @@ export async function checkWeekUnlocked(
 
   await ensureStudentWeekProgresses(tx, studentId, week.courseCode);
 
-  if (week.order > 1 && !week.isAdminUnlocked) {
+  if (week.order > 1 && !isWeekUnlockedForGroup(week, groupKey)) {
     return {
       unlocked: false,
       status: 'LOCKED',
@@ -232,16 +269,26 @@ export async function recalculateAndSyncWeekProgress(
 
   let nextWeekUnlocked = false;
   if (newStatus === 'COMPLETED') {
-    const nextWeek = await tx.week.findUnique({
-      where: {
-        courseCode_order: {
-          courseCode: week.courseCode,
-          order: week.order + 1
+    const [nextWeek, studentInfo] = await Promise.all([
+      tx.week.findUnique({
+        where: {
+          courseCode_order: {
+            courseCode: week.courseCode,
+            order: week.order + 1
+          }
         }
-      }
-    });
-    // Next week only unlocks if admin has ALSO unlocked that week
-    if (nextWeek && nextWeek.isAdminUnlocked) {
+      }),
+      tx.student.findUnique({
+        where: { id: studentId },
+        select: { classLevel: true, section: true }
+      })
+    ]);
+    const groupKey = getStudentGroupKey(
+      studentInfo?.classLevel,
+      studentInfo?.section
+    );
+    // Next week only unlocks if admin has ALSO unlocked that week for the student's group
+    if (nextWeek && isWeekUnlockedForGroup(nextWeek, groupKey)) {
       const nextWp = await tx.weekProgress.findUnique({
         where: {
           studentId_weekId: {

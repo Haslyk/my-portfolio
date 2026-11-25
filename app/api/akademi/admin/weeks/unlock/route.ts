@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getPrismaAsync } from '@/lib/akademi/services/db';
 import { getAuthenticatedAdmin } from '@/lib/akademi/services/sessionService';
+import {
+  ALL_STUDENT_GROUPS,
+  getStudentGroupKey
+} from '@/lib/akademi/services/progressService';
 
 const weekLockSchema = z.object({
   courseCode: z.string().min(1),
   weekOrder: z.number().int().min(1).max(10),
   action: z.enum(['unlock', 'lock']).optional().default('unlock'),
+  groupKey: z.string().optional(), // 'ALL' | '1-A' | '1-B' | '2-A' | '2-B'
   studentId: z.string().optional(),
   unlockAll: z.boolean().optional(),
   applyToAll: z.boolean().optional()
@@ -26,9 +31,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { courseCode, weekOrder, action, studentId, unlockAll, applyToAll } =
-      parsed.data;
-    const isAll = Boolean(unlockAll || applyToAll);
+    const {
+      courseCode,
+      weekOrder,
+      action,
+      groupKey,
+      studentId,
+      unlockAll,
+      applyToAll
+    } = parsed.data;
+    const isAllOrGroup = Boolean(unlockAll || applyToAll || groupKey);
 
     if (action === 'lock' && weekOrder === 1) {
       return NextResponse.json(
@@ -58,8 +70,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Individual student override (still respects global Week.isAdminUnlocked on lock)
+    const currentGroups: string[] = Array.isArray((week as any).unlockedGroups)
+      ? (week as any).unlockedGroups.map(String)
+      : [];
+
+    // 1) Individual student override
     if (studentId) {
+      const student = await prisma.student.findUnique({
+        where: { id: studentId },
+        select: { classLevel: true, section: true }
+      });
+      const stuGroup = getStudentGroupKey(student?.classLevel, student?.section);
+
+      if (action === 'unlock' && !currentGroups.includes(stuGroup)) {
+        const nextGroups = Array.from(new Set([...currentGroups, stuGroup]));
+        await prisma.week.update({
+          where: { id: week.id },
+          data: {
+            isAdminUnlocked: true,
+            unlockedGroups: nextGroups
+          }
+        });
+      }
+
       const targetStatus = action === 'lock' ? 'LOCKED' : 'NOT_STARTED';
       const existing = await prisma.weekProgress.findUnique({
         where: {
@@ -69,13 +102,6 @@ export async function POST(req: NextRequest) {
           }
         }
       });
-
-      if (action === 'unlock' && !week.isAdminUnlocked) {
-        await prisma.week.update({
-          where: { id: week.id },
-          data: { isAdminUnlocked: true }
-        });
-      }
 
       if (!existing) {
         await prisma.weekProgress.create({
@@ -107,9 +133,23 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Course-wide admin week lock / unlock
-    if (isAll) {
+    // 2) Group-based or All-groups lock/unlock
+    if (isAllOrGroup) {
+      const isSpecificGroup =
+        typeof groupKey === 'string' && /^[12]-[AB]$/.test(groupKey);
+      const targetGroups = isSpecificGroup
+        ? [groupKey]
+        : [...ALL_STUDENT_GROUPS];
+
+      const groupLabel = isSpecificGroup
+        ? `${groupKey.split('-')[0]}. Sınıf ${groupKey.split('-')[1]} Grubu`
+        : 'Tüm Gruplar';
+
       if (action === 'unlock') {
+        const nextGroups = Array.from(
+          new Set([...currentGroups, ...targetGroups])
+        );
+
         const prevWeek =
           weekOrder > 1
             ? await prisma.week.findUnique({
@@ -123,18 +163,28 @@ export async function POST(req: NextRequest) {
             : null;
 
         await prisma.$transaction(async (tx) => {
-          // 1) Mark week as admin-unlocked
           await tx.week.update({
             where: { id: week.id },
-            data: { isAdminUnlocked: true }
+            data: {
+              isAdminUnlocked: nextGroups.length > 0,
+              unlockedGroups: nextGroups
+            }
           });
 
-          // 2) Unlock WeekProgress ONLY for students who have completed the previous week
+          // Unlock WeekProgress ONLY for students in targetGroups who completed the previous week
           if (prevWeek) {
+            const studentFilter = isSpecificGroup
+              ? {
+                  classLevel: parseInt(groupKey.split('-')[0], 10),
+                  section: groupKey.split('-')[1]
+                }
+              : undefined;
+
             const completedPrev = await tx.weekProgress.findMany({
               where: {
                 weekId: prevWeek.id,
-                status: 'COMPLETED'
+                status: 'COMPLETED',
+                ...(studentFilter ? { student: studentFilter } : {})
               },
               select: { studentId: true }
             });
@@ -163,25 +213,33 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
           ok: true,
           action: 'unlock',
-          message: `${weekOrder}. hafta kilidi açıldı (önceki haftayı tamamlayan öğrenciler erişebilir).`
+          unlockedGroups: nextGroups,
+          message: `${weekOrder}. hafta kilidi ${groupLabel} için açıldı (önceki haftayı tamamlayanlar girebilir).`
         });
       } else {
-        // Lock week globally by setting isAdminUnlocked = false (preserves existing student progress!)
+        const nextGroups = isSpecificGroup
+          ? currentGroups.filter((g) => g !== groupKey)
+          : [];
+
         await prisma.week.update({
           where: { id: week.id },
-          data: { isAdminUnlocked: false }
+          data: {
+            isAdminUnlocked: nextGroups.length > 0,
+            unlockedGroups: nextGroups
+          }
         });
 
         return NextResponse.json({
           ok: true,
           action: 'lock',
-          message: `${weekOrder}. hafta kilitlendi (öğrencilerin önceki ilerlemeleri korunur).`
+          unlockedGroups: nextGroups,
+          message: `${weekOrder}. hafta ${groupLabel} için kilitlendi.`
         });
       }
     }
 
     return NextResponse.json(
-      { error: 'BAD_REQUEST', message: 'studentId veya applyToAll belirtilmelidir.' },
+      { error: 'BAD_REQUEST', message: 'studentId veya groupKey belirtilmelidir.' },
       { status: 400 }
     );
   } catch (err) {

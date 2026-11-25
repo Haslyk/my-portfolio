@@ -14,6 +14,8 @@ model Student {
   lastName        String
   normalizedName  String
   studentNumber   String            @unique
+  classLevel      Int               @default(2)
+  section         String            @default("A")
   allowedCourses  Json?
   createdAt       DateTime          @default(now())
   lastSeenAt      DateTime          @default(now())
@@ -27,6 +29,7 @@ model Student {
 
   @@index([lastSeenAt])
   @@index([normalizedName])
+  @@index([classLevel, section])
 }
 
 model CourseSetting {
@@ -72,6 +75,7 @@ model Week {
   order           Int
   title           String
   isAdminUnlocked Boolean        @default(false)
+  unlockedGroups  Json           @default("[]")
 
   activities      Activity[]
   weekProgresses  WeekProgress[]

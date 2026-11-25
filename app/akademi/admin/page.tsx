@@ -45,6 +45,14 @@ const COURSE_TABS = [
   { code: 'gorsel-programlama', label: 'Görsel Programlama', Icon: Code2 },
 ];
 
+const GROUP_TABS = [
+  { key: 'ALL', label: 'Tüm Gruplar' },
+  { key: '1-A', label: '1. Sınıf - A' },
+  { key: '1-B', label: '1. Sınıf - B' },
+  { key: '2-A', label: '2. Sınıf - A' },
+  { key: '2-B', label: '2. Sınıf - B' },
+];
+
 const cleanCode = (code: string | null | undefined) =>
   code ? code.replace(/^D-/, '') : '';
 
@@ -62,8 +70,9 @@ export default function AkademiAdminPage() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Selected Course & Filters
+  // Selected Course, Group & Filters
   const [selectedCourse, setSelectedCourse] = useState<string>('ag-temelleri');
+  const [selectedGroup, setSelectedGroup] = useState<string>('ALL');
   const [selectedWeekOrder, setSelectedWeekOrder] = useState<number>(1);
   const [selectedActivityCode, setSelectedActivityCode] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
@@ -81,6 +90,8 @@ export default function AkademiAdminPage() {
     firstName: string;
     lastName: string;
     studentNumber: string;
+    classLevel: number;
+    section: 'A' | 'B';
     effectiveCourses: string[];
   } | null>(null);
   const [editMessage, setEditMessage] = useState<{
@@ -151,6 +162,7 @@ export default function AkademiAdminPage() {
     queryKey: [
       'admin-summary',
       selectedCourse,
+      selectedGroup,
       selectedWeekOrder,
       selectedActivityCode,
     ],
@@ -159,6 +171,9 @@ export default function AkademiAdminPage() {
         course: selectedCourse,
         weekOrder: String(selectedWeekOrder),
       });
+      if (selectedGroup !== 'ALL') {
+        params.set('group', selectedGroup);
+      }
       if (selectedActivityCode) {
         params.set('activityCode', selectedActivityCode);
       }
@@ -173,6 +188,7 @@ export default function AkademiAdminPage() {
     queryKey: [
       'admin-students',
       selectedCourse,
+      selectedGroup,
       selectedWeekOrder,
       selectedActivityCode,
       statusFilter,
@@ -185,6 +201,9 @@ export default function AkademiAdminPage() {
         status: statusFilter,
         search: searchQuery,
       });
+      if (selectedGroup !== 'ALL') {
+        params.set('group', selectedGroup);
+      }
       if (selectedActivityCode) {
         params.set('activityCode', selectedActivityCode);
       }
@@ -214,6 +233,8 @@ export default function AkademiAdminPage() {
         firstName: s.firstName,
         lastName: s.lastName,
         studentNumber: s.studentNumber,
+        classLevel: s.classLevel ?? 2,
+        section: s.section === 'B' ? 'B' : 'A',
         effectiveCourses: Array.isArray(s.effectiveCourses)
           ? s.effectiveCourses
           : ['ag-temelleri'],
@@ -308,6 +329,8 @@ export default function AkademiAdminPage() {
             firstName: editForm.firstName,
             lastName: editForm.lastName,
             studentNumber: editForm.studentNumber,
+            classLevel: editForm.classLevel,
+            section: editForm.section,
             allowedCourses: editForm.effectiveCourses,
           }),
         }
@@ -362,9 +385,11 @@ export default function AkademiAdminPage() {
     const courseLabel =
       COURSE_TABS.find((c) => c.code === selectedCourse)?.label ||
       selectedCourse;
+    const groupLabel =
+      GROUP_TABS.find((g) => g.key === selectedGroup)?.label || 'Tüm Gruplar';
     const actionText = action === 'lock' ? 'kilitlemek' : 'açmak';
     const ok = window.confirm(
-      `${courseLabel} dersi ${weekOrder}. haftasını ${actionText} istediğinize emin misiniz?`
+      `${courseLabel} dersi ${weekOrder}. haftasını "${groupLabel}" için ${actionText} istediğinize emin misiniz?`
     );
     if (!ok) return;
 
@@ -378,6 +403,7 @@ export default function AkademiAdminPage() {
             courseCode: selectedCourse,
             weekOrder,
             action,
+            groupKey: selectedGroup,
             applyToAll: true,
           }),
         }
@@ -782,6 +808,30 @@ export default function AkademiAdminPage() {
               );
             })}
           </div>
+
+          {/* Class / Group Selector Tabs */}
+          <div className="w-full pt-3 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-500 mr-1">
+              Sınıf / Grup:
+            </span>
+            {GROUP_TABS.map((grp) => {
+              const active = selectedGroup === grp.key;
+              return (
+                <button
+                  key={grp.key}
+                  type="button"
+                  onClick={() => setSelectedGroup(grp.key)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition ${
+                    active
+                      ? 'bg-brand-purple text-white shadow-sm'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                  }`}
+                >
+                  {grp.label}
+                </button>
+              );
+            })}
+          </div>
         </section>
 
         {/* 4 Compact Stat Cards */}
@@ -943,6 +993,10 @@ export default function AkademiAdminPage() {
                 href={`/api/akademi/admin/export?course=${encodeURIComponent(
                   selectedCourse
                 )}&weekOrder=${selectedWeekOrder}${
+                  selectedGroup !== 'ALL'
+                    ? `&group=${encodeURIComponent(selectedGroup)}`
+                    : ''
+                }${
                   selectedActivityCode
                     ? `&activityCode=${encodeURIComponent(
                         selectedActivityCode
@@ -957,18 +1011,37 @@ export default function AkademiAdminPage() {
             </div>
           </div>
 
-          {/* Always-visible 5-Week Admin Lock / Unlock Strip */}
+          {/* Always-visible 5-Week Group Lock / Unlock Strip */}
           <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2.5">
             <div className="text-xs font-bold text-slate-600 flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-slate-500" />
               <span>
-                Hafta Kilitleri ({COURSE_TABS.find((c) => c.code === selectedCourse)?.label}):
+                Hafta Kilitleri ({COURSE_TABS.find((c) => c.code === selectedCourse)?.label} ·{' '}
+                <strong className="text-brand-purple">
+                  {GROUP_TABS.find((g) => g.key === selectedGroup)?.label}
+                </strong>
+                ):
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-1.5">
               {[1, 2, 3, 4, 5].map((order) => {
                 const w = weeksCatalog.find((x: any) => x.order === order);
-                const isOpen = order === 1 ? true : Boolean(w?.isAdminUnlocked);
+                const unlockedGroups: string[] = Array.isArray(w?.unlockedGroups)
+                  ? w.unlockedGroups
+                  : [];
+                const isAllSelected = selectedGroup === 'ALL';
+                const isOpen =
+                  order === 1
+                    ? true
+                    : isAllSelected
+                    ? unlockedGroups.length >= 4
+                    : unlockedGroups.includes(selectedGroup);
+                const isPartial =
+                  order > 1 &&
+                  isAllSelected &&
+                  unlockedGroups.length > 0 &&
+                  unlockedGroups.length < 4;
+
                 return (
                   <button
                     key={order}
@@ -985,6 +1058,8 @@ export default function AkademiAdminPage() {
                         ? 'bg-emerald-50 border-emerald-200 text-emerald-800 cursor-default'
                         : isOpen
                         ? 'bg-emerald-100 hover:bg-emerald-200 border-emerald-400 text-emerald-950'
+                        : isPartial
+                        ? 'bg-amber-100 hover:bg-amber-200 border-amber-400 text-amber-950'
                         : 'bg-slate-100 hover:bg-amber-100 border-slate-300 text-slate-700 hover:text-amber-950'
                     }`}
                     title={
@@ -992,7 +1067,7 @@ export default function AkademiAdminPage() {
                         ? '1. Hafta her zaman açıktır'
                         : isOpen
                         ? `${order}. Haftayı tekrar kilitle`
-                        : `${order}. Haftanın kilidini aç (önceki haftayı bitirenler girebilir)`
+                        : `${order}. Haftanın kilidini aç`
                     }
                   >
                     {isOpen ? (
@@ -1002,7 +1077,11 @@ export default function AkademiAdminPage() {
                     )}
                     <span>{order}. Hafta</span>
                     <span className="text-[10px] opacity-80">
-                      {isOpen ? 'Açık' : 'Kilitli'}
+                      {isOpen
+                        ? 'Açık'
+                        : isPartial
+                        ? `${unlockedGroups.length}/4`
+                        : 'Kilitli'}
                     </span>
                   </button>
                 );
@@ -1122,6 +1201,9 @@ export default function AkademiAdminPage() {
                       >
                         <td className="py-2.5 px-4 font-bold text-brand-navy">
                           <div className="flex items-center gap-2">
+                            <span className="px-1.5 py-0.5 rounded bg-purple-100 text-brand-purple text-[10px] font-extrabold shrink-0">
+                              {row.groupKey || '2-A'}
+                            </span>
                             <span>{row.fullName}</span>
                             {row.isRecentlySeen && (
                               <span
@@ -1275,7 +1357,7 @@ export default function AkademiAdminPage() {
                         )}
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5">
                         <input
                           type="text"
                           required
@@ -1318,6 +1400,32 @@ export default function AkademiAdminPage() {
                           }
                           className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono font-bold"
                         />
+                        <select
+                          value={editForm.classLevel}
+                          onChange={(e) =>
+                            setEditForm({
+                              ...editForm,
+                              classLevel: Number(e.target.value),
+                            })
+                          }
+                          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-bold text-slate-800"
+                        >
+                          <option value={1}>1. Sınıf</option>
+                          <option value={2}>2. Sınıf</option>
+                        </select>
+                        <select
+                          value={editForm.section}
+                          onChange={(e) =>
+                            setEditForm({
+                              ...editForm,
+                              section: e.target.value === 'B' ? 'B' : 'A',
+                            })
+                          }
+                          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-bold text-slate-800"
+                        >
+                          <option value="A">A Grubu</option>
+                          <option value="B">B Grubu</option>
+                        </select>
                       </div>
 
                       <div className="flex flex-wrap items-center justify-between gap-3 pt-1">

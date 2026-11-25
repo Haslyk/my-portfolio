@@ -17,7 +17,9 @@ import { ensureStudentWeekProgresses } from '@/lib/akademi/services/progressServ
 const joinSchema = z.object({
   firstName: z.string().min(1, 'Lütfen adınızı girin.'),
   lastName: z.string().min(1, 'Lütfen soyadınızı girin.'),
-  studentNumber: z.string().min(1, 'Lütfen öğrenci numaranızı girin.')
+  studentNumber: z.string().min(1, 'Lütfen öğrenci numaranızı girin.'),
+  classLevel: z.coerce.number().int().min(1).max(2).optional().default(2),
+  section: z.enum(['A', 'B']).optional().default('A')
 });
 
 export async function POST(req: NextRequest) {
@@ -79,6 +81,8 @@ export async function POST(req: NextRequest) {
             lastName,
             normalizedName,
             studentNumber,
+            classLevel: parsed.data.classLevel,
+            section: parsed.data.section,
             lastSeenAt: new Date()
           }
         });
@@ -136,6 +140,8 @@ export async function POST(req: NextRequest) {
         firstName: student.firstName,
         lastName: student.lastName,
         studentNumber: student.studentNumber,
+        classLevel: student.classLevel,
+        section: student.section,
         visibleCourses
       },
       message: 'Akademiye hoş geldin!'

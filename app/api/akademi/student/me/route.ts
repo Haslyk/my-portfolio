@@ -27,6 +27,8 @@ export async function GET(req: NextRequest) {
         firstName: freshStudent.firstName,
         lastName: freshStudent.lastName,
         studentNumber: freshStudent.studentNumber,
+        classLevel: freshStudent.classLevel,
+        section: freshStudent.section,
         visibleCourses
       },
       csrfToken: auth.student.csrfToken

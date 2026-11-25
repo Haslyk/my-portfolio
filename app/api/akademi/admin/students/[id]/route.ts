@@ -162,6 +162,8 @@ export async function GET(
         firstName: student.firstName,
         lastName: student.lastName,
         studentNumber: student.studentNumber,
+        classLevel: student.classLevel ?? 2,
+        section: student.section || 'A',
         allowedCourses: student.allowedCourses ?? null,
         effectiveCourses,
         createdAt: student.createdAt,
@@ -187,6 +189,8 @@ const updateStudentSchema = z.object({
   firstName: z.string().min(1, 'Ad boş olamaz.').optional(),
   lastName: z.string().min(1, 'Soyad boş olamaz.').optional(),
   studentNumber: z.string().min(1, 'Öğrenci numarası boş olamaz.').optional(),
+  classLevel: z.coerce.number().int().min(1).max(2).optional(),
+  section: z.enum(['A', 'B']).optional(),
   allowedCourses: z.array(z.string()).nullable().optional()
 });
 
@@ -277,6 +281,8 @@ export async function PATCH(
     }
 
     const normalizedName = buildNormalizedFullName(firstName, lastName);
+    const classLevel = parsed.data.classLevel ?? existingStudent.classLevel ?? 2;
+    const section = parsed.data.section ?? existingStudent.section ?? 'A';
     const hasCoursesUpdate = parsed.data.allowedCourses !== undefined;
     const nextAllowedCourses = hasCoursesUpdate
       ? parsed.data.allowedCourses
@@ -290,6 +296,8 @@ export async function PATCH(
           lastName,
           normalizedName,
           studentNumber,
+          classLevel,
+          section,
           ...(hasCoursesUpdate
             ? {
                 allowedCourses:

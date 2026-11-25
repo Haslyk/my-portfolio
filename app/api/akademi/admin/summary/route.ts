@@ -10,13 +10,14 @@ export async function GET(req: NextRequest) {
 
     const url = new URL(req.url);
     const courseCode = url.searchParams.get('course') || 'ag-temelleri';
+    const groupFilter = url.searchParams.get('group') || undefined;
     const weekOrder =
       parseInt(url.searchParams.get('weekOrder') || '1', 10) || 1;
     const rawAct = url.searchParams.get('activityCode');
     const activityCode = rawAct && rawAct.trim() ? rawAct.trim() : undefined;
 
     const { weeks, targetWeek, targetActivity, rows, courseSettings } =
-      await computeAdminDataset(weekOrder, activityCode, courseCode);
+      await computeAdminDataset(weekOrder, activityCode, courseCode, groupFilter);
 
     const prisma = await getPrismaAsync();
     const openHelpRequests = await prisma.helpRequest.findMany({
@@ -90,6 +91,9 @@ export async function GET(req: NextRequest) {
         order: w.order,
         title: w.title,
         isAdminUnlocked: w.isAdminUnlocked,
+        unlockedGroups: Array.isArray((w as any).unlockedGroups)
+          ? (w as any).unlockedGroups.map(String)
+          : [],
         activities: w.activities.map((a) => ({
           id: a.id,
           code: a.code,
