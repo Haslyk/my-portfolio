@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   GP_CURRICULUM_WEEKS,
   exportGpCurriculumToMarkdown
@@ -9,22 +10,52 @@ import {
 import { runVbaInWorker } from '@/lib/akademi/gorsel-programlama/vbaSimulator/workerRunner';
 import { VbaRunResult } from '@/lib/akademi/gorsel-programlama';
 import { TraceViewerPanel } from '@/components/akademi/gorsel-programlama/TraceViewerPanel';
+import { apiRequest } from '@/lib/akademi/apiClient';
 import {
   ArrowLeft,
   Download,
   Eye,
   EyeOff,
+  Loader2,
   Play,
   Presentation,
   StepForward
 } from 'lucide-react';
 
 export default function GpSunumModuPage() {
+  const router = useRouter();
+  const [checkingAdmin, setCheckingAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [weekOrder, setWeekOrder] = useState(1);
   const [actIndex, setActIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [simResult, setSimResult] = useState<VbaRunResult | null>(null);
   const [traceIndex, setTraceIndex] = useState(0);
+
+  useEffect(() => {
+    let mounted = true;
+    apiRequest('/api/akademi/admin/me')
+      .then(() => {
+        if (mounted) setIsAdmin(true);
+      })
+      .catch(() => {
+        if (mounted) router.replace('/akademi/admin');
+      })
+      .finally(() => {
+        if (mounted) setCheckingAdmin(false);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [router]);
+
+  if (checkingAdmin || !isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white">
+        <Loader2 className="h-7 w-7 animate-spin text-sky-400" />
+      </div>
+    );
+  }
 
   const week =
     GP_CURRICULUM_WEEKS.find((w) => w.order === weekOrder) ||

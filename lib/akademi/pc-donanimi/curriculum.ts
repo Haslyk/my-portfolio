@@ -193,9 +193,9 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
               code: 'W1-Q2',
               prompt: 'Anakartın temel görevi nedir?',
               options: [
-                { key: 'A', label: 'Görüntüyü göstermek' },
+                { key: 'A', label: 'Geçici verileri hızlıca tutmak' },
                 { key: 'B', label: 'Parçaları birbirine bağlamak' },
-                { key: 'C', label: 'Belgeleri yazdırmak' },
+                { key: 'C', label: 'Dosyaları kalıcı depolamak' },
               ],
             },
             {
@@ -203,9 +203,9 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
               code: 'W1-Q3',
               prompt: 'Verilen komutları işleyen temel parça hangisidir?',
               options: [
-                { key: 'A', label: 'Kasa' },
-                { key: 'B', label: 'Monitör' },
-                { key: 'C', label: 'İşlemci' },
+                { key: 'A', label: 'Güç kaynağı (PSU)' },
+                { key: 'B', label: 'RAM (Bellek)' },
+                { key: 'C', label: 'İşlemci (CPU)' },
               ],
             },
           ],
@@ -394,9 +394,9 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
               code: 'W2-Q1',
               prompt: 'RAM’in temel görevi nedir?',
               options: [
-                { key: 'A', label: 'Kalıcı fotoğraf arşivi' },
-                { key: 'B', label: 'O anki çalışma alanı' },
-                { key: 'C', label: 'Elektrik sağlamak' },
+                { key: 'A', label: 'Kalıcı dosya ve sistem deposu' },
+                { key: 'B', label: 'O anki aktif çalışma alanı' },
+                { key: 'C', label: 'Parçalara güç dağıtım birimi' },
               ],
             },
             {
@@ -404,7 +404,7 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
               code: 'W2-Q2',
               prompt: 'Kaydedilmiş belge bilgisayar kapalıyken nerede korunur?',
               options: [
-                { key: 'A', label: 'Fanda' },
+                { key: 'A', label: 'İşlemci önbelleğinde (Cache)' },
                 { key: 'B', label: 'RAM’de' },
                 { key: 'C', label: 'SSD/HDD’de' },
               ],
@@ -414,9 +414,9 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
               code: 'W2-Q3',
               prompt: 'RAM ters yönde görünüyorsa ne yapılmalı?',
               options: [
-                { key: 'A', label: 'Yön ve uyum kontrol edilmeli' },
-                { key: 'B', label: 'Daha güçlü bastırılmalı' },
-                { key: 'C', label: 'Mandal kırılmalı' },
+                { key: 'A', label: 'Çentik yönü ve yuva uyumu kontrol edilmeli' },
+                { key: 'B', label: 'Mandal kapatılıp dikey bastırılmalı' },
+                { key: 'C', label: 'Yan yuvaya çapraz yerleştirilmeli' },
               ],
             },
           ],
@@ -1134,6 +1134,18 @@ export const PUBLIC_CURRICULUM_WEEKS: PublicWeekDefinition[] = [
     ],
   },
 ];
+
+// Assign Kolay / Orta / Zor difficulty levels for Weeks 2..5 (Week 1 has no difficulty badge)
+for (const week of PUBLIC_CURRICULUM_WEEKS) {
+  if (week.order >= 2) {
+    week.activities.forEach((act, idx) => {
+      if (!act.difficulty) {
+        act.difficulty =
+          idx === 0 ? 'Kolay' : idx === 1 || idx === 2 ? 'Orta' : 'Zor';
+      }
+    });
+  }
+}
 
 export function getPublicActivityByCode(code: string) {
   for (const week of PUBLIC_CURRICULUM_WEEKS) {

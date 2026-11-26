@@ -72,23 +72,49 @@ export async function GET(req: NextRequest) {
               r.selectedActivityStatus === 'COMPLETED' &&
               r.selectedActivityCompletedAt
           )
-          .sort(
-            (a, b) =>
+          .sort((a, b) => {
+            const cA = a.selectedActivityCheckCount ?? 999;
+            const cB = b.selectedActivityCheckCount ?? 999;
+            if (cA !== cB) return cA - cB;
+            const msA = a.selectedActivityElapsedMs ?? Number.MAX_SAFE_INTEGER;
+            const msB = b.selectedActivityElapsedMs ?? Number.MAX_SAFE_INTEGER;
+            if (msA !== msB) return msA - msB;
+            return (
               new Date(a.selectedActivityCompletedAt!).getTime() -
               new Date(b.selectedActivityCompletedAt!).getTime()
-          )
-          .map((r, idx) => ({
-            completionOrder: idx + 1,
-            studentId: r.id,
-            fullName: r.fullName,
-            studentNumber: r.studentNumber,
-            completedAt: r.selectedActivityCompletedAt,
-            activeSeconds: r.selectedActivityActiveSeconds,
-            elapsedSeconds: r.selectedActivityElapsedSeconds,
-            allocatedSeconds: targetActivity.allocatedSeconds,
-            isEarlyFinisher: r.selectedActivityEarlyFinisher,
-            earlyFinisherRuleExplanation: `Yaklaşık etkin çalışma süresi (activeSeconds = ${r.selectedActivityActiveSeconds} sn), ayrılan süreden (${targetActivity.allocatedSeconds} sn / 10 dk) kısa olduğu için "Ayrılan süreden önce tamamladı" etiketi verilmiştir.`
-          }))
+            );
+          })
+          .map((r, idx) => {
+            const ms = r.selectedActivityElapsedMs ?? 1000;
+            const totalSec = Math.floor(ms / 1000);
+            const mins = Math.floor(totalSec / 60);
+            const secs = totalSec % 60;
+            const centis = Math.floor((ms % 1000) / 10);
+            const durationMsFormatted =
+              mins > 0
+                ? `${mins} dk ${String(secs).padStart(2, '0')}.${String(centis).padStart(2, '0')} sn`
+                : `${secs}.${String(centis).padStart(2, '0')} sn`;
+            return {
+              completionOrder: idx + 1,
+              studentId: r.id,
+              fullName: r.fullName,
+              studentNumber: r.studentNumber,
+              completedAt: r.selectedActivityCompletedAt,
+              activeSeconds: r.selectedActivityActiveSeconds,
+              elapsedSeconds: r.selectedActivityElapsedSeconds,
+              elapsedMs: ms,
+              durationMsFormatted,
+              checkCount: r.selectedActivityCheckCount ?? 1,
+              isFirstTry: r.selectedActivityIsFirstTry,
+              allocatedSeconds: targetActivity.allocatedSeconds,
+              isEarlyFinisher: r.selectedActivityEarlyFinisher,
+              earlyFinisherRuleExplanation: `${
+                r.selectedActivityIsFirstTry
+                  ? 'Tekte doğru'
+                  : `${r.selectedActivityCheckCount ?? 1} denemede doğru`
+              } · Süre: ${durationMsFormatted}`
+            };
+          })
       : [];
 
     return NextResponse.json({

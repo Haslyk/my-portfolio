@@ -38,6 +38,9 @@ export interface ComputedStudentRow {
   selectedActivityCompletedAt: string | null;
   selectedActivityActiveSeconds: number | null;
   selectedActivityElapsedSeconds: number | null;
+  selectedActivityElapsedMs: number | null;
+  selectedActivityCheckCount: number | null;
+  selectedActivityIsFirstTry: boolean;
   selectedActivityEarlyFinisher: boolean;
 }
 
@@ -261,6 +264,9 @@ export async function computeAdminDataset(
     let selectedActivityCompletedAt: string | null = null;
     let selectedActivityActiveSeconds: number | null = null;
     let selectedActivityElapsedSeconds: number | null = null;
+    let selectedActivityElapsedMs: number | null = null;
+    let selectedActivityCheckCount: number | null = null;
+    let selectedActivityIsFirstTry = false;
     let selectedActivityEarlyFinisher = false;
 
     if (targetActivity) {
@@ -275,22 +281,25 @@ export async function computeAdminDataset(
           ? normalAtt.completedAt.toISOString()
           : null;
         selectedActivityActiveSeconds = normalAtt.activeSeconds;
-        selectedActivityElapsedSeconds =
+        selectedActivityElapsedMs =
           normalAtt.completedAt && normalAtt.startedAt
             ? Math.max(
                 1,
-                Math.floor(
-                  (normalAtt.completedAt.getTime() -
-                    normalAtt.startedAt.getTime()) /
-                    1000
-                )
+                normalAtt.completedAt.getTime() - normalAtt.startedAt.getTime()
               )
             : null;
+        selectedActivityElapsedSeconds =
+          selectedActivityElapsedMs !== null
+            ? Math.max(1, Math.floor(selectedActivityElapsedMs / 1000))
+            : null;
+        selectedActivityCheckCount = normalAtt.checkCount;
+        selectedActivityIsFirstTry = normalAtt.checkCount <= 1;
         selectedActivityEarlyFinisher =
           normalAtt.activeSeconds < targetActivity.allocatedSeconds;
       } else {
         selectedActivityStatus = 'IN_PROGRESS';
         selectedActivityActiveSeconds = normalAtt.activeSeconds;
+        selectedActivityCheckCount = normalAtt.checkCount;
       }
     }
 
@@ -331,6 +340,9 @@ export async function computeAdminDataset(
       selectedActivityCompletedAt,
       selectedActivityActiveSeconds,
       selectedActivityElapsedSeconds,
+      selectedActivityElapsedMs,
+      selectedActivityCheckCount,
+      selectedActivityIsFirstTry,
       selectedActivityEarlyFinisher
     };
   });

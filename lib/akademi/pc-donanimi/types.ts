@@ -87,6 +87,7 @@ export interface PublicActivityDefinition {
   code: string;
   weekOrder: number;
   title: string;
+  difficulty?: 'Kolay' | 'Orta' | 'Zor';
   type: ActivityType;
   required: boolean;
   widgetType: WidgetType;

@@ -560,8 +560,21 @@ export default function AgTemelleriCoursePage() {
                               {renderStatusBadge(act.status)}
                             </div>
 
-                            <h3 className="text-lg font-extrabold text-brand-navy mb-1.5">
-                              {act.title}
+                            <h3 className="text-lg font-extrabold text-brand-navy mb-1.5 flex flex-wrap items-center gap-2">
+                              <span>{act.title}</span>
+                              {(act as any).difficulty && (
+                                <span
+                                  className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                                    (act as any).difficulty === 'Kolay'
+                                      ? 'bg-emerald-100 text-emerald-800'
+                                      : (act as any).difficulty === 'Orta'
+                                      ? 'bg-amber-100 text-amber-800'
+                                      : 'bg-rose-100 text-rose-800'
+                                  }`}
+                                >
+                                  {(act as any).difficulty}
+                                </span>
+                              )}
                             </h3>
                             <p className="text-sm text-slate-600 font-medium mb-4">
                               {act.shortPurpose}

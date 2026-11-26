@@ -195,3 +195,49 @@ model HelpRequest {
   @@index([courseCode, resolved, createdAt])
   @@index([studentId, resolved])
 }
+
+model LiveQuizSession {
+  id                   String                @id @default(uuid())
+  courseCode           String
+  weekOrder            Int                   @default(0) // 0 = Genel Özet, 1..5 = Hafta
+  title                String
+  status               String                @default("LOBBY_OPEN") // "LOBBY_OPEN" | "LOBBY_CLOSED" | "QUESTION_ACTIVE" | "QUESTION_RESULTS" | "FINISHED"
+  currentQuestionIndex Int                   @default(0)
+  questionStartedAt    DateTime?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+
+  participants         LiveQuizParticipant[]
+  answers              LiveQuizAnswer[]
+
+  @@index([courseCode, createdAt])
+}
+
+model LiveQuizParticipant {
+  id        String          @id @default(uuid())
+  sessionId String
+  studentId String
+  joinedAt  DateTime        @default(now())
+
+  session   LiveQuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, studentId])
+  @@index([sessionId])
+}
+
+model LiveQuizAnswer {
+  id             String          @id @default(uuid())
+  sessionId      String
+  studentId      String
+  questionIndex  Int
+  selectedOption String
+  isCorrect      Boolean
+  responseTimeMs Int
+  points         Int
+  createdAt      DateTime        @default(now())
+
+  session        LiveQuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, studentId, questionIndex])
+  @@index([sessionId, questionIndex, isCorrect, responseTimeMs])
+}

@@ -13,6 +13,7 @@ import { VbaCodeEditor } from './VbaCodeEditor';
 import { UserFormPreview } from './UserFormPreview';
 import { VirtualSheetPreview } from './VirtualSheetPreview';
 import { TraceViewerPanel } from './TraceViewerPanel';
+import { ActivityLeaderboardCard } from '@/components/akademi/ActivityLeaderboardCard';
 import { MatchingWidget } from './widgets/MatchingWidget';
 import { FormBuilderWidget } from './widgets/FormBuilderWidget';
 import { FillBlanksWidget } from './widgets/FillBlanksWidget';
@@ -902,6 +903,11 @@ export function GpActivityWorkspace({
               <p>{state.teacherFeedback}</p>
             </div>
           )}
+
+          <ActivityLeaderboardCard
+            courseCode="gorsel-programlama"
+            activityCode={activity.code}
+          />
         </aside>
       </div>
     </div>

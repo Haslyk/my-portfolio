@@ -11,6 +11,7 @@ import {
   Network,
   User
 } from 'lucide-react';
+import { LiveQuizNavButton } from './LiveQuizNavButton';
 
 export type SaveIndicatorState = 'IDLE' | 'SAVING' | 'SAVED' | 'OFFLINE_RETRY';
 
@@ -62,6 +63,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({
         {/* Right: Student Name, Save Status & Logout */}
         {studentName && (
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <LiveQuizNavButton courseCode="ag-temelleri" />
             {/* Save Status Pill */}
             <div
               role="status"

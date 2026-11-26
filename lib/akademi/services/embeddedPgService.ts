@@ -49,6 +49,41 @@ export async function createEmbeddedPostgresClient(options?: {
     ALTER TABLE "Activity" ADD COLUMN IF NOT EXISTS "courseCode" TEXT NOT NULL DEFAULT 'ag-temelleri';
     DROP INDEX IF EXISTS "Week_order_key";
     CREATE UNIQUE INDEX IF NOT EXISTS "Week_courseCode_order_key" ON "Week"("courseCode", "order");
+    CREATE TABLE IF NOT EXISTS "LiveQuizSession" (
+      "id" TEXT NOT NULL,
+      "courseCode" TEXT NOT NULL,
+      "weekOrder" INTEGER NOT NULL DEFAULT 0,
+      "title" TEXT NOT NULL,
+      "status" TEXT NOT NULL DEFAULT 'WAITING',
+      "currentQuestionIndex" INTEGER NOT NULL DEFAULT 0,
+      "questionStartedAt" TIMESTAMP(3),
+      "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "LiveQuizSession_pkey" PRIMARY KEY ("id")
+    );
+    CREATE TABLE IF NOT EXISTS "LiveQuizParticipant" (
+      "id" TEXT NOT NULL,
+      "sessionId" TEXT NOT NULL,
+      "studentId" TEXT NOT NULL,
+      "joinedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "LiveQuizParticipant_pkey" PRIMARY KEY ("id")
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS "LiveQuizParticipant_sessionId_studentId_key"
+      ON "LiveQuizParticipant"("sessionId", "studentId");
+    CREATE TABLE IF NOT EXISTS "LiveQuizAnswer" (
+      "id" TEXT NOT NULL,
+      "sessionId" TEXT NOT NULL,
+      "studentId" TEXT NOT NULL,
+      "questionIndex" INTEGER NOT NULL,
+      "selectedOption" TEXT NOT NULL,
+      "isCorrect" BOOLEAN NOT NULL,
+      "responseTimeMs" INTEGER NOT NULL,
+      "points" INTEGER NOT NULL,
+      "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "LiveQuizAnswer_pkey" PRIMARY KEY ("id")
+    );
+    CREATE UNIQUE INDEX IF NOT EXISTS "LiveQuizAnswer_sessionId_studentId_questionIndex_key"
+      ON "LiveQuizAnswer"("sessionId", "studentId", "questionIndex");
   `);
 
   const parseRowDates = (row: any) => {
@@ -62,6 +97,7 @@ export async function createEmbeddedPostgresClient(options?: {
       'startedAt',
       'completedAt',
       'lastHeartbeatAt',
+      'questionStartedAt',
       'updatedAt'
     ]) {
       const val = copy[key];
@@ -531,6 +567,23 @@ export async function createEmbeddedPostgresClient(options?: {
       updatedAt: new Date()
     })),
     adminAuditLog: makeModel('AdminAuditLog', () => ({
+      id: crypto.randomUUID(),
+      createdAt: new Date()
+    })),
+    liveQuizSession: makeModel('LiveQuizSession', () => ({
+      id: crypto.randomUUID(),
+      weekOrder: 0,
+      status: 'LOBBY_OPEN',
+      currentQuestionIndex: 0,
+      questionStartedAt: null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })),
+    liveQuizParticipant: makeModel('LiveQuizParticipant', () => ({
+      id: crypto.randomUUID(),
+      joinedAt: new Date()
+    })),
+    liveQuizAnswer: makeModel('LiveQuizAnswer', () => ({
       id: crypto.randomUUID(),
       createdAt: new Date()
     })),

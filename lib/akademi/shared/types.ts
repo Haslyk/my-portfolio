@@ -201,6 +201,7 @@ export interface ActivityCurriculumItem {
   orderInWeek: number;
   title: string;
   shortPurpose: string;
+  difficulty?: 'Kolay' | 'Orta' | 'Zor';
   category: 'REQUIRED_ACTIVITY' | 'QUIZ' | 'HOMEWORK';
   required: boolean;
   expectedSeconds: number;

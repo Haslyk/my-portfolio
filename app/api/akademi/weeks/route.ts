@@ -79,6 +79,9 @@ export async function GET(req: NextRequest) {
         const unlocked = status !== 'LOCKED';
 
         const weekActivities = dbWeek.activities.map((dbAct) => {
+          const actDef = publicWeek?.activities.find(
+            (pa) => pa.code === dbAct.code
+          );
           const actAttempts = attempts.filter((a) => a.activityId === dbAct.id);
           const firstSuccess = actAttempts.find(
             (a) =>
@@ -124,6 +127,7 @@ export async function GET(req: NextRequest) {
             code: dbAct.code,
             displayCode: dbAct.code.replace(/^D-/, ''),
             title: dbAct.title,
+            difficulty: actDef?.difficulty ?? null,
             type: mappedType,
             required: dbAct.required,
             expectedSeconds: dbAct.expectedSeconds,
@@ -325,6 +329,7 @@ export async function GET(req: NextRequest) {
           orderInWeek: dbAct.orderInWeek,
           title: dbAct.title,
           shortPurpose: currAct?.shortPurpose || '',
+          difficulty: currAct?.difficulty ?? null,
           category: dbAct.type,
           widgetType: dbAct.widgetType,
           required: dbAct.required,

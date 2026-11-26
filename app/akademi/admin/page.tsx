@@ -39,6 +39,7 @@ import {
   formatIstanbulDateTime,
 } from '@/lib/akademi/apiClient';
 import { CustomSelect } from '@/components/akademi/CustomSelect';
+import { AdminLiveQuizPanel } from '@/components/akademi/AdminLiveQuizPanel';
 import { AKADEMI_COURSES_CATALOG } from '@/lib/akademi/shared';
 
 const COURSE_TABS = [
@@ -1303,11 +1304,20 @@ export default function AkademiAdminPage() {
                           {item.fullName}
                         </span>
                       </div>
-                      <div className="text-[11px] text-slate-600 mt-1">
-                        Süre: <strong>{formatDurationTr(item.activeSeconds)}</strong>
-                        {item.isEarlyFinisher && (
-                          <span className="ml-1.5 text-brand-purple font-bold">
-                            ★ Erken
+                      <div className="text-[11px] text-slate-600 mt-1 flex flex-wrap items-center gap-1.5">
+                        <span>
+                          Süre:{' '}
+                          <strong className="font-mono">
+                            {item.durationMsFormatted || formatDurationTr(item.activeSeconds)}
+                          </strong>
+                        </span>
+                        {item.isFirstTry ? (
+                          <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800">
+                            Tekte
+                          </span>
+                        ) : (
+                          <span className="rounded bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700">
+                            {item.checkCount} deneme
                           </span>
                         )}
                       </div>
@@ -1328,6 +1338,8 @@ export default function AkademiAdminPage() {
             )}
           </section>
         )}
+
+        <AdminLiveQuizPanel courseCode={selectedCourse} />
 
         {/* Clean Student Progress Table */}
         <section className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">

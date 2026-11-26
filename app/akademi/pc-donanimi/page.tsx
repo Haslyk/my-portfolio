@@ -20,6 +20,7 @@ import {
 } from '@/lib/akademi/pc-donanimi/api';
 import { LearningAnimationCard } from '@/components/akademi/pc-donanimi/LearningAnimationCard';
 import { ActivityEngine } from '@/components/akademi/pc-donanimi/ActivityEngine';
+import { LiveQuizNavButton } from '@/components/akademi/LiveQuizNavButton';
 import {
   Cpu,
   Lock,
@@ -334,6 +335,7 @@ export default function PcDonanimiCoursePage() {
           </div>
 
           <div className="flex items-center flex-wrap gap-2 sm:gap-4">
+            <LiveQuizNavButton courseCode="pc-donanimi" />
             <div
               role="status"
               aria-live="polite"
@@ -620,6 +622,19 @@ export default function PcDonanimiCoursePage() {
                             <span className="px-2.5 py-1 rounded-lg bg-slate-100">
                               Ayrılan süre: 10 dk
                             </span>
+                            {(act as any).difficulty && (
+                              <span
+                                className={`px-2.5 py-1 rounded-lg font-bold ${
+                                  (act as any).difficulty === 'Kolay'
+                                    ? 'bg-emerald-100 text-emerald-800'
+                                    : (act as any).difficulty === 'Orta'
+                                    ? 'bg-amber-100 text-amber-800'
+                                    : 'bg-rose-100 text-rose-800'
+                                }`}
+                              >
+                                Zorluk: {(act as any).difficulty}
+                              </span>
+                            )}
                           </div>
 
                           {act.status === 'COMPLETED' && (

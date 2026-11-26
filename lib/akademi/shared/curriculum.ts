@@ -181,10 +181,10 @@ export const CURRICULUM_WEEKS: WeekCurriculumItem[] = [
                 number: 1,
                 question: 'Bir bilgisayar ağının (network) kurulmasındaki en temel amaç aşağıdakilerden hangisidir?',
                 options: [
-                  { id: 'a', text: 'Bilgisayarların ekran çözünürlüğünü ve işlemci hızını tek başına artırmak' },
+                  { id: 'a', text: 'Bilgisayarların tekil işlemci ve bellek kapasitesini yazılımla artırmak' },
                   { id: 'b', text: 'İki veya daha fazla cihazın birbiriyle veri alışverişi yapmasını ve yazıcı/dosya gibi kaynakları paylaşmasını sağlamak' },
-                  { id: 'c', text: 'Bilgisayarların elektrik tüketimini sıfıra indirmek' },
-                  { id: 'd', text: 'Kablolu cihazları tamamen ortadan kaldırmak' }
+                  { id: 'c', text: 'Tüm cihazların yalnızca tek bir işletim sistemi sürümüne geçmesini zorunlu kılmak' },
+                  { id: 'd', text: 'Her bilgisayara ayrı bir harici sabit disk bağlayarak internet ihtiyacını kaldırmak' }
                 ]
               },
               {
@@ -193,9 +193,9 @@ export const CURRICULUM_WEEKS: WeekCurriculumItem[] = [
                 question: 'Bir laboratuvardaki 20 masaüstü bilgisayarı ve 1 ağ yazıcısını aynı yerel ağ (LAN) içinde kabloyla birbirine bağlamak için hangi cihaz kullanılır?',
                 options: [
                   { id: 'a', text: 'Anahtar (Switch)' },
-                  { id: 'b', text: 'Yalnızca DSL Modem' },
-                  { id: 'c', text: 'Barkod Okuyucu' },
-                  { id: 'd', text: 'Kesintisiz Güç Kaynağı (UPS)' }
+                  { id: 'b', text: 'DSL Modem' },
+                  { id: 'c', text: 'Yalnızca Erişim Noktası (Access Point)' },
+                  { id: 'd', text: 'Güvenlik Duvarı (Firewall) Cihazı' }
                 ]
               },
               {
@@ -203,10 +203,10 @@ export const CURRICULUM_WEEKS: WeekCurriculumItem[] = [
                 number: 3,
                 question: 'Evdeki Wi-Fi ağına bağlı bir dizüstü bilgisayarda "Wi-Fi Bağlı, İnternet Yok" uyarısı görülüyorsa bunun anlamı nedir?',
                 options: [
-                  { id: 'a', text: 'Bilgisayarın ekran kartı bozulmuştur.' },
+                  { id: 'a', text: 'Bilgisayarın kablosuz ağ kartı donanımsal olarak devre dışı kalmıştır.' },
                   { id: 'b', text: 'Bilgisayar evdeki kablosuz cihaza (yerel ağa) bağlanmıştır ancak modem/yönlendirici dış servis sağlayıcıya (internete) ulaşamamaktadır.' },
                   { id: 'c', text: 'Wi-Fi şifresi yanlış girilmiştir ve yerel ağ bağlantısı hiç kurulmamıştır.' },
-                  { id: 'd', text: 'Evdeki yazıcı ile bilgisayar arasındaki yerel bağlantı da kesinlikle kopmuştur.' }
+                  { id: 'd', text: 'Modem ile bilgisayar arasındaki Wi-Fi sinyali tamamen kesilmiştir.' }
                 ]
               }
             ]
@@ -404,9 +404,9 @@ export const CURRICULUM_WEEKS: WeekCurriculumItem[] = [
                 question: 'Fiber optik kablolar veriyi hangi fiziksel yöntemle iletir?',
                 options: [
                   { id: 'a', text: 'Cam veya plastik lifler içinden gönderilen ışık sinyalleriyle' },
-                  { id: 'b', text: 'Bakır teller üzerinden geçen ses dalgalarıyla' },
-                  { id: 'c', text: 'Havadaki açık radyo frekanslarıyla' },
-                  { id: 'd', text: 'Su boruları içindeki basınç değişimiyle' }
+                  { id: 'b', text: 'Bükümlü bakır çiftler üzerinden geçen elektrik gerilim değişimleriyle' },
+                  { id: 'c', text: 'Eş eksenli (koaksiyel) metal zırh içindeki radyo dalgalarıyla' },
+                  { id: 'd', text: 'Kablosuz erişim noktasından yansıtılan kızılötesi dalgalarla' }
                 ]
               },
               {
@@ -415,9 +415,9 @@ export const CURRICULUM_WEEKS: WeekCurriculumItem[] = [
                 question: 'Wi-Fi (kablosuz) ağ bağlantısıyla ilgili aşağıdaki ifadelerden hangisi doğrudur?',
                 options: [
                   { id: 'a', text: 'Mesafe arttıkça ve araya kalın beton duvarlar veya metal engeller girdikçe sinyal gücü ve hız düşebilir.' },
-                  { id: 'b', text: 'Wi-Fi sinyalleri mesafeden ve duvarlardan hiçbir zaman etkilenmez.' },
-                  { id: 'c', text: 'Wi-Fi bağlantısı kurmak için telefona mutlaka RJ-45 bakır kablo takılmalıdır.' },
-                  { id: 'd', text: 'Wi-Fi yalnızca binalar arası yer altı hatlarında kullanılır.' }
+                  { id: 'b', text: '2.4 GHz ve 5 GHz bantları aynı duvar geçirgenliğine ve aynı menzile sahiptir.' },
+                  { id: 'c', text: 'Wi-Fi bağlantısı yalnızca tek bir cihaz bağlıyken çalışır, ikinci cihazda kabloya geçer.' },
+                  { id: 'd', text: 'Kablosuz ağlarda veri güvenliği şifreleme olmadan fiziksel kablo ile sağlanır.' }
                 ]
               },
               {
@@ -426,9 +426,9 @@ export const CURRICULUM_WEEKS: WeekCurriculumItem[] = [
                 question: 'Bilgisayarların ve yazıcının merkezdeki bir Switch cihazına ayrı kablolarla bağlandığı yaygın yerel ağ düzenine ne ad verilir?',
                 options: [
                   { id: 'a', text: 'Yıldız (Star) Topolojisi' },
-                  { id: 'b', text: 'Rastgele Kablo Yığını' },
-                  { id: 'c', text: 'Tek Kablolu Doğrusal Hat' },
-                  { id: 'd', text: 'Uydudan Uyduya Topoloji' }
+                  { id: 'b', text: 'Halka (Ring) Topolojisi' },
+                  { id: 'c', text: 'Ortak Yol (Bus) Topolojisi' },
+                  { id: 'd', text: 'Örgü (Mesh) Topolojisi' }
                 ]
               }
             ]
@@ -1253,6 +1253,18 @@ export const CURRICULUM_WEEKS: WeekCurriculumItem[] = [
     ]
   }
 ];
+
+// Assign Kolay / Orta / Zor difficulty levels for Weeks 2..5 (Week 1 has no difficulty badge)
+for (const week of CURRICULUM_WEEKS) {
+  if (week.order >= 2) {
+    week.activities.forEach((act, idx) => {
+      if (!act.difficulty) {
+        act.difficulty =
+          idx === 0 ? 'Kolay' : idx === 1 || idx === 2 ? 'Orta' : 'Zor';
+      }
+    });
+  }
+}
 
 export function getCurriculumWeekByOrder(order: number): WeekCurriculumItem | undefined {
   return CURRICULUM_WEEKS.find((w) => w.order === order);

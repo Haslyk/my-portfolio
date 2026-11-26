@@ -217,17 +217,16 @@ export async function POST(
       };
     });
 
-    const elapsedSeconds =
+    const elapsedMs =
       txResult.updatedAttempt.completedAt && txResult.updatedAttempt.startedAt
         ? Math.max(
             1,
-            Math.floor(
-              (txResult.updatedAttempt.completedAt.getTime() -
-                txResult.updatedAttempt.startedAt.getTime()) /
-                1000
-            )
+            txResult.updatedAttempt.completedAt.getTime() -
+              txResult.updatedAttempt.startedAt.getTime()
           )
         : null;
+    const elapsedSeconds =
+      elapsedMs !== null ? Math.max(1, Math.floor(elapsedMs / 1000)) : null;
 
     const earlyFinisher =
       passed &&
@@ -246,7 +245,9 @@ export async function POST(
         : null,
       activeSeconds: txResult.updatedAttempt.activeSeconds,
       elapsedSeconds,
+      elapsedMs,
       checkCount: txResult.updatedAttempt.checkCount,
+      isFirstTry: txResult.updatedAttempt.checkCount <= 1,
       revision: txResult.updatedAttempt.revision,
       weekStatus: txResult.weekStatus,
       weekCompleted: txResult.weekStatus === 'COMPLETED',
