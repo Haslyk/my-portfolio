@@ -8,6 +8,7 @@ import {
 } from '@/lib/akademi/services/progressService';
 import { issueOrTakeoverLease } from '@/lib/akademi/services/leaseService';
 import { getPublicActivityByCode } from '@/lib/akademi/pc-donanimi';
+import { getGpActivityByCode } from '@/lib/akademi/gorsel-programlama';
 
 async function resolveActivity(param: string) {
   const prisma = await getPrismaAsync();
@@ -164,6 +165,8 @@ export async function POST(
     const donanimPublicDef =
       activity.courseCode === 'pc-donanimi'
         ? getPublicActivityByCode(activity.code)
+        : activity.courseCode === 'gorsel-programlama'
+        ? getGpActivityByCode(activity.code)
         : undefined;
 
     const elapsedSeconds =

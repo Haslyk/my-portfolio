@@ -4,6 +4,7 @@ import {
   CURRICULUM_WEEKS
 } from '@/lib/akademi/shared';
 import { PUBLIC_CURRICULUM_WEEKS } from '@/lib/akademi/pc-donanimi';
+import { GP_CURRICULUM_WEEKS } from '@/lib/akademi/gorsel-programlama';
 
 export async function seedCurriculum(prisma: PrismaClient, force = false) {
   // Fast-path: if curriculum & courses are already seeded in DB, skip 50+ sequential upserts on serverless cold starts
@@ -12,7 +13,7 @@ export async function seedCurriculum(prisma: PrismaClient, force = false) {
       prisma.courseSetting.count(),
       prisma.activity.count()
     ]);
-    if (courseCount >= AKADEMI_COURSES_CATALOG.length && activityCount >= 40) {
+    if (courseCount >= AKADEMI_COURSES_CATALOG.length && activityCount >= 65) {
       return;
     }
   }
@@ -152,6 +153,58 @@ export async function seedCurriculum(prisma: PrismaClient, force = false) {
           expectedSeconds: actDef.expectedSeconds,
           allocatedSeconds: actDef.allocatedSeconds,
           contentVersion: 1
+        }
+      });
+    }
+  }
+
+  // 4) Seed 5 weeks & 25 activities for Görsel Programlama ('gorsel-programlama')
+  for (const gpWeek of GP_CURRICULUM_WEEKS) {
+    const week = await prisma.week.upsert({
+      where: {
+        courseCode_order: {
+          courseCode: 'gorsel-programlama',
+          order: gpWeek.order
+        }
+      },
+      update: {
+        title: gpWeek.title
+      },
+      create: {
+        courseCode: 'gorsel-programlama',
+        order: gpWeek.order,
+        title: gpWeek.title,
+        isAdminUnlocked: gpWeek.order === 1
+      }
+    });
+
+    for (const actDef of gpWeek.activities) {
+      await prisma.activity.upsert({
+        where: { code: actDef.code },
+        update: {
+          courseCode: 'gorsel-programlama',
+          weekId: week.id,
+          orderInWeek: actDef.orderInWeek,
+          title: actDef.title,
+          type: 'REQUIRED_ACTIVITY',
+          widgetType: actDef.widgetType,
+          required: true,
+          expectedSeconds: actDef.expectedSeconds,
+          allocatedSeconds: actDef.allocatedSeconds,
+          contentVersion: actDef.contentVersion
+        },
+        create: {
+          courseCode: 'gorsel-programlama',
+          code: actDef.code,
+          weekId: week.id,
+          orderInWeek: actDef.orderInWeek,
+          title: actDef.title,
+          type: 'REQUIRED_ACTIVITY',
+          widgetType: actDef.widgetType,
+          required: true,
+          expectedSeconds: actDef.expectedSeconds,
+          allocatedSeconds: actDef.allocatedSeconds,
+          contentVersion: actDef.contentVersion
         }
       });
     }

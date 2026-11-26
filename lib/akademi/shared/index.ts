@@ -42,14 +42,14 @@ export const AKADEMI_COURSES_CATALOG: CourseCatalogItem[] = [
   },
   {
     code: 'gorsel-programlama',
-    title: 'Görsel Programlama',
+    title: 'Görsel Programlama Atölyesi (Excel VBA)',
     shortTitle: 'Görsel Programlama',
-    subtitle: 'Arayüz Tasarımı ve Olay Güdümlü Programlama',
+    subtitle: '5 Haftalık Etkileşimli UserForm & VBA Atölyesi',
     description:
-      'Form bileşenleri, olay (event) yönetimi, veri doğrulama, veritabanı bağlantılı masaüstü uygulama geliştirme ve hata ayıklama atölyesi.',
+      'UserForm tasarımı, değişkenler ve hesaplamalar, koşullu kontroller, ListBox ve döngüler, olay yönetimi ve Excel VBA mini projesi.',
     defaultVisible: true,
-    isReady: false,
+    isReady: true,
     href: '/akademi/gorsel-programlama',
-    badgeText: 'Hazırlanıyor'
+    badgeText: 'Aktif Panel · 5 Hafta'
   }
 ];

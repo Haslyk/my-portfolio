@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CURRICULUM_WEEKS } from '@/lib/akademi/shared';
 import { PUBLIC_CURRICULUM_WEEKS } from '@/lib/akademi/pc-donanimi';
+import { GP_CURRICULUM_WEEKS } from '@/lib/akademi/gorsel-programlama';
 import { getPrismaAsync } from '@/lib/akademi/services/db';
 import { getAuthenticatedStudent } from '@/lib/akademi/services/sessionService';
 import {
@@ -163,6 +164,107 @@ export async function GET(req: NextRequest) {
           appsCompleted,
           learningObjectives: publicWeek?.learningObjectives ?? ['', ''],
           animation: publicWeek?.animation ?? null,
+          activities: weekActivities
+        };
+      });
+
+      return NextResponse.json({ weeks: result });
+    }
+
+    if (courseCode === 'gorsel-programlama') {
+      const result = dbWeeks.map((dbWeek) => {
+        const gpWeek = GP_CURRICULUM_WEEKS.find((gw) => gw.order === dbWeek.order);
+        const wp = dbWeek.weekProgresses[0];
+        const prevWeek =
+          dbWeek.order > 1
+            ? dbWeeks.find((w) => w.order === dbWeek.order - 1)
+            : null;
+        const prevCompleted = prevWeek?.weekProgresses[0]?.status === 'COMPLETED';
+        const isAdminLocked =
+          dbWeek.order > 1 && !isWeekUnlockedForGroup(dbWeek, groupKey);
+
+        let status = wp
+          ? wp.status
+          : dbWeek.order === 1
+          ? 'NOT_STARTED'
+          : 'LOCKED';
+
+        if (isAdminLocked) {
+          status = 'LOCKED';
+        } else if (dbWeek.order > 1 && status === 'LOCKED' && prevCompleted) {
+          status = 'NOT_STARTED';
+        }
+        const unlocked = status !== 'LOCKED';
+
+        const weekActivities = dbWeek.activities.map((dbAct) => {
+          const gpAct = gpWeek?.activities.find((ga) => ga.code === dbAct.code);
+          const actAttempts = attempts.filter((a) => a.activityId === dbAct.id);
+          const firstSuccess = actAttempts.find(
+            (a) =>
+              a.status === 'COMPLETED' &&
+              (a.isFirstSuccess || a.mode === 'NORMAL')
+          );
+          const activeNormal = actAttempts.find(
+            (a) => a.mode === 'NORMAL' && a.status === 'IN_PROGRESS'
+          );
+          const activePractice = [...actAttempts]
+            .reverse()
+            .find((a) => a.mode === 'PRACTICE' && a.status === 'IN_PROGRESS');
+
+          let actStatus: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED' =
+            'NOT_STARTED';
+          if (firstSuccess) {
+            actStatus = 'COMPLETED';
+          } else if (activeNormal) {
+            actStatus = 'IN_PROGRESS';
+          }
+
+          const latestAttempt = activePractice ?? activeNormal ?? firstSuccess;
+          const latestState =
+            latestAttempt?.state && typeof latestAttempt.state === 'object'
+              ? (latestAttempt.state as Record<string, any>)
+              : {};
+
+          return {
+            id: dbAct.id,
+            code: dbAct.code,
+            title: dbAct.title,
+            difficulty: gpAct?.difficulty || 'Orta',
+            durationMinutes: gpAct?.durationMinutes || Math.round(dbAct.allocatedSeconds / 60),
+            environment: gpAct?.environment || 'web',
+            widgetType: dbAct.widgetType,
+            required: dbAct.required,
+            expectedSeconds: dbAct.expectedSeconds,
+            allocatedSeconds: dbAct.allocatedSeconds,
+            status: actStatus,
+            supportedCompletion: Boolean(latestState.supportedCompletion),
+            teacherVerified: Boolean(latestState.teacherVerified),
+            teacherFeedback: typeof latestState.teacherFeedback === 'string' ? latestState.teacherFeedback : '',
+            excelChecklistState: latestState.excelChecklist || {},
+            firstCompletedAt: firstSuccess?.completedAt ?? null,
+            firstActiveSeconds:
+              firstSuccess?.activeSeconds ?? activeNormal?.activeSeconds ?? 0,
+            activeAttemptId: latestAttempt?.id ?? null,
+            practiceCount: actAttempts.filter((a) => a.mode === 'PRACTICE').length
+          };
+        });
+
+        const requiredTotal = weekActivities.filter((a) => a.required).length;
+        const requiredCompleted = weekActivities.filter(
+          (a) => a.required && a.status === 'COMPLETED'
+        ).length;
+
+        return {
+          id: dbWeek.id,
+          order: dbWeek.order,
+          title: dbWeek.title,
+          shortTitle: gpWeek?.shortTitle || `Hafta ${dbWeek.order}`,
+          description: gpWeek?.description || '',
+          objectives: gpWeek?.objectives || [],
+          status,
+          unlocked,
+          completedMandatoryCount: requiredCompleted,
+          totalMandatoryCount: requiredTotal || 5,
           activities: weekActivities
         };
       });

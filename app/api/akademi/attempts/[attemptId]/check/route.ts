@@ -11,6 +11,7 @@ import {
   gradeActivitySubmission,
   validateAndApplyRamState
 } from '@/lib/akademi/pc-donanimi/activityGraders';
+import { gradeGpActivitySubmission } from '@/lib/akademi/gorsel-programlama';
 
 export async function POST(
   req: NextRequest,
@@ -74,6 +75,9 @@ export async function POST(
     const isDonanim =
       attempt.activity.courseCode === 'pc-donanimi' ||
       attempt.activity.code.startsWith('D-');
+    const isGorsel =
+      attempt.activity.courseCode === 'gorsel-programlama' ||
+      /^H[1-5]-E[1-5]$/.test(attempt.activity.code);
 
     let passed = false;
     let summaryMessage = '';
@@ -81,7 +85,21 @@ export async function POST(
     let donanimItems: any[] = [];
     let preservedState: Record<string, any> = candidateState;
 
-    if (isDonanim) {
+    if (isGorsel) {
+      const graded = gradeGpActivitySubmission(
+        attempt.activity.code,
+        candidateState
+      );
+      passed = graded.passed;
+      summaryMessage = graded.summaryMessage;
+      feedbackItems = graded.feedbackItems;
+      donanimItems = graded.feedbackItems.map((it) => ({
+        itemId: it.fieldId,
+        correct: it.isCorrect,
+        message: it.message
+      }));
+      preservedState = graded.preservedState;
+    } else if (isDonanim) {
       if (attempt.activity.code === 'D-W2-A2') {
         const prevState =
           typeof attempt.state === 'object' && attempt.state !== null

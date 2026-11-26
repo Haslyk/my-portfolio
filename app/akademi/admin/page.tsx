@@ -833,7 +833,7 @@ export default function AkademiAdminPage() {
               const courseInfo = courseSettings.find(
                 (c: any) => c.code === tab.code
               );
-              const isReady = courseInfo ? courseInfo.isReady : tab.code !== 'gorsel-programlama';
+              const isReady = courseInfo ? courseInfo.isReady : true;
 
               return (
                 <button
