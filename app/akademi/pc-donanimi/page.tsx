@@ -139,7 +139,7 @@ export default function PcDonanimiCoursePage() {
       setActionError(
         `Hafta ${week.order} kilitli. Önce Hafta ${
           week.order - 1
-        } içindeki iki zorunlu etkinliği ve değerlendirmeyi tamamlamalısın.`
+        } içindeki iki zorunlu etkinliği ve değerlendirmeyi tamamlamalısın!`
       );
       return;
     }
