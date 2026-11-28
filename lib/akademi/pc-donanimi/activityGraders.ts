@@ -167,29 +167,39 @@ const QUIZ_KEYS: Record<
   Record<string, { answer: 'A' | 'B' | 'C'; reason: string }>
 > = {
   'W1-Q': {
-    'W1-Q1': { answer: 'A', reason: 'Klavye fiziksel bir parçadır.' },
-    'W1-Q2': { answer: 'B', reason: 'Anakart parçalar arasında bağlantı sağlar.' },
-    'W1-Q3': { answer: 'C', reason: 'İşlemci komutları işler.' },
+    'W1-Q1': { answer: 'A', reason: 'Klavye elle tutulabilen fiziksel bir donanım parçasıdır.' },
+    'W1-Q2': { answer: 'B', reason: 'Anakart tüm parçaları üzerinde taşıyıp birbirine bağlar.' },
+    'W1-Q3': { answer: 'C', reason: 'İşlemci (CPU) program komutlarını yürütür.' },
+    'W1-Q4': { answer: 'A', reason: 'SSD elektrik kesilse bile verileri kalıcı olarak saklar.' },
+    'W1-Q5': { answer: 'B', reason: 'USB bellek fiziksel donanım, içindeki PDF dosyası ise veridir.' },
   },
   'W2-Q': {
-    'W2-Q1': { answer: 'B', reason: 'RAM çalışan programlar için geçici çalışma alanıdır.' },
-    'W2-Q2': { answer: 'C', reason: 'Dosya kalıcı depolamaya kaydedilmiştir.' },
-    'W2-Q3': { answer: 'A', reason: 'Çentik ile yuva uyumlu olmalı; parça zorlanmaz.' },
+    'W2-Q1': { answer: 'B', reason: 'Kaydedilmeyen çalışma henüz kalıcı diske yazılmadığı için RAM’de tutulur ve elektrik kesilince silinir.' },
+    'W2-Q2': { answer: 'C', reason: 'Çok sayıda açık sekme geçici bellek olan RAM’i doldurur; RAM artırımı donmayı azaltır.' },
+    'W2-Q3': { answer: 'A', reason: 'Çentik yuva çıkıntısıyla tam hizalanmalı; uymuyorsa DDR nesli kontrol edilmelidir.' },
+    'W2-Q4': { answer: 'B', reason: 'Bilgisayar kapalıyken veriler kalıcı depolama olan SSD/HDD üzerinde korunur.' },
+    'W2-Q5': { answer: 'A', reason: 'Kasa içi montajdan önce mutlaka bilgisayar kapatılmalı ve fiş çekilmelidir.' },
   },
   'W3-Q': {
-    'W3-Q1': { answer: 'B', reason: 'Güç kaynağı parçaların elektrik ihtiyacını karşılar.' },
-    'W3-Q2': { answer: 'C', reason: 'Görüntü oluşturma ve gösterme farklı görevlerdir.' },
-    'W3-Q3': { answer: 'A', reason: 'Çözünürlük görüntüyü oluşturan nokta sayısıyla ilgilidir.' },
+    'W3-Q1': { answer: 'B', reason: 'Güç kaynağı (PSU) parçaların elektrik ihtiyacını uygun voltajla karşılar.' },
+    'W3-Q2': { answer: 'C', reason: 'Grafik birimi görüntüyü oluşturur, monitör ekranda gösterir.' },
+    'W3-Q3': { answer: 'A', reason: 'Çözünürlük görüntüyü oluşturan yatay ve dikey piksel sayısıdır.' },
+    'W3-Q4': { answer: 'A', reason: 'Önden serin hava alınır, arkadan/üstten sıcak hava dışarı atılır.' },
+    'W3-Q5': { answer: 'B', reason: 'Önce monitör gücü, görüntü kablosu ve giriş kaynağı (HDMI/DP) kontrol edilmelidir.' },
   },
   'W4-Q': {
-    'W4-Q1': { answer: 'A', reason: 'Sesi bilgisayara aktarır.' },
-    'W4-Q2': { answer: 'B', reason: 'Dokunmayı alır ve görüntü gösterir.' },
-    'W4-Q3': { answer: 'C', reason: 'Belgeyi sayısallaştırır.' },
+    'W4-Q1': { answer: 'A', reason: 'Mikrofon dış ortamdaki sesi bilgisayara aktaran bir giriş birimidir.' },
+    'W4-Q2': { answer: 'B', reason: 'Dokunmatik ekran hem dokunma girişini alır hem görüntü çıkışı verir.' },
+    'W4-Q3': { answer: 'C', reason: 'Tarayıcı basılı belgeyi dijital görsele dönüştürerek bilgisayara aktarır.' },
+    'W4-Q4': { answer: 'A', reason: 'HDMI yüksek çözünürlüklü görüntü ve sesi tek kablodan taşır.' },
+    'W4-Q5': { answer: 'B', reason: 'Kablolu Ethernet bağlantısı RJ-45 ağ portu üzerinden yapılır.' },
   },
   'W5-Q': {
-    'W5-Q1': { answer: 'B', reason: 'Ağ kartı kablolu veya kablosuz ağ bağlantısını sağlar.' },
-    'W5-Q2': { answer: 'C', reason: 'Yerel kablosuz bağlantı ile internet erişimi farklıdır.' },
-    'W5-Q3': { answer: 'A', reason: 'Bu örnekte cihazlara farklı adres verilmelidir.' },
+    'W5-Q1': { answer: 'B', reason: 'Ağ kartı (NIC) kablolu veya kablosuz ağ bağlantısını sağlar.' },
+    'W5-Q2': { answer: 'C', reason: 'Yerel kablosuz ağa bağlı olmak dış internet erişiminin açık olduğunu garanti etmez.' },
+    'W5-Q3': { answer: 'A', reason: 'Aynı ağda iki cihaza aynı IP verilirse adres çakışması oluşur.' },
+    'W5-Q4': { answer: 'A', reason: 'Çok sayıda açık program RAM’i doldurur; yetersiz RAM sistemi yavaşlatır.' },
+    'W5-Q5': { answer: 'A', reason: 'Dosya paylaşımı yerel ağ bağlantısının ve IP ayarlarının uyumlu olduğunu gösterir.' },
   },
 };
 
@@ -231,12 +241,13 @@ function gradeQuiz(code: string, state: Record<string, any>): GraderOutput {
     }
   }
 
-  const passed = correctCount === 3;
+  const totalQuestions = Object.keys(keyMap).length;
+  const passed = correctCount === totalQuestions;
   return {
     passed,
     summaryMessage: passed
-      ? '3/3 soruyu doğru yanıtladın. Hafta değerlendirmesi tamamlandı!'
-      : `${correctCount}/3 soru doğru. Doğru cevapların korundu; açıklamaları okuyarak kalan soruları düzelt.`,
+      ? `${totalQuestions}/${totalQuestions} soruyu doğru yanıtladın. Hafta değerlendirmesi tamamlandı!`
+      : `${correctCount}/${totalQuestions} soru doğru. Doğru cevapların korundu; açıklamaları okuyarak kalan soruları düzelt.`,
     items,
     preservedState: {
       ...state,
@@ -281,19 +292,27 @@ function gradeW2A1(state: Record<string, any>): GraderOutput {
   const expected: Record<string, { category: string; reason: string }> = {
     acik_program: {
       category: 'ram',
-      reason: 'Açık programın o anda kullandığı çalışma alanı geçici ve hızlı bellek olan RAM’dir.',
+      reason: '35 açık tarayıcı sekmesi aktif çalışma alanı olan geçici bellek RAM’i doldurur.',
     },
     elektrik_kesilince: {
       category: 'ram',
-      reason: 'Elektrik kesilince korunmayan geçici çalışma içeriği RAM’de tutulur.',
+      reason: 'Kaydet tuşuna basılmadan sigorta atarsa henüz diske yazılmamış veri RAM’den silinir.',
     },
     kaydedilmis_fotograflar: {
       category: 'depolama',
-      reason: 'Kaydedilmiş fotoğraflar bilgisayar kapansa da silinmemesi için kalıcı Depolama’da (SSD/HDD) durur.',
+      reason: '40 GB’lık fotoğraf arşivi bilgisayar kapansa da silinmemesi için kalıcı Depolama’da (SSD/HDD) saklanır.',
     },
     kapatip_acinca_belge: {
       category: 'depolama',
-      reason: 'Bilgisayarı kapatıp açınca duran kaydedilmiş belge kalıcı Depolama’da saklanır.',
+      reason: 'Ertesi gün masaüstünde bekleyen kaydedilmiş PDF kalıcı Depolama’da durur.',
+    },
+    oyun_haritasi: {
+      category: 'ram',
+      reason: 'Oyun sırasında anlık hızlı erişim gereken harita ve karakter verileri RAM’de tutulur.',
+    },
+    sistem_dosyalari: {
+      category: 'depolama',
+      reason: 'Bilgisayar kapalıyken bile silinmeden bekleyen işletim sistemi dosyaları SSD/HDD Depolama’dadır.',
     },
   };
 
@@ -306,18 +325,18 @@ function gradeW2A1(state: Record<string, any>): GraderOutput {
       correctCount++;
       items.push({ itemId: id, correct: true, message: `Doğru! ${spec.reason}` });
     } else if (!chosen) {
-      items.push({ itemId: id, correct: false, message: 'Bu durum kartı için RAM veya Depolama seç.' });
+      items.push({ itemId: id, correct: false, message: 'Bu senaryo kartı için RAM veya Depolama seç.' });
     } else {
-      items.push({ itemId: id, correct: false, message: `Seçimi düzelt: ${spec.reason}` });
+      items.push({ itemId: id, correct: false, message: `Tekrar düşün: ${spec.reason}` });
     }
   }
 
-  const passed = correctCount === 4;
+  const passed = correctCount === 6;
   return {
     passed,
     summaryMessage: passed
-      ? '4/4 durumu doğru ayırdın! Geçici çalışma alanı (RAM) ile kalıcı depolama farkı tamam.'
-      : `${correctCount}/4 durum doğru. Gerekçeleri okuyarak yanlış seçimleri düzelt.`,
+      ? '6/6 senaryoyu doğru ayırdın! Geçici çalışma alanı (RAM) ile kalıcı depolama farkı tamam.'
+      : `${correctCount}/6 senaryo doğru. Gerekçeleri okuyarak yanlış seçimleri düzelt.`,
     items,
     preservedState: state,
   };

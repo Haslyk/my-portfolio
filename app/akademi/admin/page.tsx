@@ -494,6 +494,21 @@ export default function AkademiAdminPage() {
     }
   };
 
+  const handleResolveAllHelpRequests = async () => {
+    setResolvingHelpId('ALL');
+    try {
+      await apiRequest('/api/akademi/admin/help', {
+        method: 'PATCH',
+        body: JSON.stringify({ resolveAll: true, courseCode: selectedCourse }),
+      });
+      await summaryQuery.refetch();
+    } catch {
+      // ignore
+    } finally {
+      setResolvingHelpId(null);
+    }
+  };
+
   const pendingRequests: any[] = Array.isArray(
     summaryQuery.data?.pendingRequests
   )
@@ -784,11 +799,23 @@ export default function AkademiAdminPage() {
         {Array.isArray(summaryQuery.data?.helpRequests) &&
           summaryQuery.data.helpRequests.length > 0 && (
             <section className="bg-amber-50 rounded-2xl border-2 border-amber-400 p-4 shadow-sm space-y-2.5">
-              <div className="flex items-center gap-2 text-amber-950 font-extrabold text-sm">
-                <HelpCircle className="w-4 h-4 text-amber-600" />
-                <span>
-                  Yardım İstekleri ({summaryQuery.data.helpRequests.length})
-                </span>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-amber-950 font-extrabold text-sm">
+                  <HelpCircle className="w-4 h-4 text-amber-600" />
+                  <span>
+                    Yardım İstekleri ({summaryQuery.data.helpRequests.length})
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  disabled={resolvingHelpId === 'ALL'}
+                  onClick={handleResolveAllHelpRequests}
+                  className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-sm disabled:opacity-50 transition"
+                >
+                  {resolvingHelpId === 'ALL'
+                    ? 'İşaretleniyor...'
+                    : 'Tümünü Çözüldü İşaretle'}
+                </button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
                 {summaryQuery.data.helpRequests.map((hr: any) => (

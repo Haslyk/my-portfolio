@@ -26,6 +26,7 @@ import { MonitorTroubleshootWidget } from './widgets/MonitorTroubleshootWidget';
 import { CableConnectorWidget } from './widgets/CableConnectorWidget';
 import { NetworkSwitchIpWidget } from './widgets/NetworkSwitchIpWidget';
 import { SystemCardHomeworkWidget } from './widgets/SystemCardHomeworkWidget';
+import { ActivityLeaderboardCard } from '@/components/akademi/ActivityLeaderboardCard';
 import {
   ArrowLeft,
   Clock,
@@ -775,6 +776,12 @@ export const ActivityEngine: React.FC<ActivityEngineProps> = ({
           )}
         </button>
       </div>
+
+      {/* Live Class Speed & Accuracy Leaderboard */}
+      <ActivityLeaderboardCard
+        courseCode="pc-donanimi"
+        activityCode={activity.code}
+      />
     </div>
   );
 };

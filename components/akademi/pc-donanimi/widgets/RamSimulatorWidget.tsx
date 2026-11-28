@@ -72,7 +72,7 @@ export const RamSimulatorWidget: React.FC<RamSimulatorWidgetProps> = ({
   const handleToggleLatch = (side: 'left' | 'right') => {
     if (!powerOff || !unplugged) {
       setSafetyHint(
-        'Güvenlik İpucu: Kasa içinde işlem yapmadan önce “Gücü Kapat” ve “Fişi Çek” düğmelerine basarak elektriği tamamen kesmelisin.'
+        'Güvenlik İpucu: Kasa fişteyken el uzatmayalım, saçlar dikelmesin! Önce “Gücü Kapat” ve “Fişi Çek” düğmelerine bas.'
       );
       return;
     }
@@ -169,12 +169,12 @@ export const RamSimulatorWidget: React.FC<RamSimulatorWidgetProps> = ({
       return;
     }
     if (!leftLatchOpen || !rightLatchOpen) {
-      setSafetyHint('RAM’i yerleştirmeden önce yuvanın iki mandalı da açık olmalıdır.');
+      setSafetyHint('Mandallar kapalıyken bastırırsak RAM değil anakart üzülür! İki mandalı da aç.');
       return;
     }
     if (!notchAligned) {
       setSafetyHint(
-        'Uyarı: RAM çentiği yuvadaki çıkıntıyla ters yönde! Parçayı zorlama; önce “Yönü Çevir” düğmesine basarak çentiği hizala.'
+        'Çentik tutmuyor! Kare parçayı yuvarlak deliğe zorlamayalım; önce “Yönü Çevir” düğmesine basarak çentiği hizala.'
       );
       return;
     }
@@ -191,6 +191,48 @@ export const RamSimulatorWidget: React.FC<RamSimulatorWidgetProps> = ({
 
   return (
     <div className="space-y-5">
+      {/* Visual 6-Step Progress Strip */}
+      <div className="bg-white rounded-2xl border-2 border-slate-200 p-4 shadow-sm space-y-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-[#6D28D9]">
+            Güvenli Montaj İlerleyişi
+          </span>
+          <span className="text-xs font-bold text-slate-600">
+            {[
+              powerOff && unplugged,
+              leftLatchOpen && rightLatchOpen,
+              ramRemoved,
+              notchAligned,
+              ramInserted,
+              latchesClosedAfterInsert
+            ].filter(Boolean).length}{' '}
+            / 6 Adım
+          </span>
+        </div>
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-[11px] font-bold">
+          {[
+            { label: '1. Gücü Kes', done: powerOff && unplugged },
+            { label: '2. Mandal Aç', done: leftLatchOpen && rightLatchOpen },
+            { label: '3. Çıkar', done: ramRemoved },
+            { label: '4. Çentik Hizala', done: notchAligned },
+            { label: '5. Yerleştir', done: ramInserted },
+            { label: '6. Mandal Kapat', done: latchesClosedAfterInsert },
+          ].map((st, idx) => (
+            <div
+              key={idx}
+              className={`rounded-xl px-2 py-1.5 text-center border transition ${
+                st.done
+                  ? 'bg-emerald-50 border-emerald-400 text-emerald-900'
+                  : 'bg-slate-50 border-slate-200 text-slate-500'
+              }`}
+            >
+              {st.done ? '✓ ' : ''}
+              {st.label}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Safety / Pedagogical Notice */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-100 p-3.5 rounded-2xl border border-slate-200">
         <div className="text-xs sm:text-sm font-semibold text-slate-700">

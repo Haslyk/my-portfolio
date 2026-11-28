@@ -3,9 +3,13 @@ import { z } from 'zod';
 import { getPrismaAsync } from '@/lib/akademi/services/db';
 import { getAuthenticatedAdmin } from '@/lib/akademi/services/sessionService';
 
-const resolveSchema = z.object({
-  id: z.string().min(1)
-});
+const resolveSchema = z.union([
+  z.object({ id: z.string().min(1) }),
+  z.object({
+    resolveAll: z.literal(true),
+    courseCode: z.string().optional()
+  })
+]);
 
 export async function PATCH(req: NextRequest) {
   try {
@@ -16,14 +20,36 @@ export async function PATCH(req: NextRequest) {
     const parsed = resolveSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: 'VALIDATION_ERROR', message: 'Geçersiz yardım isteği ID.' },
+        { error: 'VALIDATION_ERROR', message: 'Geçersiz yardım isteği verisi.' },
         { status: 400 }
       );
     }
 
     const prisma = await getPrismaAsync();
+
+    if ('resolveAll' in parsed.data && parsed.data.resolveAll) {
+      const res = await prisma.helpRequest.updateMany({
+        where: {
+          resolved: false,
+          ...(parsed.data.courseCode
+            ? { courseCode: parsed.data.courseCode }
+            : {})
+        },
+        data: {
+          resolved: true,
+          resolvedAt: new Date()
+        }
+      });
+
+      return NextResponse.json({
+        resolved: true,
+        count: res.count,
+        message: `${res.count} yardım isteği topluca çözüldü olarak işaretlendi.`
+      });
+    }
+
     await prisma.helpRequest.update({
-      where: { id: parsed.data.id },
+      where: { id: (parsed.data as { id: string }).id },
       data: {
         resolved: true,
         resolvedAt: new Date()

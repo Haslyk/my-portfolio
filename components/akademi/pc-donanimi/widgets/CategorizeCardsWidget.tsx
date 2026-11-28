@@ -92,6 +92,25 @@ export const CategorizeCardsWidget: React.FC<CategorizeCardsWidgetProps> = ({
 
   return (
     <div className="space-y-6">
+      {categories.some((c) => c.id === 'ram') && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-[#1E1B38] p-3.5 text-white text-xs">
+          <div className="flex items-center gap-2.5 rounded-xl bg-white/10 p-2.5">
+            <Cpu className="h-5 w-5 text-[#F5A000] shrink-0" />
+            <div>
+              <div className="font-extrabold text-[#F5A000]">RAM — Çalışma Masası</div>
+              <div className="text-slate-300">Çok hızlıdır ama elektrik gidince masa temizlenir.</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 rounded-xl bg-white/10 p-2.5">
+            <FileCheck className="h-5 w-5 text-emerald-400 shrink-0" />
+            <div>
+              <div className="font-extrabold text-emerald-300">Depolama — Dosya Dolabı</div>
+              <div className="text-slate-300">Daha yavaştır ama kapansa da içindekiler durur.</div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Step 1: Selectable Cards Pool */}
       <div>
         <div className="flex items-center justify-between mb-3">
